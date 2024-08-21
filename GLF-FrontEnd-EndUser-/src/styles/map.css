@@ -1,0 +1,148 @@
+* {
+    z-index: 0;
+}
+
+
+
+.arrow-icon {
+    display: block;
+    width: 20px;
+    height: 20px;
+  }
+  
+  .arrow {
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: 20px solid #ff0000; /* You can change the color */
+    transform-origin: center;
+  }
+  
+
+#Refill {
+    font-weight: bold;
+     font-size: 16px;
+}
+
+#divRefil {
+    text-align: center; 
+    padding: 5px;
+    
+}
+
+#RefillButton  {
+    background-color: #0077B6; 
+    color: #fff;
+     border: none;
+      padding: 5px 7px; 
+      margin-top: 5px; 
+      cursor: pointer; 
+      border-radius: 5px;
+}
+
+main {
+    text-align: center;
+
+}
+  
+MapContainer {
+  overflow: hidden;
+  height: 100%;
+    
+}
+
+#map {
+    max-width: 100%;
+    height: 600px;
+    /*box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);*/
+}
+
+.footer {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 10px;
+}
+
+.routing-control {
+    max-width: 300px;
+}
+
+.directions-collapse {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.2s ease-in-out;
+}
+
+.directions-show {
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+/* Add a CSS class for showing/hiding directions */
+.directions-collapse {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.2s ease-in-out;
+}
+
+.directions-show {
+    max-height: 500px;
+    overflow-y: auto;
+}
+#userLocationMarker {
+    color: red;
+}
+
+  /* Add this CSS to hide direction steps on smaller screens */
+
+
+  .filter-button.active.water {
+    background-color: #1d589c; /* Blue for Water */
+    border: 2px solid #000000; /* Black border */
+  }
+  
+  .filter-button.active.register {
+    background-color: #8d5820;
+    border: 2px solid #000000; /* Black border */
+  }
+  
+  .filter-button.active.conference {
+    background-color: #1d6e28;
+    border: 2px solid #000000; /* Black border */
+    
+  }
+  
+  .filter-button.active.toilet {
+    background-color: #9e2559; 
+    border: 2px solid #000000; /* Black border */
+ 
+  }
+
+  @font-face {
+    font-family: 'notosans';
+    src: url('../assets/fonts/NotoSans-Regular.ttf') format('truetype'); /* Adjust the path to match your project structure */
+    font-weight: normal;
+    font-style: normal;
+  }
+
+  @media (max-width: 768px) {
+    #map2 {
+      height: 100vh; /* Adjust the height as needed */
+    }
+  
+    .leaflet-container {
+      height: 100%; /* Ensure Leaflet container takes up 100% height */
+    }
+  }
+
+  @media only screen and (max-width: 600px) {
+  .leaflet-routing-container {
+    display: none;
+  }
+}
+
+.map-container {
+  height: 93vh; /* Set the height to 100% of the viewport height */
+}

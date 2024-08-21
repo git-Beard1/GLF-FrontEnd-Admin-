@@ -1,0 +1,12 @@
+
+#title-font {
+  font-family: BowbyOne
+}
+
+  @font-face {
+    font-family: 'BowbyOne';
+    src: url('../assets/fonts/BowlbyOne-Regular.ttf') format('truetype'); /* Adjust the path to match your project structure */
+    font-weight: normal;
+    font-style: normal;
+  }
+

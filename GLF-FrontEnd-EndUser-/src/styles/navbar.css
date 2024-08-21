@@ -1,0 +1,6 @@
+.changeColor {
+    color: black;
+  }
+  .changeColor:hover {
+    color: white;
+  }

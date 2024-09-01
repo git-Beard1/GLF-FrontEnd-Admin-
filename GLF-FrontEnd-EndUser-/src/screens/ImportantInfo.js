@@ -64,12 +64,11 @@ const ImportantInfoList = () => {
   const [importantInformation, setImportantInformation] = useState([]);
   const [selectedInfo, setSelectedInfo] = useState(null);
   const localhostapi = "http://localhost:5000";
-  const serverlessapi = "https://adminilftest-4tmd.onrender.com";
 
   useEffect(() => {
     const fetchImportantInformation = async () => {
       try {
-        const response = await axios.get(`${serverlessapi}/importantInformation`);
+        const response = await axios.get(`${process.env.REACT_APP_BACKEND}/importantInformation`);
         const sortedData = response.data.sort((a, b) => a.infoid - b.infoid);
         setImportantInformation(sortedData);
         console.log(response.data);

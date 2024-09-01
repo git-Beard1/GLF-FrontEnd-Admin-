@@ -35,7 +35,6 @@ const EditProgram = () => {
   const [descriptionError, setDescriptionError] = useState("");
   const navigate = useNavigate();
   const localhostapi= "http://localhost:5000"
-  const serverlessapi = "https://adminilftest-4tmd.onrender.com";
 
   const cld = new Cloudinary({
     cloud: {
@@ -60,7 +59,7 @@ const EditProgram = () => {
             authorization: "Bearer " + token,
           },
           method: "get",
-          url: `${serverlessapi}/validateLogin`,
+          url: `${process.env.REACT_APP_BACKEND}/validateLogin`,
         })
           .then(function (response) {
             console.log(response);
@@ -75,7 +74,7 @@ const EditProgram = () => {
           });
 
         const response = await axios.get(
-          `${serverlessapi}/events/${eventid}`
+          `${process.env.REACT_APP_BACKEND}/events/${eventid}`
         );
 
         // Check if the response data is an array and set programData accordingly
@@ -120,7 +119,7 @@ const EditProgram = () => {
       setLoading(true);
 
       const response = await axios.put(
-        `${serverlessapi}/events/${eventid}`,
+        `${process.env.REACT_APP_BACKEND}/events/${eventid}`,
         {
           title,
           publicId,
@@ -149,7 +148,7 @@ const EditProgram = () => {
   const handleDelete = async () => {
     try {
       const response = await axios.delete(
-        `${serverlessapi}/deleteevent/${eventid}`
+        `${process.env.REACT_APP_BACKEND}/deleteevent/${eventid}`
       );
       console.log("API Response:", response.data);
 

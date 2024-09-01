@@ -47,7 +47,6 @@ const AnnouncementList = () => {
   const [announcements, setAnnouncements] = useState([]);
   const [loading, setLoading] = useState(false);
   const localhostapi = "http://localhost:5000";
-  const serverlessapi = "https://adminilftest-4tmd.onrender.com";
 
   const navigate = useNavigate();
   useEffect(() => {
@@ -61,7 +60,7 @@ const AnnouncementList = () => {
             authorization: "Bearer " + token,
           },
           method: "get",
-          url: `${serverlessapi}/validateLogin`,
+          url: `${process.env.REACT_APP_BACKEND}/validateLogin`,
         })
           .then(function (response) {
             console.log(response);
@@ -74,7 +73,7 @@ const AnnouncementList = () => {
             //Handle error
             console.dir(response);
           });
-        const response = await axios.get(`${serverlessapi}/announcements`);
+        const response = await axios.get(`${process.env.REACT_APP_BACKEND}/announcements`);
         setAnnouncements(response.data);
         setLoading(false);
       } catch (error) {

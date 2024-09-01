@@ -8,7 +8,6 @@ const QRCodeGenerator = () => {
   const [userData, setUserData] = useState(null);
   const loggedInUserID = localStorage.getItem("loggedInUserID");
   const localhostapi = "http://localhost:5000";
-  const serverlessapi = "https://adminilftest-4tmd.onrender.com";
   const navigate = useNavigate();
   
   
@@ -42,7 +41,7 @@ const QRCodeGenerator = () => {
     const fetchUserData = async () => {
       try {
         const response = await axios.get(
-          `${serverlessapi}/useruid/${loggedInUserID}`
+          `${process.env.REACT_APP_BACKEND}/useruid/${loggedInUserID}`
         );
         setUserData(response.data);
       } catch (error) {

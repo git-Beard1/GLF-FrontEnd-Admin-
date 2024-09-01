@@ -35,12 +35,11 @@ const ViewEvent = () => {
   };
 
   const localhostapi= "http://localhost:5000"
-  const serverlessapi = "https://adminilftest-4tmd.onrender.com";
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`${serverlessapi}/events/${eventid}`);
+        const response = await axios.get(`${process.env.REACT_APP_BACKEND}/events/${eventid}`);
         setEventdata(response.data);
           
       } catch (error) {
@@ -54,7 +53,7 @@ const ViewEvent = () => {
   useEffect(() => {
     const fetchAnnouncementsData = async () => {
       try {
-        const response = await axios.get(`${serverlessapi}/eventannouncements/${eventid}`);
+        const response = await axios.get(`${process.env.REACT_APP_BACKEND}/eventannouncements/${eventid}`);
         setAnnouncementsData(response.data);
         console.log(response.data);
       } catch (error) {

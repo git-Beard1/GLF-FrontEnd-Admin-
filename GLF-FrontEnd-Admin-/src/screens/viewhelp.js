@@ -25,8 +25,7 @@ const HelpInfoList = () => {
   const [selectedInfo, setSelectedInfo] = useState(null);
   const navigate = useNavigate(); // Add this line
   const [loading, setLoading] = useState(false);
-  const localhostapi= "http://localhost:5000"
-  const serverlessapi = "https://adminilftest-4tmd.onrender.com";
+  const localhostapi= "http://localhost:5000";
 
   useEffect(() => {
     const fetchhelpInformation = async () => {
@@ -39,7 +38,7 @@ const HelpInfoList = () => {
             authorization: "Bearer " + token,
           },
           method: "get",
-          url: `${serverlessapi}/validateLogin`,
+          url: `${process.env.REACT_APP_BACKEND}/validateLogin`,
         })
           .then(function (response) {
             console.log(response);
@@ -53,7 +52,7 @@ const HelpInfoList = () => {
             console.dir(response);
           });
         const response = await axios.get(
-          `${serverlessapi}/helpinfos`
+          `${process.env.REACT_APP_BACKEND}/helpinfos`
         );
         setHelpInformation(response.data);
         setLoading(false);

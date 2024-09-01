@@ -14,7 +14,6 @@ import axios from "axios";
 
 const Navbar = () => {
   const localhostapi = "http://localhost:5000";
-  const serverlessapi = "https://adminilftest-4tmd.onrender.com";
   const [nav, setNav] = useState(false);
   const [showImportantInfo, setShowImportantInfo] = useState(false);
   const [userData, setUserData] = useState(null);
@@ -48,7 +47,7 @@ const Navbar = () => {
         if (loggedInUserID) {
           console.log("UID:", loggedInUserID); // Log the uid to check if it's correct
           const response = await axios.get(
-            `${serverlessapi}/useruid/${loggedInUserID}`
+            `${process.env.REACT_APP_BACKEND}/useruid/${loggedInUserID}`
           );
           console.log("API Response:", response.data);
           setUser2(response.data);

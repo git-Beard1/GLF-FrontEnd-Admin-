@@ -8,7 +8,6 @@ const AdminLoginScreen = () => {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const localhostapi= "http://localhost:5000"
-  const serverlessapi = "https://adminilftest-4tmd.onrender.com";
   const navigate = useNavigate();
 
   const handleLogin = async () => {
@@ -16,7 +15,7 @@ const AdminLoginScreen = () => {
       setLoading(true);
 
       // Send a POST request to your authentication endpoint
-      const response = await axios.post(`${serverlessapi}/login`, {
+      const response = await axios.post(`${process.env.REACT_APP_BACKEND}/login`, {
         username,
         password,
       });

@@ -27,8 +27,6 @@ const EditHelpInformation = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const localhostapi= "http://localhost:5000"
-  const serverlessapi = "https://adminilftest-4tmd.onrender.com";
-
 
   const cld = new Cloudinary({
     cloud: {
@@ -58,7 +56,7 @@ const EditHelpInformation = () => {
             authorization: "Bearer " + token,
           },
           method: "get",
-          url: `${serverlessapi}/validateLogin`,
+          url: `${process.env.REACT_APP_BACKEND}/validateLogin`,
         })
           .then(function (response) {
             console.log(response);
@@ -72,7 +70,7 @@ const EditHelpInformation = () => {
             console.dir(response);
           });
         const response = await axios.get(
-          `${serverlessapi}/helpinfos/${helpid}`
+          `${process.env.REACT_APP_BACKEND}/helpinfos/${helpid}`
         );
 
         // Check if the response data is an array and set infodata accordingly
@@ -127,7 +125,7 @@ const EditHelpInformation = () => {
       setLoading(true);
 
       const response = await axios.put(
-        `${serverlessapi}/helpinfo/${helpid}`,
+        `${process.env.REACT_APP_BACKEND}/helpinfo/${helpid}`,
         {
           title,
           subtitle,
@@ -154,7 +152,7 @@ const EditHelpInformation = () => {
   const handleDelete = async () => {
     try {
       const response = await axios.delete(
-        `${serverlessapi}/delhelpinfo/${helpid}`
+        `${process.env.REACT_APP_BACKEND}/delhelpinfo/${helpid}`
       );
       console.log("API Response:", response.data);
 

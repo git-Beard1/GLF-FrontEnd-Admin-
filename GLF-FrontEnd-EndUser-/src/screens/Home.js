@@ -29,7 +29,6 @@ const Home = ({
   const [cloudName] = useState("dxkozpx6g");
   const [bookmarkedEvents, setBookmarkedEvents] = useState([]);
   const localhostapi = "http://localhost:5000";
-  const serverlessapi = "https://adminilftest-4tmd.onrender.com";
   const loggedInUserID = localStorage.getItem("loggedInUserID");
   const navigate = useNavigate();
 
@@ -44,7 +43,7 @@ const Home = ({
       try {
         if (loggedInUserID !== null) {
           const response = await axios.get(
-            `${serverlessapi}/saveevents/${loggedInUserID}`
+            `${process.env.REACT_APP_BACKEND}/saveevents/${loggedInUserID}`
           );
           setBookmarkedEvents(response.data.rows);
 
@@ -68,7 +67,7 @@ const Home = ({
       e.stopPropagation();
 
       try {
-        const response = await axios.post(`${serverlessapi}/saveevent`, {
+        const response = await axios.post(`${process.env.REACT_APP_BACKEND}/saveevent`, {
           uid: loggedInUserID,
           eventid: eventid,
         });
@@ -86,7 +85,7 @@ const Home = ({
 
     try {
       const response = await axios.delete(
-        `${serverlessapi}/delevent/${loggedInUserID}`,
+        `${process.env.REACT_APP_BACKEND}/delevent/${loggedInUserID}`,
         {
           data: { eventid: eventid },
         }
@@ -283,14 +282,13 @@ const EventsList = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const localhostapi = "http://localhost:5000";
-  const serverlessapi = "https://adminilftest-4tmd.onrender.com";
 
   useEffect(() => {
     const fetchEvents = async () => {
       try {
         setLoading(true);
 
-        const response = await axios.get(`${serverlessapi}/events`);
+        const response = await axios.get(`${process.env.REACT_APP_BACKEND}/events`);
         setEvents(response.data);
 
         // Filter events based on the current category
@@ -309,7 +307,7 @@ const EventsList = () => {
           const loggedInUserID = localStorage.getItem("loggedInUserID");
           if (loggedInUserID) {
             const savedResponse = await axios.get(
-              `${serverlessapi}/saveevents/${loggedInUserID}`
+              `${process.env.REACT_APP_BACKEND}/saveevents/${loggedInUserID}`
             );
             const savedEventIds = savedResponse.data.rows.map(
               (savedEvent) => savedEvent.eventid

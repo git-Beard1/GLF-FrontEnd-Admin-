@@ -12,7 +12,6 @@ const UserList = () => {
   const [loading, setLoading] = useState(false);
   const [mostSavedEvent, setMostSavedEvent] = useState([]);
   const localhostapi = "http://localhost:5000";
-  const serverlessapi = "https://adminilftest-4tmd.onrender.com";
   const navigate = useNavigate();
 
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
@@ -29,7 +28,7 @@ const UserList = () => {
             authorization: "Bearer " + token,
           },
           method: "get",
-          url: `${serverlessapi}/validateLogin`,
+          url: `${process.env.REACT_APP_BACKEND}/validateLogin`,
         })
           .then(function (response) {
             console.log("Test", response.data);
@@ -45,11 +44,11 @@ const UserList = () => {
             console.dir(response);
           });
 
-        const response = await axios.get(`${serverlessapi}/users`);
+        const response = await axios.get(`${process.env.REACT_APP_BACKEND}/users`);
         setUsers(response.data);
 
-        const rolesResponse = await axios.get(`${serverlessapi}/roles`);
-        const usersResponse = await axios.get(`${serverlessapi}/users`);
+        const rolesResponse = await axios.get(`${process.env.REACT_APP_BACKEND}/roles`);
+        const usersResponse = await axios.get(`${process.env.REACT_APP_BACKEND}/users`);
 
         console.log("Roles data:", rolesResponse.data);
         console.log("Users data:", usersResponse.data);
@@ -59,7 +58,7 @@ const UserList = () => {
 
         // Fetch most saved event data
         const mostSavedEventResponse = await axios.get(
-          `${serverlessapi}/mostsavedEvent`
+          `${process.env.REACT_APP_BACKEND}/mostsavedEvent`
         );
         setMostSavedEvent(mostSavedEventResponse.data.rows[0]);
         console.log("Most saved event:", mostSavedEventResponse.data);
@@ -75,7 +74,7 @@ const UserList = () => {
   const deleteadmin = async (roleId) => {
     try {
       const response = await axios.delete(
-        `${serverlessapi}/deladmin/${roleId}`
+        `${process.env.REACT_APP_BACKEND}/deladmin/${roleId}`
       );
       console.log("API Response:", response.data);
       window.location.reload();

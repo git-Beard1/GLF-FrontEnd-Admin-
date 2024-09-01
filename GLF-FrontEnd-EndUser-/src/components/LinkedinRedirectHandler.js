@@ -12,7 +12,6 @@ function LinkedInRedirectHandler() {
 
   const urlParams = new URLSearchParams(window.location.search);
   const localhostapi = "http://localhost:5000";
-  const serverlessapi = "https://adminilftest-4tmd.onrender.com";
 
   const code = urlParams.get("code");
 
@@ -21,7 +20,7 @@ function LinkedInRedirectHandler() {
     setIsLoading(true);
     try {
       const response = await axios.post(
-        `${serverlessapi}/getLinkedInUserData`,
+        `${process.env.REACT_APP_BACKEND}/getLinkedInUserData`,
         {
           code: code,
         }
@@ -48,7 +47,7 @@ function LinkedInRedirectHandler() {
       if (first_name && company && last_name && linkedinurl && uid) {
         // Check if user with the same UID already exists
         const userExistsResponse = await axios.get(
-          `${serverlessapi}/useruid/${uid}`
+          `${process.env.REACT_APP_BACKEND}/useruid/${uid}`
         );
 
         console.log("userExistsResponse:", userExistsResponse);
@@ -72,7 +71,7 @@ function LinkedInRedirectHandler() {
         } else {
           // User doesn't exist, insert new user
           const addUserResponse = await axios.post(
-            `${serverlessapi}/addlinkedinuser`,
+            `${process.env.REACT_APP_BACKEND}/addlinkedinuser`,
             {
               first_name,
               company,

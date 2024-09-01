@@ -32,8 +32,6 @@ const AddProgramPage = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const localhostapi= "http://localhost:5000"
-  const serverlessapi = "https://adminilftest-4tmd.onrender.com";
-
 
   const cld = new Cloudinary({
     cloud: {
@@ -55,7 +53,7 @@ const AddProgramPage = () => {
           authorization: "Bearer " + token,
         },
         method: "get",
-        url: `${serverlessapi}/validateLogin`,
+        url: `${process.env.REACT_APP_BACKEND}/validateLogin`,
       })
         .then(function (response) {
           console.log(response);
@@ -88,7 +86,7 @@ const AddProgramPage = () => {
     try {
       setLoading(true);
 
-      const response = await axios.post(`${serverlessapi}/events`, {
+      const response = await axios.post(`${process.env.REACT_APP_BACKEND}/events`, {
         title,
         publicId,
         time_start,

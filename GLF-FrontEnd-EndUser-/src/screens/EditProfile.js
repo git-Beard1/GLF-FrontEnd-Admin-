@@ -17,7 +17,6 @@ const EditProfileForm = () => {
   const { uid } = useParams();
   const navigate = useNavigate();
   const localhostapi = "http://localhost:5000";
-  const serverlessapi = "https://adminilftest-4tmd.onrender.com";
   const [publicId, setPublicId] = useState("");
   const [cloudName] = useState("dxkozpx6g");
   const [uploadPreset] = useState("jcck4okm");
@@ -42,7 +41,7 @@ const EditProfileForm = () => {
     }
     const fetchData = async () => {
       try {
-        const response = await axios.get(`${serverlessapi}/useruid/${uid}`);
+        const response = await axios.get(`${process.env.REACT_APP_BACKEND}/useruid/${uid}`);
         setUser(response.data);
         setPublicId(response.data.profile_pic || "");
         console.log("profile info", response.data);
@@ -82,7 +81,7 @@ const EditProfileForm = () => {
 
     try {
       // Update user profile with Cloudinary publicId
-      await axios.put(`${serverlessapi}/user/${uid}`, {
+      await axios.put(`${process.env.REACT_APP_BACKEND}/user/${uid}`, {
         ...user,
         publicId,
       });

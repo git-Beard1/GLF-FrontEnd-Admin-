@@ -25,7 +25,7 @@ const AddImportantInformation = () => {
   const navigate = useNavigate();
 
   const localhostapi= "http://localhost:5000"
-  const serverlessapi = "https://adminilftest-4tmd.onrender.com";
+  
   useEffect(() => {
     const fetchData = async () => {
       let token = localStorage.getItem("token");
@@ -35,7 +35,7 @@ const AddImportantInformation = () => {
           authorization: "Bearer " + token,
         },
         method: "get",
-        url: `${serverlessapi}/validateLogin`,
+        url: `${process.env.REACT_APP_BACKEND}/validateLogin`,
       })
         .then(function (response) {
           console.log(response);
@@ -107,7 +107,7 @@ const AddImportantInformation = () => {
 
       // Send a POST request to your API endpoint to add information
       const response = await axios.post(
-        `${serverlessapi}/importantInformation`,
+        `${process.env.REACT_APP_BACKEND}/importantInformation`,
         {
           title,
           subtitle,

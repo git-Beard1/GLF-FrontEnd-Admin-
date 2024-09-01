@@ -24,7 +24,6 @@ import "../styles/App.css";
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const localhostapi= "http://localhost:5000"
-  const serverlessapi = "https://adminilftest-4tmd.onrender.com";
 
   const [uwConfig] = useState({
     cloudName,
@@ -63,7 +62,7 @@ import "../styles/App.css";
             authorization: "Bearer " + token,
           },
           method: "get",
-          url: `${serverlessapi}/validateLogin`,
+          url: `${process.env.REACT_APP_BACKEND}/validateLogin`,
         })
           .then(function (response) {
             console.log(response);
@@ -77,7 +76,7 @@ import "../styles/App.css";
             console.dir(response);
           });
         const response = await axios.get(
-          `${serverlessapi}/eventsannouncement`
+          `${process.env.REACT_APP_BACKEND}/eventsannouncement`
         );
         setEventlist(response.data);
         setLoading(false);
@@ -120,7 +119,7 @@ import "../styles/App.css";
     }
   
     try {
-      const response = await axios.post(`${serverlessapi}/announcement`, {
+      const response = await axios.post(`${process.env.REACT_APP_BACKEND}/announcement`, {
         title,
         description,
         publicId,

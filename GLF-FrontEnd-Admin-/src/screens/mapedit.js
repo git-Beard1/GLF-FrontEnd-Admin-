@@ -40,7 +40,6 @@ const AdminMapedit = () => {
   const [uploadPreset] = useState("jcck4okm");
   const [loading, setLoading] = useState(false);
   const localhostapi= "http://localhost:5000"
-  const serverlessapi = "https://adminilftest-4tmd.onrender.com";
 
   const uwConfig = {
     cloudName,
@@ -60,7 +59,7 @@ const AdminMapedit = () => {
             authorization: "Bearer " + token,
           },
           method: "get",
-          url: `${serverlessapi}/validateLogin`,
+          url: `${process.env.REACT_APP_BACKEND}/validateLogin`,
         })
           .then(function (response) {
             console.log(response);
@@ -75,7 +74,7 @@ const AdminMapedit = () => {
           });
         console.log("markerid", markerid);
         const response = await axios.get(
-          `${serverlessapi}/markerindiv/${markerid}`
+          `${process.env.REACT_APP_BACKEND}/markerindiv/${markerid}`
         );
 
         if (Array.isArray(response.data)) {
@@ -133,7 +132,7 @@ const AdminMapedit = () => {
 
      
       const response = await axios.put(
-        `${serverlessapi}/marker/${markerid}`,
+        `${process.env.REACT_APP_BACKEND}/marker/${markerid}`,
         {
           location_name,
           description,
@@ -154,7 +153,7 @@ const AdminMapedit = () => {
   const deleteMarker = async () => {
     try {
       const response = await axios.delete(
-        `${serverlessapi}/delmarker/${markerid}`
+        `${process.env.REACT_APP_BACKEND}/delmarker/${markerid}`
       );
       console.log("API Response:", response.data);
       navigate(`/mapadding`);

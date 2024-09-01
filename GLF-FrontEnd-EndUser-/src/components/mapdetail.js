@@ -20,7 +20,6 @@ import recenterIcon from "../images/Maprecenter.png";
 
 const MapComponent = (props) => {
   const localhostapi = "http://localhost:5000";
-  const serverlessapi = "https://adminilftest-4tmd.onrender.com";
   const [userLocation, setUserLocation] = useState(null);
   const [hasLocationPermission, setHasLocationPermission] = useState(true);
   const [isRouting, setIsRouting] = useState(false);
@@ -62,7 +61,7 @@ const MapComponent = (props) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`${serverlessapi}/markers`);
+        const response = await axios.get(`${process.env.REACT_APP_BACKEND}/markers`);
         setMarkers(response.data);
         console.log('Refill data:', response.data);
       } catch (error) {
@@ -87,7 +86,7 @@ const MapComponent = (props) => {
 
 
 
-        const directionsApiUrl = `${serverlessapi}/api/getDirections?startCoordinates=${startCoordinates}&endCoordinates=${endCoordinates}`;
+        const directionsApiUrl = `${process.env.REACT_APP_BACKEND}/api/getDirections?startCoordinates=${startCoordinates}&endCoordinates=${endCoordinates}`;
         // Replace 'your_nodejs_port' with the actual port where your Node.js server is running
   
         const response = await fetch(directionsApiUrl, {

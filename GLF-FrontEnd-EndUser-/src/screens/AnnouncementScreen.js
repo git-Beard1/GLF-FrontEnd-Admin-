@@ -16,7 +16,6 @@ const AnnouncementScreen = () => {
 
   const navigate = useNavigate();
   const localhostapi = "http://localhost:5000";
-  const serverlessapi = "https://adminilftest-4tmd.onrender.com";
 
   const cld = new Cloudinary({
     cloud: {
@@ -27,7 +26,7 @@ const AnnouncementScreen = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`${serverlessapi}/announcements/${announcementid}`);
+        const response = await axios.get(`${process.env.REACT_APP_BACKEND}/announcements/${announcementid}`);
         setAnnouncementdata(response.data);
       } catch (error) {
         console.error('Error fetching information:', error);

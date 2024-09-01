@@ -45,7 +45,6 @@ const AdminMap = () => {
   const [publicId, setPublicId] = useState("");
   const [loading, setLoading] = useState(false);
   const localhostapi= "http://localhost:5000"
-  const serverlessapi = "https://adminilftest-4tmd.onrender.com";
 
   const [uwConfig] = useState({
     cloudName,
@@ -82,7 +81,7 @@ const AdminMap = () => {
             authorization: "Bearer " + token,
           },
           method: "get",
-          url: `${serverlessapi}/validateLogin`,
+          url: `${process.env.REACT_APP_BACKEND}/validateLogin`,
         })
           .then(function (response) {
             console.log(response);
@@ -95,7 +94,7 @@ const AdminMap = () => {
             //Handle error
             console.dir(response);
           });
-        const response = await axios.get(`${serverlessapi}/markers`);
+        const response = await axios.get(`${process.env.REACT_APP_BACKEND}/markers`);
         setMarkers(response.data);
         setLoading(false);
         console.log("Refill data:", response.data);
@@ -179,7 +178,7 @@ const AdminMap = () => {
       }
 
       
-      const response = await axios.post(`${serverlessapi}/marker`, {
+      const response = await axios.post(`${process.env.REACT_APP_BACKEND}/marker`, {
         location_name,
         description,
         category,

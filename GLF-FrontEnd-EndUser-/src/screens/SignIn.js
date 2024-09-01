@@ -14,14 +14,13 @@ const SignIn = ({ code }) => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const localhostapi = "http://localhost:5000"; // Update with your backend API URL
-  const serverlessapi = "https://adminilftest-4tmd.onrender.com";
  
   // Example React component method or useEffect
   const handleLinkedInRedirect = () => {
     const code = new URL(window.location.href).searchParams.get("code");
     if (code) {
       // Send this code to your backend
-      fetch(`${serverlessapi}/linkedin/token`, {
+      fetch(`${process.env.REACT_APP_BACKEND}/linkedin/token`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -49,7 +48,7 @@ const SignIn = ({ code }) => {
           setLoading(true);
 
           try {
-            const response = await axios.get(`${serverlessapi}/useruid/${uid}`);
+            const response = await axios.get(`${process.env.REACT_APP_BACKEND}/useruid/${uid}`);
             if (response.data) {
               console.log(
                 "User already exists. Redirecting to home page."
@@ -66,7 +65,7 @@ const SignIn = ({ code }) => {
                 type: process.env.REACT_APP_TYPE,
               };
               console.log("userdata:", userData);
-              await axios.post(`${serverlessapi}/adduser`, userData);
+              await axios.post(`${process.env.REACT_APP_BACKEND}/adduser`, userData);
               navigate(`/editprofile/${uid}`);
             }
           } catch (error) {
@@ -83,7 +82,7 @@ const SignIn = ({ code }) => {
     };
 
     handleUserExistence();
-  }, [user, navigate, serverlessapi]);
+  }, [user, navigate, process.env.REACT_APP_BACKEND]);
 
   return (
     <>

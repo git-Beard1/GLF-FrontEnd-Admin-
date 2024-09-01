@@ -1,0 +1,23 @@
+config:
+  plugins:
+    expect: {}
+  target: "https://adminilftest-4tmd.onrender.com"
+  phases:
+    - duration: 60
+      arrivalRate: 10
+      rampTo: 20
+      name: Warm Up
+    - duration: 60
+      arrivalRate: 25
+      rampTo: 40
+      name: Peak Load
+    - duration: 300
+      arrivalRate: 40
+      name: Sustained Load
+scenarios:
+  - flow:
+      - post:
+          url: "/users"
+          expect:
+            statusCode: 200
+            

@@ -30,8 +30,8 @@ app.use(bodyParser.json());
 app.use(cors());
 app.use((req, res, next) => {
   const allowedOrigins = [
-    "https://ilfadmin.netlify.app",
-    "https://ilffront.netlify.app",
+    "https://www.admin.ilf2024.info",
+    "https://www.ilf2024.info"
     // Add more domains as needed
   ];
 

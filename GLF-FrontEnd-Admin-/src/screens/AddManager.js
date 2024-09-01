@@ -23,7 +23,7 @@ const AddManagerScreen = () => {
           authorization: "Bearer " + token,
         },
         method: "get",
-        url: `${process.env.REACT_APP_BACKEND}/validateLogin`,
+        url: `${process.env.REACT_APP_BACKEND_URL}/validateLogin`,
       })
         .then(function (response) {
           console.log(response);
@@ -69,7 +69,7 @@ const AddManagerScreen = () => {
       setLoading(true);
 
       // Send a POST request to the API to add a new manager
-      const response = await axios.post(`${process.env.REACT_APP_BACKEND}/register`, {
+      const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/register`, {
         username,
         password,
         type,

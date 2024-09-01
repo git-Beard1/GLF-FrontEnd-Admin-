@@ -61,7 +61,7 @@ import "../styles/App.css";
             authorization: "Bearer " + token,
           },
           method: "get",
-          url: `${process.env.REACT_APP_BACKEND}/validateLogin`,
+          url: `${process.env.REACT_APP_BACKEND_URL}/validateLogin`,
         })
           .then(function (response) {
             console.log(response);
@@ -75,7 +75,7 @@ import "../styles/App.css";
             console.dir(response);
           });
         const response = await axios.get(
-          `${process.env.REACT_APP_BACKEND}/eventsannouncement`
+          `${process.env.REACT_APP_BACKEND_URL}/eventsannouncement`
         );
         setEventlist(response.data);
         setLoading(false);
@@ -118,7 +118,7 @@ import "../styles/App.css";
     }
   
     try {
-      const response = await axios.post(`${process.env.REACT_APP_BACKEND}/announcement`, {
+      const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/announcement`, {
         title,
         description,
         publicId,

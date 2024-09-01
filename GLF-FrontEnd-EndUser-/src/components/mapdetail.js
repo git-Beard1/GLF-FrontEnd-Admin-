@@ -60,7 +60,7 @@ const MapComponent = (props) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`${process.env.REACT_APP_BACKEND}/markers`);
+        const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/markers`);
         setMarkers(response.data);
         console.log('Refill data:', response.data);
       } catch (error) {
@@ -85,7 +85,7 @@ const MapComponent = (props) => {
 
 
 
-        const directionsApiUrl = `${process.env.REACT_APP_BACKEND}/api/getDirections?startCoordinates=${startCoordinates}&endCoordinates=${endCoordinates}`;
+        const directionsApiUrl = `${process.env.REACT_APP_BACKEND_URL}/api/getDirections?startCoordinates=${startCoordinates}&endCoordinates=${endCoordinates}`;
         // Replace 'your_nodejs_port' with the actual port where your Node.js server is running
   
         const response = await fetch(directionsApiUrl, {

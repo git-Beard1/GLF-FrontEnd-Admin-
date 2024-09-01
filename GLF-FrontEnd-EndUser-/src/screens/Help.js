@@ -61,7 +61,7 @@ const ImportantInfoList = () => {
   useEffect(() => {
     const fetchHelpInformation = async () => {
       try {
-        const response = await axios.get(`${process.env.REACT_APP_BACKEND}/helpinfos`);
+        const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/helpinfos`);
         const sortedData = response.data.sort((a, b) => a.helpid - b.helpid);
         setHelpInformation(sortedData);
         console.log(response.data);

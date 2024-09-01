@@ -46,7 +46,7 @@ const Navbar = () => {
         if (loggedInUserID) {
           console.log("UID:", loggedInUserID); // Log the uid to check if it's correct
           const response = await axios.get(
-            `${process.env.REACT_APP_BACKEND}/useruid/${loggedInUserID}`
+            `${process.env.REACT_APP_BACKEND_URL}/useruid/${loggedInUserID}`
           );
           console.log("API Response:", response.data);
           setUser2(response.data);

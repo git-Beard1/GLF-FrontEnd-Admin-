@@ -25,7 +25,7 @@ const AnnouncementScreen = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`${process.env.REACT_APP_BACKEND}/announcements/${announcementid}`);
+        const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/announcements/${announcementid}`);
         setAnnouncementdata(response.data);
       } catch (error) {
         console.error('Error fetching information:', error);

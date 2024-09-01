@@ -74,7 +74,7 @@ const AllUsersList = () => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await axios.get(`${process.env.REACT_APP_BACKEND}/userlist`);
+        const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/userlist`);
         const sortedUserData = response.data.sort((a, b) => {
           // Move users with LinkedIn URLs to the front
           if (a.linkedinurl && !b.linkedinurl) return -1;

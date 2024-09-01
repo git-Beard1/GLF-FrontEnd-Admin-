@@ -33,7 +33,7 @@ const AddImportantInformation = () => {
           authorization: "Bearer " + token,
         },
         method: "get",
-        url: `${process.env.REACT_APP_BACKEND}/validateLogin`,
+        url: `${process.env.REACT_APP_BACKEND_URL}/validateLogin`,
       })
         .then(function (response) {
           console.log(response);
@@ -105,7 +105,7 @@ const AddImportantInformation = () => {
 
       // Send a POST request to your API endpoint to add information
       const response = await axios.post(
-        `${process.env.REACT_APP_BACKEND}/importantInformation`,
+        `${process.env.REACT_APP_BACKEND_URL}/importantInformation`,
         {
           title,
           subtitle,

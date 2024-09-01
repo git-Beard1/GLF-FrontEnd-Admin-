@@ -59,7 +59,7 @@ const AnnouncementList = () => {
             authorization: "Bearer " + token,
           },
           method: "get",
-          url: `${process.env.REACT_APP_BACKEND}/validateLogin`,
+          url: `${process.env.REACT_APP_BACKEND_URL}/validateLogin`,
         })
           .then(function (response) {
             console.log(response);
@@ -72,7 +72,7 @@ const AnnouncementList = () => {
             //Handle error
             console.dir(response);
           });
-        const response = await axios.get(`${process.env.REACT_APP_BACKEND}/announcements`);
+        const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/announcements`);
         setAnnouncements(response.data);
         setLoading(false);
       } catch (error) {

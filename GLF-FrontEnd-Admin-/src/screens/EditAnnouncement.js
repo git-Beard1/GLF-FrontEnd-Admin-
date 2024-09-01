@@ -52,7 +52,7 @@ const EditAnnouncement = () => {
             authorization: "Bearer " + token,
           },
           method: "get",
-          url: `${process.env.REACT_APP_BACKEND}/validateLogin`,
+          url: `${process.env.REACT_APP_BACKEND_URL}/validateLogin`,
         })
           .then(function (response) {
             console.log(response);
@@ -66,11 +66,11 @@ const EditAnnouncement = () => {
             console.dir(response);
           });
         const response1 = await axios.get(
-          `${process.env.REACT_APP_BACKEND}/eventsannouncement`
+          `${process.env.REACT_APP_BACKEND_URL}/eventsannouncement`
         );
         setEventlist(response1.data);
         const response = await axios.get(
-          `${process.env.REACT_APP_BACKEND}/announcements/${announcementid}`
+          `${process.env.REACT_APP_BACKEND_URL}/announcements/${announcementid}`
         );
         setAnnouncementData(response.data);
         // Check if the response data is an array and set infodata accordingly
@@ -128,7 +128,7 @@ const EditAnnouncement = () => {
       setLoading(true);
 
       const response = await axios.put(
-        `${process.env.REACT_APP_BACKEND}/announcements/${announcementid}`,
+        `${process.env.REACT_APP_BACKEND_URL}/announcements/${announcementid}`,
         {
           title,
           description,
@@ -159,7 +159,7 @@ const EditAnnouncement = () => {
   const handleDelete = async () => {
     try {
       const response = await axios.delete(
-        `${process.env.REACT_APP_BACKEND}/announcements/${announcementid}`
+        `${process.env.REACT_APP_BACKEND_URL}/announcements/${announcementid}`
       );
       console.log("API Response:", response.data);
 

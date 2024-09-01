@@ -52,7 +52,7 @@ const AddProgramPage = () => {
           authorization: "Bearer " + token,
         },
         method: "get",
-        url: `${process.env.REACT_APP_BACKEND}/validateLogin`,
+        url: `${process.env.REACT_APP_BACKEND_URL}/validateLogin`,
       })
         .then(function (response) {
           console.log(response);
@@ -85,7 +85,7 @@ const AddProgramPage = () => {
     try {
       setLoading(true);
 
-      const response = await axios.post(`${process.env.REACT_APP_BACKEND}/events`, {
+      const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/events`, {
         title,
         publicId,
         time_start,

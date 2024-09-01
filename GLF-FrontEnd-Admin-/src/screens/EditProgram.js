@@ -58,7 +58,7 @@ const EditProgram = () => {
             authorization: "Bearer " + token,
           },
           method: "get",
-          url: `${process.env.REACT_APP_BACKEND}/validateLogin`,
+          url: `${process.env.REACT_APP_BACKEND_URL}/validateLogin`,
         })
           .then(function (response) {
             console.log(response);
@@ -73,7 +73,7 @@ const EditProgram = () => {
           });
 
         const response = await axios.get(
-          `${process.env.REACT_APP_BACKEND}/events/${eventid}`
+          `${process.env.REACT_APP_BACKEND_URL}/events/${eventid}`
         );
 
         // Check if the response data is an array and set programData accordingly
@@ -118,7 +118,7 @@ const EditProgram = () => {
       setLoading(true);
 
       const response = await axios.put(
-        `${process.env.REACT_APP_BACKEND}/events/${eventid}`,
+        `${process.env.REACT_APP_BACKEND_URL}/events/${eventid}`,
         {
           title,
           publicId,
@@ -147,7 +147,7 @@ const EditProgram = () => {
   const handleDelete = async () => {
     try {
       const response = await axios.delete(
-        `${process.env.REACT_APP_BACKEND}/deleteevent/${eventid}`
+        `${process.env.REACT_APP_BACKEND_URL}/deleteevent/${eventid}`
       );
       console.log("API Response:", response.data);
 

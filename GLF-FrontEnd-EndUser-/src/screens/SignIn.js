@@ -19,7 +19,7 @@ const SignIn = ({ code }) => {
     const code = new URL(window.location.href).searchParams.get("code");
     if (code) {
       // Send this code to your backend
-      fetch(`${process.env.REACT_APP_BACKEND}/linkedin/token`, {
+      fetch(`${process.env.REACT_APP_BACKEND_URL}/linkedin/token`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -47,7 +47,7 @@ const SignIn = ({ code }) => {
           setLoading(true);
 
           try {
-            const response = await axios.get(`${process.env.REACT_APP_BACKEND}/useruid/${uid}`);
+            const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/useruid/${uid}`);
             if (response.data) {
               console.log(
                 "User already exists. Redirecting to home page."
@@ -64,7 +64,7 @@ const SignIn = ({ code }) => {
                 type: process.env.REACT_APP_TYPE,
               };
               console.log("userdata:", userData);
-              await axios.post(`${process.env.REACT_APP_BACKEND}/adduser`, userData);
+              await axios.post(`${process.env.REACT_APP_BACKEND_URL}/adduser`, userData);
               navigate(`/editprofile/${uid}`);
             }
           } catch (error) {
@@ -81,7 +81,7 @@ const SignIn = ({ code }) => {
     };
 
     handleUserExistence();
-  }, [user, navigate, process.env.REACT_APP_BACKEND]);
+  }, [user, navigate, process.env.REACT_APP_BACKEND_URL]);
 
   return (
     <>

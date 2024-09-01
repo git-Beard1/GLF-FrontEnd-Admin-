@@ -58,7 +58,7 @@ const AdminMapedit = () => {
             authorization: "Bearer " + token,
           },
           method: "get",
-          url: `${process.env.REACT_APP_BACKEND}/validateLogin`,
+          url: `${process.env.REACT_APP_BACKEND_URL}/validateLogin`,
         })
           .then(function (response) {
             console.log(response);
@@ -73,7 +73,7 @@ const AdminMapedit = () => {
           });
         console.log("markerid", markerid);
         const response = await axios.get(
-          `${process.env.REACT_APP_BACKEND}/markerindiv/${markerid}`
+          `${process.env.REACT_APP_BACKEND_URL}/markerindiv/${markerid}`
         );
 
         if (Array.isArray(response.data)) {
@@ -131,7 +131,7 @@ const AdminMapedit = () => {
 
      
       const response = await axios.put(
-        `${process.env.REACT_APP_BACKEND}/marker/${markerid}`,
+        `${process.env.REACT_APP_BACKEND_URL}/marker/${markerid}`,
         {
           location_name,
           description,
@@ -152,7 +152,7 @@ const AdminMapedit = () => {
   const deleteMarker = async () => {
     try {
       const response = await axios.delete(
-        `${process.env.REACT_APP_BACKEND}/delmarker/${markerid}`
+        `${process.env.REACT_APP_BACKEND_URL}/delmarker/${markerid}`
       );
       console.log("API Response:", response.data);
       navigate(`/mapadding`);

@@ -80,7 +80,7 @@ const AdminMap = () => {
             authorization: "Bearer " + token,
           },
           method: "get",
-          url: `${process.env.REACT_APP_BACKEND}/validateLogin`,
+          url: `${process.env.REACT_APP_BACKEND_URL}/validateLogin`,
         })
           .then(function (response) {
             console.log(response);
@@ -93,7 +93,7 @@ const AdminMap = () => {
             //Handle error
             console.dir(response);
           });
-        const response = await axios.get(`${process.env.REACT_APP_BACKEND}/markers`);
+        const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/markers`);
         setMarkers(response.data);
         setLoading(false);
         console.log("Refill data:", response.data);
@@ -177,7 +177,7 @@ const AdminMap = () => {
       }
 
       
-      const response = await axios.post(`${process.env.REACT_APP_BACKEND}/marker`, {
+      const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/marker`, {
         location_name,
         description,
         category,

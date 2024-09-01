@@ -37,7 +37,7 @@ const HelpInfoList = () => {
             authorization: "Bearer " + token,
           },
           method: "get",
-          url: `${process.env.REACT_APP_BACKEND}/validateLogin`,
+          url: `${process.env.REACT_APP_BACKEND_URL}/validateLogin`,
         })
           .then(function (response) {
             console.log(response);
@@ -51,7 +51,7 @@ const HelpInfoList = () => {
             console.dir(response);
           });
         const response = await axios.get(
-          `${process.env.REACT_APP_BACKEND}/helpinfos`
+          `${process.env.REACT_APP_BACKEND_URL}/helpinfos`
         );
         setHelpInformation(response.data);
         setLoading(false);

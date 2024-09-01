@@ -43,7 +43,7 @@ const Home = ({
       try {
         if (loggedInUserID !== null) {
           const response = await axios.get(
-            `${process.env.REACT_APP_BACKEND}/saveevents/${loggedInUserID}`
+            `${process.env.REACT_APP_BACKEND_URL}/saveevents/${loggedInUserID}`
           );
           setBookmarkedEvents(response.data.rows);
 
@@ -67,7 +67,7 @@ const Home = ({
       e.stopPropagation();
 
       try {
-        const response = await axios.post(`${process.env.REACT_APP_BACKEND}/saveevent`, {
+        const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/saveevent`, {
           uid: loggedInUserID,
           eventid: eventid,
         });
@@ -85,7 +85,7 @@ const Home = ({
 
     try {
       const response = await axios.delete(
-        `${process.env.REACT_APP_BACKEND}/delevent/${loggedInUserID}`,
+        `${process.env.REACT_APP_BACKEND_URL}/delevent/${loggedInUserID}`,
         {
           data: { eventid: eventid },
         }
@@ -287,7 +287,7 @@ const EventsList = () => {
       try {
         setLoading(true);
 
-        const response = await axios.get(`${process.env.REACT_APP_BACKEND}/events`);
+        const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/events`);
         setEvents(response.data);
 
         // Filter events based on the current category
@@ -306,7 +306,7 @@ const EventsList = () => {
           const loggedInUserID = localStorage.getItem("loggedInUserID");
           if (loggedInUserID) {
             const savedResponse = await axios.get(
-              `${process.env.REACT_APP_BACKEND}/saveevents/${loggedInUserID}`
+              `${process.env.REACT_APP_BACKEND_URL}/saveevents/${loggedInUserID}`
             );
             const savedEventIds = savedResponse.data.rows.map(
               (savedEvent) => savedEvent.eventid

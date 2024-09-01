@@ -40,7 +40,7 @@ const QRCodeGenerator = () => {
     const fetchUserData = async () => {
       try {
         const response = await axios.get(
-          `${process.env.REACT_APP_BACKEND}/useruid/${loggedInUserID}`
+          `${process.env.REACT_APP_BACKEND_URL}/useruid/${loggedInUserID}`
         );
         setUserData(response.data);
       } catch (error) {

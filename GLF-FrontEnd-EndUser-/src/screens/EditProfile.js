@@ -40,7 +40,7 @@ const EditProfileForm = () => {
     }
     const fetchData = async () => {
       try {
-        const response = await axios.get(`${process.env.REACT_APP_BACKEND}/useruid/${uid}`);
+        const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/useruid/${uid}`);
         setUser(response.data);
         setPublicId(response.data.profile_pic || "");
         console.log("profile info", response.data);
@@ -80,7 +80,7 @@ const EditProfileForm = () => {
 
     try {
       // Update user profile with Cloudinary publicId
-      await axios.put(`${process.env.REACT_APP_BACKEND}/user/${uid}`, {
+      await axios.put(`${process.env.REACT_APP_BACKEND_URL}/user/${uid}`, {
         ...user,
         publicId,
       });

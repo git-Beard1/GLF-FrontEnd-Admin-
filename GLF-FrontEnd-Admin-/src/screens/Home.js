@@ -56,7 +56,7 @@ const EventsList = () => {
             authorization: "Bearer " + token,
           },
           method: "get",
-          url: `${process.env.REACT_APP_BACKEND}/validateLogin`,
+          url: `${process.env.REACT_APP_BACKEND_URL}/validateLogin`,
         })
           .then(function (response) {
             console.log(response);
@@ -70,7 +70,7 @@ const EventsList = () => {
             //Handle error
             console.dir(response);
           });
-        const response = await axios.get(`${process.env.REACT_APP_BACKEND}/events`);
+        const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/events`);
         setEvents(response.data);
         setLoading(false);
       } catch (error) {

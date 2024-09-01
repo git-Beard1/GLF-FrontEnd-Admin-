@@ -55,7 +55,7 @@ const EditImportantInformation = () => {
             authorization: "Bearer " + token,
           },
           method: "get",
-          url: `${process.env.REACT_APP_BACKEND}/validateLogin`,
+          url: `${process.env.REACT_APP_BACKEND_URL}/validateLogin`,
         })
           .then(function (response) {
             console.log(response);
@@ -69,7 +69,7 @@ const EditImportantInformation = () => {
             console.dir(response);
           });
         const response = await axios.get(
-          `${process.env.REACT_APP_BACKEND}/info/${infoid}`
+          `${process.env.REACT_APP_BACKEND_URL}/info/${infoid}`
         );
 
         // Check if the response data is an array and set infodata accordingly
@@ -124,7 +124,7 @@ const EditImportantInformation = () => {
       setLoading(true);
 
       const response = await axios.put(
-        `${process.env.REACT_APP_BACKEND}/importantinfo/${infoid}`,
+        `${process.env.REACT_APP_BACKEND_URL}/importantinfo/${infoid}`,
         {
           title,
           subtitle,
@@ -151,7 +151,7 @@ const EditImportantInformation = () => {
   const handleDelete = async () => {
     try {
       const response = await axios.delete(
-        `${process.env.REACT_APP_BACKEND}/delete/${infoid}`
+        `${process.env.REACT_APP_BACKEND_URL}/delete/${infoid}`
       );
       console.log("API Response:", response.data);
 

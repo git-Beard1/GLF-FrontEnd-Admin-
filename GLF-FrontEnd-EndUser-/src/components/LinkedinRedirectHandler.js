@@ -11,7 +11,6 @@ function LinkedInRedirectHandler() {
   const loggedInUserID = localStorage.getItem("loggedInUserID");
 
   const urlParams = new URLSearchParams(window.location.search);
-  const localhostapi = "http://localhost:5000";
 
   const code = urlParams.get("code");
 
@@ -20,7 +19,7 @@ function LinkedInRedirectHandler() {
     setIsLoading(true);
     try {
       const response = await axios.post(
-        `${process.env.REACT_APP_BACKEND}/getLinkedInUserData`,
+        `${process.env.REACT_APP_BACKEND_URL}/getLinkedInUserData`,
         {
           code: code,
         }
@@ -47,7 +46,7 @@ function LinkedInRedirectHandler() {
       if (first_name && company && last_name && linkedinurl && uid) {
         // Check if user with the same UID already exists
         const userExistsResponse = await axios.get(
-          `${process.env.REACT_APP_BACKEND}/useruid/${uid}`
+          `${process.env.REACT_APP_BACKEND_URL}/useruid/${uid}`
         );
 
         console.log("userExistsResponse:", userExistsResponse);
@@ -71,7 +70,7 @@ function LinkedInRedirectHandler() {
         } else {
           // User doesn't exist, insert new user
           const addUserResponse = await axios.post(
-            `${process.env.REACT_APP_BACKEND}/addlinkedinuser`,
+            `${process.env.REACT_APP_BACKEND_URL}/addlinkedinuser`,
             {
               first_name,
               company,

@@ -1,7 +1,7 @@
 config:
   plugins:
     expect: {}
-  target: "https://adminilftest-4tmd.onrender.com"
+  target: "https://www.ilfapi.ilf2024.info"
   phases:
     - duration: 60
       arrivalRate: 10
@@ -16,7 +16,7 @@ config:
       name: Sustained Load
 scenarios:
   - flow:
-      - post:
+      - get:
           url: "/users"
           expect:
             statusCode: 200

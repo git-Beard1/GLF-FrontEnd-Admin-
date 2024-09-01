@@ -7,7 +7,6 @@ const AdminLoginScreen = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const localhostapi= "http://localhost:5000"
   const navigate = useNavigate();
 
   const handleLogin = async () => {

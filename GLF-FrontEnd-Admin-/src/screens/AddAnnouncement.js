@@ -23,7 +23,6 @@ import "../styles/App.css";
   const [descriptionError, setDescriptionError] = useState("");
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const localhostapi= "http://localhost:5000"
 
   const [uwConfig] = useState({
     cloudName,

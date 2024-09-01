@@ -44,7 +44,6 @@ const AdminMap = () => {
   const [uploadPreset] = useState("jcck4okm");
   const [publicId, setPublicId] = useState("");
   const [loading, setLoading] = useState(false);
-  const localhostapi= "http://localhost:5000"
 
   const [uwConfig] = useState({
     cloudName,

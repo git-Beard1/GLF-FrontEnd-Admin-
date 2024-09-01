@@ -46,7 +46,6 @@ const Announcement = ({
 const AnnouncementList = () => {
   const [announcements, setAnnouncements] = useState([]);
   const [loading, setLoading] = useState(false);
-  const localhostapi = "http://localhost:5000";
 
   const navigate = useNavigate();
   useEffect(() => {

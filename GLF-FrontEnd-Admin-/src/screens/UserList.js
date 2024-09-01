@@ -11,7 +11,6 @@ const UserList = () => {
   const [filter, setFilter] = useState("All");
   const [loading, setLoading] = useState(false);
   const [mostSavedEvent, setMostSavedEvent] = useState([]);
-  const localhostapi = "http://localhost:5000";
   const navigate = useNavigate();
 
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);

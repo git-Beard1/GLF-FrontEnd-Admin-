@@ -16,7 +16,6 @@ const EditProfileForm = () => {
   const [user, setUser] = useState({});
   const { uid } = useParams();
   const navigate = useNavigate();
-  const localhostapi = "http://localhost:5000";
   const [publicId, setPublicId] = useState("");
   const [cloudName] = useState("dxkozpx6g");
   const [uploadPreset] = useState("jcck4okm");

@@ -39,7 +39,6 @@ const AdminMapedit = () => {
   const [cloudName] = useState("dxkozpx6g");
   const [uploadPreset] = useState("jcck4okm");
   const [loading, setLoading] = useState(false);
-  const localhostapi= "http://localhost:5000"
 
   const uwConfig = {
     cloudName,

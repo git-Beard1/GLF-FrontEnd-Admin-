@@ -12,8 +12,6 @@ const AddManagerScreen = () => {
   const [type, setType] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-
-  const localhostapi= "http://localhost:5000"
   
   useEffect(() => {
     const fetchData = async () => {

@@ -281,7 +281,6 @@ const EventsList = () => {
   const { googleSignIn, user } = UserAuth();
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const localhostapi = "http://localhost:5000";
 
   useEffect(() => {
     const fetchEvents = async () => {

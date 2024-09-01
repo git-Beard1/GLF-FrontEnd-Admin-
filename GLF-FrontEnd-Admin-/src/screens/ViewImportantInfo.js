@@ -25,7 +25,6 @@ const ImportantInfoList = () => {
   const [selectedInfo, setSelectedInfo] = useState(null);
   const navigate = useNavigate(); // Add this line
   const [loading, setLoading] = useState(false);
-  const localhostapi = "http://localhost:5000";
 
   useEffect(() => {
     const fetchImportantInformation = async () => {

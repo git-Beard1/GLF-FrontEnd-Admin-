@@ -19,7 +19,6 @@ import { AdvancedImage, responsive, placeholder } from "@cloudinary/react";
 import recenterIcon from "../images/Maprecenter.png";
 
 const MapComponent = (props) => {
-  const localhostapi = "http://localhost:5000";
   const [userLocation, setUserLocation] = useState(null);
   const [hasLocationPermission, setHasLocationPermission] = useState(true);
   const [isRouting, setIsRouting] = useState(false);

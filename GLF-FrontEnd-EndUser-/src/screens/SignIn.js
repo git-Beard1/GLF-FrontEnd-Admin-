@@ -13,7 +13,6 @@ const SignIn = ({ code }) => {
   const { googleSignIn, user } = UserAuth();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const localhostapi = "http://localhost:5000"; // Update with your backend API URL
  
   // Example React component method or useEffect
   const handleLinkedInRedirect = () => {

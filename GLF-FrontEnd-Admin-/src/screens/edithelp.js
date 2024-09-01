@@ -26,7 +26,6 @@ const EditHelpInformation = () => {
   const [descriptionError, setDescriptionError] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const localhostapi= "http://localhost:5000"
 
   const cld = new Cloudinary({
     cloud: {

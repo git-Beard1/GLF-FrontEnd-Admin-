@@ -63,7 +63,6 @@ const PopupCard = ({ title, description, image, onClose }) => {
 const ImportantInfoList = () => {
   const [importantInformation, setImportantInformation] = useState([]);
   const [selectedInfo, setSelectedInfo] = useState(null);
-  const localhostapi = "http://localhost:5000";
 
   useEffect(() => {
     const fetchImportantInformation = async () => {

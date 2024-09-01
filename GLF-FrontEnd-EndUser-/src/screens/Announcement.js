@@ -55,7 +55,6 @@ const Announcement = ({ announcementid, title, description, announcement_posted,
 const AnnouncementList = () => {
   const [announcements, setAnnouncements] = useState([]);
   const navigate = useNavigate();
-  const localhostapi= "http://localhost:5000"
 
   useEffect(() => {
     const fetchAnnouncements = async () => {

@@ -44,7 +44,6 @@ const EventsList = () => {
   const [events, setEvents] = useState([]);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const localhostapi= "http://localhost:5000"
 
   useEffect(() => {
     const fetchEvents = async () => {

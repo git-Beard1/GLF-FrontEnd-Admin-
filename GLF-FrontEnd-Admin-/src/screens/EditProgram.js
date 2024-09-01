@@ -34,7 +34,6 @@ const EditProgram = () => {
   const [keynoteSpeakerError, setKeynoteSpeakerError] = useState("");
   const [descriptionError, setDescriptionError] = useState("");
   const navigate = useNavigate();
-  const localhostapi= "http://localhost:5000"
 
   const cld = new Cloudinary({
     cloud: {

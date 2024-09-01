@@ -63,7 +63,6 @@ const QRCodePopupCard = ({ title, qrCodeValue, profilePic, linkedinUrl,jobtitle,
 const AllUsersList = () => {
   const [userData, setUserData] = useState(null);
   const [selectedUser, setSelectedUser] = useState(null);
-  const localhostapi = "http://localhost:5000";
   const [cloudName] = useState("dxkozpx6g");
   const cld = new Cloudinary({
     cloud: {

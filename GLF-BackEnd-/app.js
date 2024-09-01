@@ -7,12 +7,12 @@ const events = require("./model/events");
 const importantInformation = require("./model/importantInfo");
 const User = require("./model/user");
 const login = require("./model/login");
-const help =require('./model/help')
+const help = require("./model/help");
 const cors = require("cors");
 const app = express();
 const { hashSync } = require("bcrypt");
 
-const directionsRouter = require('./model/router');
+const directionsRouter = require("./model/router");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const linkedinController = require("./controller/linkedinController");
@@ -30,8 +30,8 @@ app.use(bodyParser.json());
 app.use(cors());
 app.use((req, res, next) => {
   const allowedOrigins = [
-    "https://www.admin.ilf2024.info",
-    "https://www.ilf2024.info"
+    process.env.LOCAL_BACKEND_URL,
+    process.env.BACKEND_URL,
     // Add more domains as needed
   ];
 
@@ -84,8 +84,6 @@ app.get(
     }
   } //End of checkForValidUserRoleUser
 );
-
-
 
 //Create Announcements
 app.post("/announcement", (req, res) => {
@@ -814,7 +812,7 @@ app.post("/addlinkedinuser", (req, res) => {
   );
 });
 
-app.use('/api', directionsRouter);
+app.use("/api", directionsRouter);
 
 app.post("/helpinfo", (req, res) => {
   var title = req.body.title;
@@ -822,20 +820,14 @@ app.post("/helpinfo", (req, res) => {
   var description = req.body.description;
   var image = req.body.publicId;
 
-  help.addhelpinfo(
-    title,
-    subtitle,
-    description,
-    image,
-    (err, result) => {
-      if (err) {
-        console.log(err);
-        res.status(500).send();
-      } else {
-        res.status(201).send(result);
-      }
+  help.addhelpinfo(title, subtitle, description, image, (err, result) => {
+    if (err) {
+      console.log(err);
+      res.status(500).send();
+    } else {
+      res.status(201).send(result);
     }
-  );
+  });
 });
 
 app.get("/helpinfos", (req, res) => {

@@ -13,7 +13,6 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 
 const Navbar = () => {
-  const localhostapi = "http://localhost:5000";
   const [nav, setNav] = useState(false);
   const [showImportantInfo, setShowImportantInfo] = useState(false);
   const [userData, setUserData] = useState(null);

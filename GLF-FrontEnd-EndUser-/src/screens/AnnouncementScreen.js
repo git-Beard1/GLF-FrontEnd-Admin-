@@ -15,7 +15,6 @@ const AnnouncementScreen = () => {
   const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
-  const localhostapi = "http://localhost:5000";
 
   const cld = new Cloudinary({
     cloud: {

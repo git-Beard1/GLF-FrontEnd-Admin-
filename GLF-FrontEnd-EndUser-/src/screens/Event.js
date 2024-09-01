@@ -34,8 +34,6 @@ const ViewEvent = () => {
     return words.slice(0, limit).join(' ') + (words.length > limit ? '...' : '');
   };
 
-  const localhostapi= "http://localhost:5000"
-
   useEffect(() => {
     const fetchData = async () => {
       try {

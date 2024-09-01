@@ -7,7 +7,6 @@ import { Link , useNavigate} from "react-router-dom";
 const QRCodeGenerator = () => {
   const [userData, setUserData] = useState(null);
   const loggedInUserID = localStorage.getItem("loggedInUserID");
-  const localhostapi = "http://localhost:5000";
   const navigate = useNavigate();
   
   

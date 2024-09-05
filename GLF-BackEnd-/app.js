@@ -32,6 +32,8 @@ app.use((req, res, next) => {
   const allowedOrigins = [
     process.env.LOCAL_BACKEND_URL,
     process.env.BACKEND_URL,
+    process.env.FRONTEND_ENDUSER_URL,
+    process.env.FRONTEND_ADMIN_URL,
     // Add more domains as needed
   ];
 

@@ -572,7 +572,7 @@ app.post("/register", (req, res) => {
 
   bcrypt.hash(password, 10, async (err, hash) => {
     if (err) {
-      console.log("Error on hashing password");
+      console.log("Error on hashing password", err);
       return res
         .status(500)
         .json({ statusMessage: "Unable to complete registration" });
@@ -581,7 +581,7 @@ app.post("/register", (req, res) => {
         username,
         hash,
         type,
-        function (results, error) {
+        function (error, results) {
           if (results != null) {
             console.log(results);
             return res
@@ -590,7 +590,8 @@ app.post("/register", (req, res) => {
           }
           if (error) {
             console.log(
-              "processRegister method : callback error block section is running."
+              "processRegister method : callback error block section is running.",
+              error
             );
             console.log(
               error,
@@ -605,6 +606,7 @@ app.post("/register", (req, res) => {
     }
   });
 });
+
 app.get("/users", (req, res) => {
   User.getUsers((err, result) => {
     if (err) {

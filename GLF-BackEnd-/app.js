@@ -529,7 +529,7 @@ app.post("/login", (req, res) => {
 
   try {
     login.verify(username, function (error, results) {
-      console.log("resultlength", results.length);
+      // console.log("resultlength", results.length);
 
       if (error) {
         let message = "Credentials are not valid.";
@@ -554,13 +554,18 @@ app.post("/login", (req, res) => {
 
             return res.status(200).json(data);
           } else {
-            return res.status(500).json({ message: "Login has failed." });
+            return res
+              .status(500)
+              .json({ message: "Incorrect username or password." });
           } //End of passowrd comparison with the retrieved decoded password.
         } //End of checking if there are returned SQL results
+        else {
+          return res.status(404).json({ message: "User does not exits." });
+        }
       }
     });
   } catch (error) {
-    return res.status(500).json({ message: message });
+    return res.status(500).json({ message: error });
   } //end of try
 });
 

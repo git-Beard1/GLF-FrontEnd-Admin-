@@ -1,0 +1,20 @@
+name: Load Testing
+ 
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+ 
+jobs:
+  artillery:
+    runs-on: ubuntu-latest
+ 
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+ 
+      - name: Execute load tests
+        uses: artilleryio/action-cli@v1
+        with:
+          command: run tests/events.yml

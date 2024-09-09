@@ -1,7 +1,6 @@
 import { useContext, createContext } from "react";
 import {
   GoogleAuthProvider,
-  signInWithPopup,
   signInWithRedirect,
   signOut,
   onAuthStateChanged,
@@ -15,7 +14,7 @@ export const AuthContextProvider = ({ children }) => {
 
   const googleSignIn = () => {
     const provider = new GoogleAuthProvider();
-    signInWithPopup(auth, provider).catch((error) => {
+    signInWithRedirect(auth, provider).catch((error) => {
       console.error("Google sign-in error:", error.code, error.message);
       // Handle the error or log it for further investigation
     });

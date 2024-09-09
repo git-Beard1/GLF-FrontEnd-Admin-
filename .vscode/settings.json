@@ -2,7 +2,11 @@
     "yaml.schemas": {
         "https://www.artillery.io/schema.json": [
             "file:///c%3A/Users/GettinG/Desktop/Global%20Learning%20Festival/Development/GLF-BackEnd-/authenticationTest.yml",
-            "git:/c%3A/Users/GettinG/Desktop/Global%20Learning%20Festival/Development/GLF-BackEnd-/authenticationTest.yml?%7B%22path%22%3A%22c%3A%5C%5CUsers%5C%5CGettinG%5C%5CDesktop%5C%5CGlobal%20Learning%20Festival%5C%5CDevelopment%5C%5CGLF-BackEnd-%5C%5CauthenticationTest.yml%22%2C%22ref%22%3A%22~%22%7D"
+            "git:/c%3A/Users/GettinG/Desktop/Global%20Learning%20Festival/Development/GLF-BackEnd-/authenticationTest.yml?%7B%22path%22%3A%22c%3A%5C%5CUsers%5C%5CGettinG%5C%5CDesktop%5C%5CGlobal%20Learning%20Festival%5C%5CDevelopment%5C%5CGLF-BackEnd-%5C%5CauthenticationTest.yml%22%2C%22ref%22%3A%22~%22%7D",
+            "file:///c%3A/Users/GettinG/Desktop/Global%20Learning%20Festival/Development/GLF-FrontEnd-EndUser-/authenticationTest.yml",
+            "file:///c%3A/Users/GettinG/Desktop/Global%20Learning%20Festival/Development/tests/authenticationTest.yml",
+            "file:///c%3A/Users/GettinG/Desktop/Global%20Learning%20Festival/Development/tests/events.yml",
+            "file:///c%3A/Users/GettinG/Desktop/Global%20Learning%20Festival/Development/tests/userManagement.yml"
         ]
     }
 }

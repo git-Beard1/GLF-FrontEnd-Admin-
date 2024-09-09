@@ -2,12 +2,13 @@ config:
   payload:
     - path: '../data/users.csv'
       fields:
+        - 'userid'
         - 'first_name'
         - 'last_name'
         - 'company'
         - 'type'
-        - 'userid'
         - 'uid'
+      skipHeader: true
   plugins:
     expect: {}
   target: "https://www.ilfapi.ilf2024.info"
@@ -41,15 +42,17 @@ scenarios:
           expect: 
             - statusCode: 200
             - contentType: "application/json"
+            - contentType: "charset=utf-8"
             - json: "$.length > 0"
-            - hasProperty: "first_name"
-            - hasProperty: "last_name"
-            - hasProperty: "type"
+            - hasProperty: "$[0].first_name!==undefined"
+            - hasProperty: "$[0].last_name!==undefined"
+            - hasProperty: "$[0].type!==undefined"
       - get:
           url: "/user/{{userid}}"
           expect:
             - statusCode: 200
             - contentType: "application/json"
+            - contentType: "charset=utf-8"
             - hasProperty: "userid"
             - hasProperty: "uid"
             - hasProperty: "first_name"
@@ -63,7 +66,7 @@ scenarios:
           expect:
             - statusCode: 200
             - contentType: "application/json"
-            - contentType: "application/json"
+            - contentType: "charset=utf-8"
             - hasProperty: "userid"
             - hasProperty: "uid"
             - hasProperty: "first_name"

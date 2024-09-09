@@ -7,14 +7,19 @@ on:
   workflow_dispatch:
  
 jobs:
-  artillery:
+  Artillery:
     runs-on: ubuntu-latest
  
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
  
-      - name: Execute load tests
+      - name: User Management Load Test
         uses: artilleryio/action-cli@v1
         with:
           command: run tests/userManagement.yml --record --key ${{ secrets.API_KEY }}
+      
+      - name: Announcements Load Test
+        uses: artilleryio/action-cli@v1
+        with:
+          command: run tests/announcements.yml --record --key ${{ secrets.API_KEY }}

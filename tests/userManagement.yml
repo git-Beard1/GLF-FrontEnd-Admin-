@@ -1,27 +1,27 @@
 config:
   payload:
-    path: '../data/role.csv'
-    fields:
-      - 'first_name'
-      - 'last_name'
-      - 'company'
-      - 'uid'
-      - 'type'
+    - path: '../data/users.csv'
+      fields:
+        - 'first_name'
+        - 'last_name'
+        - 'company'
+        - 'type'
+        - 'userid'
+        - 'uid'
   plugins:
     expect: {}
   target: "https://www.ilfapi.ilf2024.info"
   phases:
-    - duration: 10
-      arrivalRate: 10
-      rampTo: 20
-      name: Warm Up
-    - duration: 10
-      arrivalRate: 25
-      rampTo: 40
-      name: Peak Load
-    - duration: 30
-      arrivalRate: 40
-      name: Sustained Load
+    - duration: 300
+      arrivalRate: 50
+      name: Sustained Load Phase
+    - duration: 300
+      arrivalRate: 50
+      rampTo: 80
+      name: Peak Phase
+    - duration: 420
+      arrivalRate: 100
+      name: Sustained Peak Phase
 scenarios:
     - flow:
       # - post: 
@@ -46,11 +46,12 @@ scenarios:
             - hasProperty: "last_name"
             - hasProperty: "type"
       - get:
-          url: "/user/480"
+          url: "/user/{{userid}}"
           expect:
             - statusCode: 200
             - contentType: "application/json"
             - hasProperty: "userid"
+            - hasProperty: "uid"
             - hasProperty: "first_name"
             - hasProperty: "last_name"
             - hasProperty: "company"
@@ -58,10 +59,13 @@ scenarios:
             - hasProperty: "jobtitle"
             - hasProperty: "profile_pic"
       - get:
-          url: "/useruid/Uu3lbwz52iZxFOkz8CIMaafxJ5X2"
+          url: "/useruid/{{uid}}"
           expect:
             - statusCode: 200
             - contentType: "application/json"
+            - contentType: "application/json"
+            - hasProperty: "userid"
+            - hasProperty: "uid"
             - hasProperty: "first_name"
             - hasProperty: "last_name"
             - hasProperty: "company"

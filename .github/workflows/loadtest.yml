@@ -17,4 +17,4 @@ jobs:
       - name: Execute load tests
         uses: artilleryio/action-cli@v1
         with:
-          command: run tests/userManagement.yml
+          command: run tests\userManagement.yml --record --key ${{ secrets.API_KEY }}

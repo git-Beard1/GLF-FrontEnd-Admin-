@@ -17,4 +17,4 @@ jobs:
       - name: Execute load tests
         uses: artilleryio/action-cli@v1
         with:
-          command: run tests/events.yml
+          command: run tests/userManagement.yml

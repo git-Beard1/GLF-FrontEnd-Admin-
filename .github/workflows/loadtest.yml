@@ -40,8 +40,5 @@ jobs:
       - name: Artillery Backend Load Test
         run: |
           for scenarioFile in `ls tests/scenarios/*.yml` ; do
-            artillery run --config tests/config/configBackend.yml $scenarioFile --name "Backend Load Testing" --record --key ${{ secrets.ARTILLERY_API_KEY }}
+            artillery run --config tests/config/configBackend.yml $scenarioFile --target=${{ secrets.API_TARGET }} --name "Backend Load Testing" --record --key ${{ secrets.ARTILLERY_API_KEY }}
           done
-        env:
-          API_TARGET: ${{ secrets.API_TARGET }}
-          ARTILLERY_API_KEY: ${{ secrets.ARTILLERY_API_KEY }}

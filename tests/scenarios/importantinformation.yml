@@ -1,0 +1,19 @@
+scenarios:
+  - name: importantinformation
+    flow:
+      - get:
+          url: "/importantinformation"
+          expect:
+            - statusCode: 200
+            - contentType: "application/json; charset=utf-8"
+            - json: "$.length > 0"
+      - get:
+          url: "/importantinformation/{{infoid}}"
+          expect:
+            - statusCode: 200
+            - contentType: "application/json; charset=utf-8"
+            - hasProperty: "infoid"
+            - hasProperty: "title"
+            - hasProperty: "subtitle"
+            - hasProperty: "description"
+            - hasProperty: "image"

@@ -139,7 +139,7 @@ app.get("/announcements/:id", (req, res) => {
       res.status(500).send();
     } else {
       console.log(result);
-      res.status(200).send(result.rows);
+      res.status(200).send(result);
     }
   });
 });
@@ -262,7 +262,7 @@ app.get("/events/:id", (req, res) => {
       res.status(500).send();
     } else {
       console.log(result);
-      res.status(200).send(result.rows);
+      res.status(200).send(result);
     }
   });
 });
@@ -353,7 +353,7 @@ app.get("/info/:id", (req, res) => {
       res.status(500).send();
     } else {
       console.log(result);
-      res.status(200).send(result.rows);
+      res.status(200).send(result);
     }
   });
 });
@@ -440,7 +440,7 @@ app.get("/markerindiv/:id", (req, res) => {
       res.status(500).send();
     } else {
       console.log(result);
-      res.status(200).send(result.rows);
+      res.status(200).send(result);
     }
   });
 });

@@ -1,31 +1,7 @@
-config:
-  payload:
-    - path: '../data/users.csv'
-      fields:
-        - 'userid'
-        - 'first_name'
-        - 'last_name'
-        - 'company'
-        - 'type'
-        - 'uid'
-      skipHeader: true
-  plugins:
-    expect: {}
-  target: "https://www.ilfapi.ilf2024.info"
-  phases:
-    - duration: 300
-      arrivalRate: 50
-      name: Sustained Load Phase
-    - duration: 300
-      arrivalRate: 50
-      rampTo: 80
-      name: Peak Phase
-    - duration: 420
-      arrivalRate: 100
-      name: Sustained Peak Phase
 scenarios:
-    - flow:
-      # - post: 
+  - name: users
+    flow:
+      # - post:
       #     url: "/adduser"
       #     json:
       #       first_name: "{{ first_name }}"
@@ -33,26 +9,21 @@ scenarios:
       #       company: "{{ company }}"
       #       uid: "{{ uid }}"
       #       type: "{{ type }}"
-      #     expect: 
+      #     expect:
       #       - statusCode: 201
       #       - contentType: "application/json"
       #       - hasHeader: "content-type"
-      - get: 
+      - get:
           url: "/users"
-          expect: 
+          expect:
             - statusCode: 200
-            - contentType: "application/json"
-            - contentType: "charset=utf-8"
+            - contentType: "application/json; charset=utf-8"
             - json: "$.length > 0"
-            - hasProperty: "$[0].first_name!==undefined"
-            - hasProperty: "$[0].last_name!==undefined"
-            - hasProperty: "$[0].type!==undefined"
       - get:
           url: "/user/{{userid}}"
           expect:
             - statusCode: 200
-            - contentType: "application/json"
-            - contentType: "charset=utf-8"
+            - contentType: "application/json; charset=utf-8"
             - hasProperty: "userid"
             - hasProperty: "uid"
             - hasProperty: "first_name"
@@ -65,8 +36,7 @@ scenarios:
           url: "/useruid/{{uid}}"
           expect:
             - statusCode: 200
-            - contentType: "application/json"
-            - contentType: "charset=utf-8"
+            - contentType: "application/json; charset=utf-8"
             - hasProperty: "userid"
             - hasProperty: "uid"
             - hasProperty: "first_name"

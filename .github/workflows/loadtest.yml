@@ -1,25 +1,24 @@
 name: Load Testing
- 
+
 on:
   push:
     branches:
       - main
   workflow_dispatch:
- 
+
 jobs:
   Artillery:
     runs-on: ubuntu-latest
- 
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
- 
-      - name: User Management Load Test
-        uses: artilleryio/action-cli@v1
-        with:
-          command: run tests/userManagement.yml --record --key ${{ secrets.API_KEY }}
-      
-      - name: Announcements Load Test
-        uses: artilleryio/action-cli@v1
-        with:
-          command: run tests/announcements.yml --record --key ${{ secrets.API_KEY }}
+
+      - name: Backend Load Test
+        run: |
+          for scenarioFile in `ls tests/scenarios/*.yml` ; do
+            artillery run --config tests/config/configBackend.yml tests/scenarios/$scenarioFile --name "Backend Load Testing" --record --key ${{ secrets.ARTILLERY_API_KEY }}
+          done
+        env:
+          API_TARGET: ${{ secrets.API_TARGET }}
+          ARTILLERY_API_KEY: ${{ secrets.ARTILLERY_API_KEY }}

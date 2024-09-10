@@ -41,7 +41,7 @@ const map = {
       `SELECT mapid, location_name, category, description, coordinates, image FROM marker where mapid = $1 `,
       [mapid]
     ).then(result=> {
-      return callback(null, result);
+      return callback(null, result.rows.length > 0 ? result.rows[0] : null);
     
   }).catch(error=>{
     return callback(error, null);

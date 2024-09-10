@@ -103,7 +103,7 @@ const events = {
        location, keynote_speaker, description, survey_link
        FROM events WHERE eventid = $1`,[eventid]
     ).then(result=> {
-      return callback(null, result);
+      return callback(null, result.rows.length > 0 ? result.rows[0] : null);
     
   }).catch(error=>{
     return callback(error, null);

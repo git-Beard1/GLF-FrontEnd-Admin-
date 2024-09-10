@@ -31,7 +31,7 @@ const importantInformation = {
     getImportantInformationById: function (infoid, callback) {
        return query('SELECT * FROM importantinfo WHERE infoid = $1', [infoid])
             .then((result) => {
-                callback(null, result);
+                return callback(null, result.rows.length > 0 ? result.rows[0] : null);
             })
             .catch((err) => {
                 callback(err, null);

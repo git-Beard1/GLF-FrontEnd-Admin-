@@ -1,0 +1,20 @@
+scenarios:
+  - name: marker
+    flow:
+      - get:
+          url: "/markers"
+          expect:
+            - statusCode: 200
+            - contentType: "application/json; charset=utf-8"
+            - json: "$.length > 0"
+      - get:
+          url: "/mapindiv/{{mapid}}"
+          expect:
+            - statusCode: 200
+            - contentType: "application/json; charset=utf-8"
+            - hasProperty: "mapid"
+            - hasProperty: "location_name"
+            - hasProperty: "category"
+            - hasProperty: "description"
+            - hasProperty: "coordinates"
+            - hasProperty: "image"

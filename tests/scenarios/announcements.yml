@@ -1,0 +1,20 @@
+scenarios:
+  - name: announcements
+    flow:
+      - get:
+          url: "/announcements"
+          expect:
+            - statusCode: 200
+            - contentType: "application/json; charset=utf-8"
+            - json: "$.length > 0"
+      - get:
+          url: "/announcements/{{announcementid}}"
+          expect:
+            - statusCode: 200
+            - contentType: "application/json; charset=utf-8"
+            - hasProperty: "announcementid"
+            - hasProperty: "eventid"
+            - hasProperty: "title"
+            - hasProperty: "description"
+            - hasProperty: "created_on"
+            - hasProperty: "updated_on"

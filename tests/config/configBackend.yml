@@ -1,0 +1,36 @@
+config:
+  payload:
+    - path: "../data/users.csv"
+      fields: [userid, uid]
+      skipHeader: true
+      name: users
+    - path: "../data/announcements.csv"
+      fields: [announcementid, eventid]
+      skipHeader: true
+      name: announcements
+    - path: "../data/events.csv"
+      fields: [eventid]
+      skipHeader: true
+      name: events
+    - path: "../data/importantinfo.csv"
+      fields: [infoid]
+      skipHeader: true
+      name: importantinformation
+    - path: "../data/marker.csv"
+      fields: [mapid]
+      skipHeader: true
+      name: marker
+  plugins:
+    expect: {}
+  target: ${API_TARGET}
+  phases:
+    - duration: 300
+      arrivalRate: 50
+      name: Sustained Load Phase
+    - duration: 300
+      arrivalRate: 50
+      rampTo: 80
+      name: Peak Phase
+    - duration: 420
+      arrivalRate: 100
+      name: Sustained Peak Phase

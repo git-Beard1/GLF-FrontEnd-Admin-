@@ -1,0 +1,23 @@
+scenarios:
+  - name: events
+    flow:
+      - get:
+          url: "/events"
+          expect:
+            - statusCode: 200
+            - contentType: "application/json; charset=utf-8"
+            - json: "$.length > 0"
+      - get:
+          url: "/events/{{eventid}}"
+          expect:
+            - statusCode: 200
+            - contentType: "application/json; charset=utf-8"
+            - hasProperty: "eventid"
+            - hasProperty: "title"
+            - hasProperty: "image_banner"
+            - hasProperty: "time_start"
+            - hasProperty: "time_end"
+            - hasProperty: "location"
+            - hasProperty: "keynote_speaker"
+            - hasProperty: "description"
+            - hasProperty: "survey_link"

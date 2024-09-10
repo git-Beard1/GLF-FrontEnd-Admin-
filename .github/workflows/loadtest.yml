@@ -30,17 +30,17 @@ jobs:
       - name: Install Artillery
         run: npm install -g artillery@latest
 
-      - name: Check if Artillery API Key is set
+      - name: Check API KEY
         run: |
           if [ -z "${{ secrets.ARTILLERY_API_KEY }}" ]; then
             echo "Error: ARTILLERY_API_KEY is not set."
             exit 1
           fi
 
-      - name: Backend Load Test
+      - name: Artillery Backend Load Test
         run: |
           for scenarioFile in `ls tests/scenarios/*.yml` ; do
-            artillery run --config tests/config/configBackend.yml tests/scenarios/$scenarioFile --name "Backend Load Testing" --record --key ${{ secrets.ARTILLERY_API_KEY }}
+            artillery run --config tests/config/configBackend.yml $scenarioFile --name "Backend Load Testing" --record --key ${{ secrets.ARTILLERY_API_KEY }}
           done
         env:
           API_TARGET: ${{ secrets.API_TARGET }}

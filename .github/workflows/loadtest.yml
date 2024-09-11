@@ -14,20 +14,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Use Node.js 20.x
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ matrix.node-version }}
-          cache: "npm"
-
-      - run: npm ci
-      - run: npm run build --if-present
-
-      - name: Install Artillery
-        run: npm install -g artillery@latest
-
       - name: Artillery Backend Load Test
-        run: |
-          for scenarioFile in `ls tests/scenarios/*.yml` ; do
-            artillery run --config tests/config/configBackend.yml $scenarioFile --target=${{ secrets.API_TARGET }} --name "Backend Load Testing" --record --key ${{ secrets.ARTILLERY_API_KEY }}
-          done
+        uses: artilleryio/action-cli@v2
+        with:
+          command: artillery run --config tests/config/configBackend.yml tests/scenarios/combinedScenarios.yml --target=${{ secrets.API_TARGET }} --name "Full Backend Load Testing" --record --key ${{ secrets.ARTILLERY_API_KEY }}

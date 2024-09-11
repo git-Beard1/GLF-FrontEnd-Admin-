@@ -1,0 +1,125 @@
+scenarios:
+  - name: announcements
+    flow:
+      - get:
+          url: "/announcements"
+          expect:
+            - statusCode: 200
+            - contentType: "application/json; charset=utf-8"
+            - json: "$.length > 0"
+      - get:
+          url: "/announcements/{{announcementid}}"
+          expect:
+            - statusCode: 200
+            - contentType: "application/json; charset=utf-8"
+            - hasProperty: "announcementid"
+            - hasProperty: "eventid"
+            - hasProperty: "title"
+            - hasProperty: "description"
+            - hasProperty: "created_on"
+            - hasProperty: "updated_on"
+  - name: events
+    flow:
+      - get:
+          url: "/events"
+          expect:
+            - statusCode: 200
+            - contentType: "application/json; charset=utf-8"
+            - json: "$.length > 0"
+      - get:
+          url: "/events/{{eventid}}"
+          expect:
+            - statusCode: 200
+            - contentType: "application/json; charset=utf-8"
+            - hasProperty: "eventid"
+            - hasProperty: "title"
+            - hasProperty: "image_banner"
+            - hasProperty: "time_start"
+            - hasProperty: "time_end"
+            - hasProperty: "location"
+            - hasProperty: "keynote_speaker"
+            - hasProperty: "description"
+            - hasProperty: "survey_link"
+  - name: importantinformation
+    flow:
+      - get:
+          url: "/importantinformation"
+          expect:
+            - statusCode: 200
+            - contentType: "application/json; charset=utf-8"
+            - json: "$.length > 0"
+      - get:
+          url: "/importantinfo/{{infoid}}"
+          expect:
+            - statusCode: 200
+            - contentType: "application/json; charset=utf-8"
+            - hasProperty: "infoid"
+            - hasProperty: "title"
+            - hasProperty: "subtitle"
+            - hasProperty: "description"
+            - hasProperty: "image"
+  - name: marker
+    flow:
+      - get:
+          url: "/markers"
+          expect:
+            - statusCode: 200
+            - contentType: "application/json; charset=utf-8"
+            - json: "$.length > 0"
+      - get:
+          url: "/mapindiv/{{mapid}}"
+          expect:
+            - statusCode: 200
+            - contentType: "application/json; charset=utf-8"
+            - hasProperty: "mapid"
+            - hasProperty: "location_name"
+            - hasProperty: "category"
+            - hasProperty: "description"
+            - hasProperty: "coordinates"
+            - hasProperty: "image"
+  - name: users
+    flow:
+      # - post:
+      #     url: "/adduser"
+      #     json:
+      #       first_name: "{{ first_name }}"
+      #       last_name: "{{ last_name }}"
+      #       company: "{{ company }}"
+      #       uid: "{{ uid }}"
+      #       type: "{{ type }}"
+      #     expect:
+      #       - statusCode: 201
+      #       - contentType: "application/json"
+      #       - hasHeader: "content-type"
+      - get:
+          url: "/users"
+          expect:
+            - statusCode: 200
+            - contentType: "application/json; charset=utf-8"
+            - json: "$.length > 0"
+      - get:
+          url: "/user/{{userid}}"
+          expect:
+            - statusCode: 200
+            - contentType: "application/json; charset=utf-8"
+            - hasProperty: "userid"
+            - hasProperty: "uid"
+            - hasProperty: "first_name"
+            - hasProperty: "last_name"
+            - hasProperty: "company"
+            - hasProperty: "linkedinurl"
+            - hasProperty: "jobtitle"
+            - hasProperty: "profile_pic"
+      - get:
+          url: "/useruid/{{uid}}"
+          expect:
+            - statusCode: 200
+            - contentType: "application/json; charset=utf-8"
+            - hasProperty: "userid"
+            - hasProperty: "uid"
+            - hasProperty: "first_name"
+            - hasProperty: "last_name"
+            - hasProperty: "company"
+            - hasProperty: "linkedinurl"
+            - hasProperty: "jobtitle"
+            - hasProperty: "profile_pic"

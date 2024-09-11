@@ -48,24 +48,24 @@ const AnnouncementScreen = () => {
           className="text-grey hover:text-[#4B558A] cursor-pointer text-2xl mb-4"
         />
       </div>
-      {announcementdata.map((announcementItem, index) => (
-        <div className="container mx-auto p-4" key={index}>
-          <h1 className="text-2xl font-bold mb-4">{announcementItem.title}</h1>
+      
+        <div className="container mx-auto p-4">
+          <h1 className="text-2xl font-bold mb-4">{announcementdata.title}</h1>
           <div className='inline-block bg-teal-700 text-white rounded-full py-1 px-2 right-2 h-6 md:h-8'>
             <p className='text-xs md:text-sm'>
-              {announcementItem.created_at === announcementItem.updated_at
-                ? `${announcementItem.created_on}`
-                : `${announcementItem.updated_on}`}
+              {announcementdata.created_at === announcementdata.updated_at
+                ? `${announcementdata.created_on}`
+                : `${announcementdata.updated_on}`}
             </p>
           </div>
           <AdvancedImage
-            className={`w-full h-72 my-2 object-contain ${!announcementItem.image && 'hidden'}`}
-            cldImg={cld.image(publicId || announcementItem.image)}
+            className={`w-full h-72 my-2 object-contain ${!announcementdata.image && 'hidden'}`}
+            cldImg={cld.image(publicId || announcementdata.image)}
             plugins={[responsive(), placeholder()]}
           />
-          <p className='text-xs md:text-sm my-4'>{announcementItem.description}</p>
+          <p className='text-xs md:text-sm my-4'>{announcementdata.description}</p>
         </div>
-      ))}
+      
     </div>
   );
 };

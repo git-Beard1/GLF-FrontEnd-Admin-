@@ -11,7 +11,7 @@ import "react-notifications/lib/notifications.css";
 import { useNavigate } from "react-router-dom";
 import "../styles/App.css";
 
- const AddAnnouncement = () =>{
+const AddAnnouncement = () => {
   const [publicId, setPublicId] = useState("");
   const [cloudName] = useState("dxkozpx6g");
   const [uploadPreset] = useState("jcck4okm");
@@ -67,7 +67,7 @@ import "../styles/App.css";
             console.log(response);
             if (response.data.message == "Unauthorized access") {
               localStorage.clear();
-              navigate('/login')
+              navigate("/login");
             }
           })
           .catch(function (response) {
@@ -79,7 +79,7 @@ import "../styles/App.css";
         );
         setEventlist(response.data);
         setLoading(false);
-        setEvent(response.data[0].eventid)
+        setEvent(response.data[0].eventid);
         console.log("Event List", event);
       } catch (error) {
         console.error("Error fetching events", error);
@@ -111,19 +111,27 @@ import "../styles/App.css";
 
   const handleAdd = async (e) => {
     e.preventDefault(); // Prevent the default form submission behavior
-  
+
     if (!validateInput()) {
       // If input is not valid, stop the function
       return;
     }
-  
+
     try {
-      const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/announcement`, {
-        title,
-        description,
-        publicId,
-        event,
-      });
+      const response = await axios.post(
+        `${process.env.REACT_APP_BACKEND_URL}/announcement`,
+        {
+          title,
+          description,
+          publicId,
+          event,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
       console.log("API Response:", response.data);
       NotificationManager.success("Announcement added successfully", "Success");
       return navigate("/viewannouncements");
@@ -133,16 +141,14 @@ import "../styles/App.css";
     }
   };
 
-  
-
   const handleTitleChange = (e) => {
     const inputValue = e.target.value;
 
     if (inputValue.length <= 255) {
       setTitle(inputValue);
-      setTitleError('');
+      setTitleError("");
     } else {
-      setTitleError('Title must be 255 characters or less');
+      setTitleError("Title must be 255 characters or less");
     }
   };
 
@@ -151,12 +157,11 @@ import "../styles/App.css";
 
     if (inputValue.length <= 255) {
       setDescription(inputValue);
-      setDescriptionError('');
+      setDescriptionError("");
     } else {
-      setDescriptionError('Description must be 255 characters or less');
+      setDescriptionError("Description must be 255 characters or less");
     }
   };
-
 
   return (
     <div>
@@ -168,82 +173,80 @@ import "../styles/App.css";
         <div className="container mx-auto p-4">
           <h1 className="text-2xl font-bold mb-4">Add Announcement</h1>
           <div id="form" className="mb-4">
-          
-      <label
-        htmlFor="title"
-        className="block text-sm font-medium text-gray-600"
-      >
-        Title
-      </label>
-      <input
-        type="text"
-        id="title"
-        name="title"
-        value={title}
-        onChange={handleTitleChange}
-        className={`mt-1 p-2 border ${
-          titleError ? 'border-red-500' : 'border-gray-300'
-        } rounded-md w-full`}
-      />
-      {titleError && (
-        <p className="text-red-500 text-xs mt-1">{titleError}</p>
-      )}
-      <p className="text-gray-500 text-xs mt-1">
-        Character Limit: { title.length} / 255
-      </p>
-    </div>
+            <label
+              htmlFor="title"
+              className="block text-sm font-medium text-gray-600"
+            >
+              Title
+            </label>
+            <input
+              type="text"
+              id="title"
+              name="title"
+              value={title}
+              onChange={handleTitleChange}
+              className={`mt-1 p-2 border ${
+                titleError ? "border-red-500" : "border-gray-300"
+              } rounded-md w-full`}
+            />
+            {titleError && (
+              <p className="text-red-500 text-xs mt-1">{titleError}</p>
+            )}
+            <p className="text-gray-500 text-xs mt-1">
+              Character Limit: {title.length} / 255
+            </p>
+          </div>
 
-    <div className="mb-4">
-      <label
-        htmlFor="description"
-        className="block text-sm font-medium text-gray-600"
-      >
-        Description
-      </label>
-      <textarea
-        id="description"
-        name="description"
-        rows="4"
-        value={description}
-        onChange={handleDescriptionChange}
-        className={`mt-1 p-2 border ${
-          descriptionError ? 'border-red-500' : 'border-gray-300'
-        } rounded-md w-full`}
-      ></textarea>
-      {descriptionError && (
-        <p className="text-red-500 text-xs mt-1">{descriptionError}</p>
-      )}
-      <p className="text-gray-500 text-xs mt-1">
-        Character Limit: { description.length} / 255
-      </p>
-    </div>
-            <div className="mb-4">
-              <label
-                htmlFor="eventlist"
-                className="block text-sm font-medium text-gray-600"
-              >
-                Event list
-              </label>
-              <select
-                id="eventlist"
-                name="eventlist"
-                placeholder="No Event"
-                value={event}
-     
-                onChange={(e) => {
-                  console.log('Selected Event:', e.target.value);
-                  setEvent(e.target.value);
-                }}
-                className="mt-1 p-2 border border-gray-300 rounded-md w-full"
-              >
-                {eventlist.map((eventlisting, index) => (
-                  <option key={index} value={eventlisting.eventid}>
-                    {eventlisting.title}
-                  </option>
-                ))}
-
-              </select>
-            </div><CloudinaryUploadWidget
+          <div className="mb-4">
+            <label
+              htmlFor="description"
+              className="block text-sm font-medium text-gray-600"
+            >
+              Description
+            </label>
+            <textarea
+              id="description"
+              name="description"
+              rows="4"
+              value={description}
+              onChange={handleDescriptionChange}
+              className={`mt-1 p-2 border ${
+                descriptionError ? "border-red-500" : "border-gray-300"
+              } rounded-md w-full`}
+            ></textarea>
+            {descriptionError && (
+              <p className="text-red-500 text-xs mt-1">{descriptionError}</p>
+            )}
+            <p className="text-gray-500 text-xs mt-1">
+              Character Limit: {description.length} / 255
+            </p>
+          </div>
+          <div className="mb-4">
+            <label
+              htmlFor="eventlist"
+              className="block text-sm font-medium text-gray-600"
+            >
+              Event list
+            </label>
+            <select
+              id="eventlist"
+              name="eventlist"
+              placeholder="No Event"
+              value={event}
+              onChange={(e) => {
+                console.log("Selected Event:", e.target.value);
+                setEvent(e.target.value);
+              }}
+              className="mt-1 p-2 border border-gray-300 rounded-md w-full"
+            >
+              {eventlist.map((eventlisting, index) => (
+                <option key={index} value={eventlisting.eventid}>
+                  {eventlisting.title}
+                </option>
+              ))}
+            </select>
+          </div>
+          <CloudinaryUploadWidget
             uwConfig={uwConfig}
             setPublicId={setPublicId}
           />
@@ -260,19 +263,19 @@ import "../styles/App.css";
               plugins={[responsive(), placeholder()]}
             />
           </div>
-          
-            <button
+
+          <button
             onClick={handleAdd}
-              type="submit"
-              className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
-            >
-              Add Announcement
-            </button>
-            </div>
-            
-      )}<NotificationContainer
-            style={{ bottom: "0", right: "0", left: "0", top: "auto" }}
-          />
+            type="submit"
+            className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
+          >
+            Add Announcement
+          </button>
+        </div>
+      )}
+      <NotificationContainer
+        style={{ bottom: "0", right: "0", left: "0", top: "auto" }}
+      />
     </div>
   );
 };

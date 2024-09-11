@@ -17,6 +17,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const linkedinController = require("./controller/linkedinController");
 const { Authorization, Redirect } = require("./authHelper");
+const verificationMiddleware = require("./middleware/verificationMiddleware");
 require("dotenv").config();
 
 // Set up multer storage
@@ -57,6 +58,7 @@ app.use((req, res, next) => {
 
   next();
 });
+
 app.get(
   "/validateLogin",
   (req, res, next) => {
@@ -86,33 +88,6 @@ app.get(
     }
   } //End of checkForValidUserRoleUser
 );
-
-//Create Announcements
-app.post("/announcement", (req, res) => {
-  var title = req.body.title;
-  var description = req.body.description;
-  var imageid = req.body.publicId;
-  var eventid = req.body.event;
-
-  // call the model method add module
-  announcement.addAnnouncement(
-    title,
-    description,
-    imageid,
-    eventid,
-    (err, result) => {
-      if (err) {
-        console.log(err);
-        // respond the error
-        res.status(500).send();
-      } else {
-        console.log(result);
-
-        res.status(201).send(result);
-      }
-    }
-  );
-});
 
 //Retrieve announcements
 app.get("/announcements", (req, res) => {
@@ -170,77 +145,6 @@ app.get("/eventannouncements/:eventid", (req, res) => {
   });
 });
 
-app.put("/announcements/:id/", (req, res) => {
-  var productid = parseInt(req.params.id);
-  var title = req.body.title;
-  var description = req.body.description;
-  var image = req.body.publicId;
-  var eventid = req.body.event;
-
-  // call the model method add module
-  announcement.updateAnnouncement(
-    productid,
-    title,
-    description,
-    image,
-    eventid,
-    (err, result) => {
-      if (err) {
-        console.log(err);
-        // respond the error
-        res.status(500).send();
-      } else {
-        res.status(201).send(result);
-      }
-    }
-  );
-});
-
-app.delete("/announcements/:id", (req, res) => {
-  var productid = parseInt(req.params.id);
-
-  announcement.deleteAnnouncement(productid, (err, result) => {
-    if (err) {
-      console.log(err);
-      // respond with status 500
-      res.status(500).send();
-    } else {
-      console.log(result);
-      //respond with status 200 and send result back
-      res.status(200).send(result.rows);
-    }
-  });
-});
-app.post("/events", (req, res) => {
-  var title = req.body.title;
-  var image_banner = req.body.publicId;
-  var time_start = req.body.time_start;
-  var time_end = req.body.time_end;
-  var location = req.body.location;
-  var survey_link = req.body.survey_link;
-  var keynote_speaker = req.body.keynote_speaker;
-  var description = req.body.description;
-
-  events.addEvent(
-    title,
-    image_banner,
-    time_start,
-    time_end,
-    location,
-    keynote_speaker,
-    description,
-    survey_link,
-    (err, result) => {
-      if (err) {
-        console.log(err);
-        res.status(500).send();
-      } else {
-        res.status(201).send(result);
-      }
-    }
-  );
-});
-
 app.get("/events", (req, res) => {
   events.getEvents((err, result) => {
     if (err) {
@@ -265,72 +169,6 @@ app.get("/events/:id", (req, res) => {
       res.status(200).send(result);
     }
   });
-});
-
-app.put("/events/:id", (req, res) => {
-  var eventid = parseInt(req.params.id);
-  var title = req.body.title;
-  var image_banner = req.body.publicId;
-  var time_start = req.body.time_start;
-  var time_end = req.body.time_end;
-  var location = req.body.location;
-  var keynote_speaker = req.body.keynote_speaker;
-  var description = req.body.description;
-  var survey_link = req.body.survey_link;
-
-  events.updateEvent(
-    eventid,
-    title,
-    image_banner,
-    time_start,
-    time_end,
-    location,
-    keynote_speaker,
-    description,
-    survey_link,
-    (err, result) => {
-      if (err) {
-        console.error(err);
-        res.status(500).send();
-      } else {
-        res.status(200).send(result);
-      }
-    }
-  );
-});
-
-app.delete("/deleteevent/:id", (req, res) => {
-  var eventid = parseInt(req.params.id);
-
-  events.deleteEvent(eventid, (err, result) => {
-    if (err) {
-      console.log(err);
-      res.status(500).send();
-    } else {
-      res.status(201).send(result);
-    }
-  });
-});
-app.post("/importantInformation", (req, res) => {
-  var title = req.body.title;
-  var subtitle = req.body.subtitle;
-  var description = req.body.description;
-  var image = req.body.publicId;
-
-  importantInformation.addImportantInfomation(
-    title,
-    subtitle,
-    description,
-    image,
-    (err, result) => {
-      if (err) {
-        console.log(err);
-        res.status(500).send();
-      } else {
-        res.status(201).send(result);
-      }
-    }
-  );
 });
 
 app.get("/importantInformation", (req, res) => {
@@ -358,79 +196,6 @@ app.get("/info/:id", (req, res) => {
   });
 });
 
-app.put("/importantinfo/:id", (req, res) => {
-  var infoid = parseInt(req.params.id);
-  var title = req.body.title;
-  var subtitle = req.body.subtitle;
-  var description = req.body.description;
-  var image = req.body.publicId;
-
-  importantInformation.updateImportantInformation(
-    infoid,
-    title,
-    subtitle,
-    description,
-    image,
-    (err, result) => {
-      if (err) {
-        console.error(err);
-        res.status(500).send();
-      } else {
-        res.status(200).send(result);
-      }
-    }
-  );
-});
-
-app.delete("/delete/:id", (req, res) => {
-  var infoid = parseInt(req.params.id);
-
-  importantInformation.deleteImportantInformation(infoid, (err, result) => {
-    if (err) {
-      console.log(err);
-      res.status(500).send();
-    } else {
-      res.status(201).send(result);
-    }
-  });
-});
-
-app.delete("/delete/:id", (req, res) => {
-  var eventid = parseInt(req.params.id);
-
-  events.deleteEvent(eventid, (err, result) => {
-    if (err) {
-      console.log(err);
-      res.status(500).send();
-    } else {
-      res.status(201).send(result);
-    }
-  });
-});
-app.post("/marker", (req, res) => {
-  var location_name = req.body.location_name;
-  var category = req.body.category;
-  var description = req.body.description;
-  var coordinates = req.body.coordinates;
-  var image = req.body.publicId;
-
-  map.addmarker(
-    location_name,
-    category,
-    description,
-    coordinates,
-    image,
-    (err, result) => {
-      if (err) {
-        console.log(err);
-        res.status(500).send();
-      } else {
-        res.status(201).send(result);
-      }
-    }
-  );
-});
-
 app.get("/markerindiv/:id", (req, res) => {
   var mapid = parseInt(req.params.id);
 
@@ -453,161 +218,6 @@ app.get("/markers", (req, res) => {
     } else {
       console.log(result);
       res.status(200).send(result.rows);
-    }
-  });
-});
-
-app.put("/marker/:id", (req, res) => {
-  var mapid = parseInt(req.params.id);
-  var location_name = req.body.location_name;
-  var category = req.body.category;
-  var description = req.body.description;
-  var image = req.body.publicId;
-
-  map.updatemarker(
-    mapid,
-    location_name,
-    category,
-    description,
-    image,
-    (err, result) => {
-      if (err) {
-        console.error(err);
-        res.status(500).send();
-      } else {
-        res.status(200).send(result);
-      }
-    }
-  );
-});
-
-app.delete("/delmarker/:id", (req, res) => {
-  var mapid = parseInt(req.params.id);
-
-  map.deletemarker(mapid, (err, result) => {
-    if (err) {
-      console.log(err);
-      res.status(500).send();
-    } else {
-      res.status(201).send(result);
-    }
-  });
-});
-
-app.post("/addadmin", (req, res) => {
-  var username = req.body.username;
-  var password = req.body.password;
-  var type = req.body.type;
-
-  User.addadmin(username, password, type, (err, result) => {
-    if (err) {
-      console.log(err);
-      res.status(500).send();
-    } else {
-      res.status(201).send(result);
-    }
-  });
-});
-
-app.delete("/deladmin/:id", (req, res) => {
-  var roleid = parseInt(req.params.id);
-
-  User.deleteManager(roleid, (err, result) => {
-    if (err) {
-      console.log(err);
-      res.status(500).send();
-    } else {
-      res.status(201).send(result);
-    }
-  });
-});
-
-app.post("/login", (req, res) => {
-  let username = req.body.username;
-  let password = req.body.password;
-  let message = "Credentials are not valid.";
-
-  try {
-    login.verify(username, function (error, results) {
-      // console.log("resultlength", results.length);
-
-      if (error) {
-        let message = "Credentials are not valid.";
-        return res.status(500).json({ message: message });
-      } else {
-        if (results != null) {
-          if (password == null || results == null) {
-            return res.status(500).json({ message: "Login failed" });
-          }
-          if (bcrypt.compareSync(password, results.password) == true) {
-            let data = {
-              user_id: results.roleid,
-              role_name: results.type,
-              token: jwt.sign(
-                { id: results.roleid, role: results.type },
-                process.env.JWTKey,
-                {
-                  expiresIn: 36000, //Expires in 10h
-                }
-              ),
-            }; //End of data variable setup
-
-            return res.status(200).json(data);
-          } else {
-            return res
-              .status(500)
-              .json({ message: "Incorrect username or password." });
-          } //End of passowrd comparison with the retrieved decoded password.
-        } //End of checking if there are returned SQL results
-        else {
-          return res.status(404).json({ message: "User does not exits." });
-        }
-      }
-    });
-  } catch (error) {
-    return res.status(500).json({ message: error });
-  } //end of try
-});
-
-app.post("/register", (req, res) => {
-  console.log("processRegister running.");
-  let username = req.body.username;
-  let password = req.body.password;
-  let type = req.body.type;
-
-  bcrypt.hash(password, 10, async (err, hash) => {
-    if (err) {
-      console.log("Error on hashing password", err);
-      return res
-        .status(500)
-        .json({ statusMessage: "Unable to complete registration" });
-    } else {
-      results = User.addManager(
-        username,
-        hash,
-        type,
-        function (error, results) {
-          if (results != null) {
-            console.log(results);
-            return res
-              .status(200)
-              .json({ statusMessage: "Completed registration." });
-          }
-          if (error) {
-            console.log(
-              "processRegister method : callback error block section is running.",
-              error
-            );
-            console.log(
-              error,
-              "=================================================================="
-            );
-            return res
-              .status(500)
-              .json({ statusMessage: "Unable to complete registration" });
-          }
-        }
-      ); //End of anonymous callback function
     }
   });
 });
@@ -647,23 +257,6 @@ app.get("/roles", (req, res) => {
   });
 });
 
-app.post("/adduser", (req, res) => {
-  var first_name = req.body.first_name;
-  var last_name = req.body.last_name;
-  var company = req.body.company;
-  var uid = req.body.uid;
-  var type = req.body.type;
-
-  User.addUser(first_name, last_name, company, uid, type, (err, result) => {
-    if (err) {
-      console.log(err);
-      res.status(500).send();
-    } else {
-      res.status(201).send(result);
-    }
-  });
-});
-
 app.get("/useruid/:uid", (req, res) => {
   var uid = req.params.uid;
 
@@ -673,20 +266,6 @@ app.get("/useruid/:uid", (req, res) => {
       res.status(500).send();
     } else {
       res.status(200).json(result);
-    }
-  });
-});
-
-app.post("/saveevent", (req, res) => {
-  var uid = req.body.uid;
-  var eventid = req.body.eventid;
-
-  events.savevents(uid, eventid, (err, result) => {
-    if (err) {
-      console.log(err);
-      res.status(500).send();
-    } else {
-      res.status(201).send(result);
     }
   });
 });
@@ -704,19 +283,6 @@ app.get("/saveevents/:uid", (req, res) => {
   });
 });
 
-app.delete("/delevent/:uid", (req, res) => {
-  var uid = req.params.uid;
-  var eventid = req.body.eventid;
-
-  events.deletesaveEvent(eventid, uid, (err, result) => {
-    if (err) {
-      console.log(err);
-      res.status(500).send();
-    } else {
-      res.status(201).send(result);
-    }
-  });
-});
 app.get("/user/:userid", (req, res) => {
   const userid = req.params.userid;
   User.getUserById(userid, (err, result) => {
@@ -823,22 +389,6 @@ app.post("/addlinkedinuser", (req, res) => {
 
 app.use("/api", directionsRouter);
 
-app.post("/helpinfo", (req, res) => {
-  var title = req.body.title;
-  var subtitle = req.body.subtitle;
-  var description = req.body.description;
-  var image = req.body.publicId;
-
-  help.addhelpinfo(title, subtitle, description, image, (err, result) => {
-    if (err) {
-      console.log(err);
-      res.status(500).send();
-    } else {
-      res.status(201).send(result);
-    }
-  });
-});
-
 app.get("/helpinfos", (req, res) => {
   help.gethelpinfo((err, result) => {
     if (err) {
@@ -860,6 +410,453 @@ app.get("/helpinfos/:id", (req, res) => {
     } else {
       console.log(result);
       res.status(200).send(result.rows);
+    }
+  });
+});
+
+app.post("/login", (req, res) => {
+  let username = req.body.username;
+  let password = req.body.password;
+  let message = "Credentials are not valid.";
+
+  try {
+    login.verify(username, function (error, results) {
+      // console.log("resultlength", results.length);
+
+      if (error) {
+        let message = "Credentials are not valid.";
+        return res.status(500).json({ message: message });
+      } else {
+        if (results != null) {
+          if (password == null || results == null) {
+            return res.status(500).json({ message: "Login failed" });
+          }
+          if (bcrypt.compareSync(password, results.password) == true) {
+            let data = {
+              user_id: results.roleid,
+              role_name: results.type,
+              token: jwt.sign(
+                { id: results.roleid, role: results.type },
+                process.env.JWTKey,
+                {
+                  expiresIn: 36000, //Expires in 10h
+                }
+              ),
+            }; //End of data variable setup
+
+            return res.status(200).json(data);
+          } else {
+            return res
+              .status(500)
+              .json({ message: "Incorrect username or password." });
+          } //End of passowrd comparison with the retrieved decoded password.
+        } //End of checking if there are returned SQL results
+        else {
+          return res.status(404).json({ message: "User does not exits." });
+        }
+      }
+    });
+  } catch (error) {
+    return res.status(500).json({ message: error });
+  } //end of try
+});
+
+app.post("/adduser", (req, res) => {
+  var first_name = req.body.first_name;
+  var last_name = req.body.last_name;
+  var company = req.body.company;
+  var uid = req.body.uid;
+  var type = req.body.type;
+
+  User.addUser(first_name, last_name, company, uid, type, (err, result) => {
+    if (err) {
+      console.log(err);
+      res.status(500).send();
+    } else {
+      res.status(201).send(result);
+    }
+  });
+});
+
+app.post("/saveevent", (req, res) => {
+  var uid = req.body.uid;
+  var eventid = req.body.eventid;
+
+  events.savevents(uid, eventid, (err, result) => {
+    if (err) {
+      console.log(err);
+      res.status(500).send();
+    } else {
+      res.status(201).send(result);
+    }
+  });
+});
+
+// ----------------------------------------------------------------------------------
+// Routes related to actions that can be only performed by the admin or event manager
+// ----------------------------------------------------------------------------------
+
+app.use(
+  verificationMiddleware.verifyToken,
+  verificationMiddleware.verifyAdminOrEventManager
+);
+
+app.put("/announcements/:id/", (req, res) => {
+  var productid = parseInt(req.params.id);
+  var title = req.body.title;
+  var description = req.body.description;
+  var image = req.body.publicId;
+  var eventid = req.body.event;
+
+  // call the model method add module
+  announcement.updateAnnouncement(
+    productid,
+    title,
+    description,
+    image,
+    eventid,
+    (err, result) => {
+      if (err) {
+        console.log(err);
+        // respond the error
+        res.status(500).send();
+      } else {
+        res.status(201).send(result);
+      }
+    }
+  );
+});
+
+app.delete("/announcements/:id", (req, res) => {
+  var productid = parseInt(req.params.id);
+
+  announcement.deleteAnnouncement(productid, (err, result) => {
+    if (err) {
+      console.log(err);
+      // respond with status 500
+      res.status(500).send();
+    } else {
+      console.log(result);
+      //respond with status 200 and send result back
+      res.status(200).send(result.rows);
+    }
+  });
+});
+app.post("/events", (req, res) => {
+  var title = req.body.title;
+  var image_banner = req.body.publicId;
+  var time_start = req.body.time_start;
+  var time_end = req.body.time_end;
+  var location = req.body.location;
+  var survey_link = req.body.survey_link;
+  var keynote_speaker = req.body.keynote_speaker;
+  var description = req.body.description;
+
+  events.addEvent(
+    title,
+    image_banner,
+    time_start,
+    time_end,
+    location,
+    keynote_speaker,
+    description,
+    survey_link,
+    (err, result) => {
+      if (err) {
+        console.log(err);
+        res.status(500).send();
+      } else {
+        res.status(201).send(result);
+      }
+    }
+  );
+});
+
+//Create Announcements
+app.post("/announcement", (req, res) => {
+  var title = req.body.title;
+  var description = req.body.description;
+  var imageid = req.body.publicId;
+  var eventid = req.body.event;
+
+  // call the model method add module
+  announcement.addAnnouncement(
+    title,
+    description,
+    imageid,
+    eventid,
+    (err, result) => {
+      if (err) {
+        console.log(err);
+        // respond the error
+        res.status(500).send();
+      } else {
+        console.log(result);
+
+        res.status(201).send(result);
+      }
+    }
+  );
+});
+
+app.put("/events/:id", (req, res) => {
+  var eventid = parseInt(req.params.id);
+  var title = req.body.title;
+  var image_banner = req.body.publicId;
+  var time_start = req.body.time_start;
+  var time_end = req.body.time_end;
+  var location = req.body.location;
+  var keynote_speaker = req.body.keynote_speaker;
+  var description = req.body.description;
+  var survey_link = req.body.survey_link;
+
+  events.updateEvent(
+    eventid,
+    title,
+    image_banner,
+    time_start,
+    time_end,
+    location,
+    keynote_speaker,
+    description,
+    survey_link,
+    (err, result) => {
+      if (err) {
+        console.error(err);
+        res.status(500).send();
+      } else {
+        res.status(200).send(result);
+      }
+    }
+  );
+});
+
+app.delete("/deleteevent/:id", (req, res) => {
+  var eventid = parseInt(req.params.id);
+
+  events.deleteEvent(eventid, (err, result) => {
+    if (err) {
+      console.log(err);
+      res.status(500).send();
+    } else {
+      res.status(201).send(result);
+    }
+  });
+});
+app.post("/importantInformation", (req, res) => {
+  var title = req.body.title;
+  var subtitle = req.body.subtitle;
+  var description = req.body.description;
+  var image = req.body.publicId;
+
+  importantInformation.addImportantInfomation(
+    title,
+    subtitle,
+    description,
+    image,
+    (err, result) => {
+      if (err) {
+        console.log(err);
+        res.status(500).send();
+      } else {
+        res.status(201).send(result);
+      }
+    }
+  );
+});
+
+app.put("/importantinfo/:id", (req, res) => {
+  var infoid = parseInt(req.params.id);
+  var title = req.body.title;
+  var subtitle = req.body.subtitle;
+  var description = req.body.description;
+  var image = req.body.publicId;
+
+  importantInformation.updateImportantInformation(
+    infoid,
+    title,
+    subtitle,
+    description,
+    image,
+    (err, result) => {
+      if (err) {
+        console.error(err);
+        res.status(500).send();
+      } else {
+        res.status(200).send(result);
+      }
+    }
+  );
+});
+
+app.delete("/delete/:id", (req, res) => {
+  var infoid = parseInt(req.params.id);
+
+  importantInformation.deleteImportantInformation(infoid, (err, result) => {
+    if (err) {
+      console.log(err);
+      res.status(500).send();
+    } else {
+      res.status(201).send(result);
+    }
+  });
+});
+
+app.delete("/delete/:id", (req, res) => {
+  var eventid = parseInt(req.params.id);
+
+  events.deleteEvent(eventid, (err, result) => {
+    if (err) {
+      console.log(err);
+      res.status(500).send();
+    } else {
+      res.status(201).send(result);
+    }
+  });
+});
+app.post("/marker", (req, res) => {
+  var location_name = req.body.location_name;
+  var category = req.body.category;
+  var description = req.body.description;
+  var coordinates = req.body.coordinates;
+  var image = req.body.publicId;
+
+  map.addmarker(
+    location_name,
+    category,
+    description,
+    coordinates,
+    image,
+    (err, result) => {
+      if (err) {
+        console.log(err);
+        res.status(500).send();
+      } else {
+        res.status(201).send(result);
+      }
+    }
+  );
+});
+
+app.put("/marker/:id", (req, res) => {
+  var mapid = parseInt(req.params.id);
+  var location_name = req.body.location_name;
+  var category = req.body.category;
+  var description = req.body.description;
+  var image = req.body.publicId;
+
+  map.updatemarker(
+    mapid,
+    location_name,
+    category,
+    description,
+    image,
+    (err, result) => {
+      if (err) {
+        console.error(err);
+        res.status(500).send();
+      } else {
+        res.status(200).send(result);
+      }
+    }
+  );
+});
+
+app.delete("/delmarker/:id", (req, res) => {
+  var mapid = parseInt(req.params.id);
+
+  map.deletemarker(mapid, (err, result) => {
+    if (err) {
+      console.log(err);
+      res.status(500).send();
+    } else {
+      res.status(201).send(result);
+    }
+  });
+});
+
+app.post("/register", (req, res) => {
+  console.log("processRegister running.");
+  let username = req.body.username;
+  let password = req.body.password;
+  let type = req.body.type;
+
+  bcrypt.hash(password, 10, async (err, hash) => {
+    if (err) {
+      console.log("Error on hashing password", err);
+      return res
+        .status(500)
+        .json({ statusMessage: "Unable to complete registration" });
+    } else {
+      results = User.addManager(
+        username,
+        hash,
+        type,
+        function (error, results) {
+          if (results != null) {
+            console.log(results);
+            return res
+              .status(200)
+              .json({ statusMessage: "Completed registration." });
+          }
+          if (error) {
+            console.log(
+              "processRegister method : callback error block section is running.",
+              error
+            );
+            console.log(
+              error,
+              "=================================================================="
+            );
+            return res
+              .status(500)
+              .json({ statusMessage: "Unable to complete registration" });
+          }
+        }
+      ); //End of anonymous callback function
+    }
+  });
+});
+
+app.delete("/deladmin/:id", (req, res) => {
+  var roleid = parseInt(req.params.id);
+
+  User.deleteManager(roleid, (err, result) => {
+    if (err) {
+      console.log(err);
+      res.status(500).send();
+    } else {
+      res.status(201).send(result);
+    }
+  });
+});
+
+app.delete("/delevent/:uid", (req, res) => {
+  var uid = req.params.uid;
+  var eventid = req.body.eventid;
+
+  events.deletesaveEvent(eventid, uid, (err, result) => {
+    if (err) {
+      console.log(err);
+      res.status(500).send();
+    } else {
+      res.status(201).send(result);
+    }
+  });
+});
+
+app.post("/helpinfo", (req, res) => {
+  var title = req.body.title;
+  var subtitle = req.body.subtitle;
+  var description = req.body.description;
+  var image = req.body.publicId;
+
+  help.addhelpinfo(title, subtitle, description, image, (err, result) => {
+    if (err) {
+      console.log(err);
+      res.status(500).send();
+    } else {
+      res.status(201).send(result);
     }
   });
 });
@@ -892,6 +889,26 @@ app.delete("/delhelpinfo/:id", (req, res) => {
   var helpid = parseInt(req.params.id);
 
   help.deletehelp(helpid, (err, result) => {
+    if (err) {
+      console.log(err);
+      res.status(500).send();
+    } else {
+      res.status(201).send(result);
+    }
+  });
+});
+
+// ----------------------------------------------------------------------------------
+// Routes related to actions that can be only performed by the admin
+// ----------------------------------------------------------------------------------
+
+app.use(verificationMiddleware.verifyToken, verificationMiddleware.verifyAdmin);
+app.post("/addadmin", (req, res) => {
+  var username = req.body.username;
+  var password = req.body.password;
+  var type = req.body.type;
+
+  User.addadmin(username, password, type, (err, result) => {
     if (err) {
       console.log(err);
       res.status(500).send();

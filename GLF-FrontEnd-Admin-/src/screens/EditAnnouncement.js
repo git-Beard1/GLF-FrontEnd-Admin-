@@ -58,7 +58,7 @@ const EditAnnouncement = () => {
             console.log(response);
             if (response.data.message == "Unauthorized access") {
               localStorage.clear();
-              navigate('/login')
+              navigate("/login");
             }
           })
           .catch(function (response) {
@@ -82,7 +82,7 @@ const EditAnnouncement = () => {
         }
         setLoading(false);
 
-        const { title, description, eventid, image } = response.data[0]; // Assuming the data is an array
+        const { title, description, eventid, image } = response.data; // Assuming the data is an array
         setTitle(title);
         setDescription(description);
         setEvent(eventid);
@@ -134,6 +134,11 @@ const EditAnnouncement = () => {
           description,
           publicId,
           event,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
         }
       );
       console.log("API Response:", response.data);
@@ -159,7 +164,12 @@ const EditAnnouncement = () => {
   const handleDelete = async () => {
     try {
       const response = await axios.delete(
-        `${process.env.REACT_APP_BACKEND_URL}/announcements/${announcementid}`
+        `${process.env.REACT_APP_BACKEND_URL}/announcements/${announcementid}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
       );
       console.log("API Response:", response.data);
 
@@ -186,22 +196,20 @@ const EditAnnouncement = () => {
 
     if (inputValue.length <= 255) {
       setTitle(inputValue);
-      setTitleError('');
+      setTitleError("");
     } else {
-      setTitleError('Title must be 255 characters or less');
+      setTitleError("Title must be 255 characters or less");
     }
   };
-
-
 
   const handleDescriptionChange = (e) => {
     const inputValue = e.target.value;
 
     if (inputValue.length <= 255) {
       setDescription(inputValue);
-      setDescriptionError('');
+      setDescriptionError("");
     } else {
-      setDescriptionError('Description must be 255 characters or less');
+      setDescriptionError("Description must be 255 characters or less");
     }
   };
   return (
@@ -217,56 +225,58 @@ const EditAnnouncement = () => {
             key={announcementlist.announcementid}
           >
             <h1 className="text-2xl font-bold mb-4">Edit Announcement</h1>
-            <div id="form" className="mb-4" >
-            <div className="mb-4">
-      <label
-        htmlFor="title"
-        className="block text-sm font-medium text-gray-600"
-      >
-        Title
-      </label>
-      <input
-        type="text"
-        id="title"
-        name="title"
-        value={title}
-        onChange={handleTitleChange}
-        className={`mt-1 p-2 border ${
-          titleError ? 'border-red-500' : 'border-gray-300'
-        } rounded-md w-full`}
-      />
-      {titleError && (
-        <p className="text-red-500 text-xs mt-1">{titleError}</p>
-      )}
-      <p className="text-gray-500 text-xs mt-1">
-        Character Limit: {title.length} / 255
-      </p>
-    </div>
+            <div id="form" className="mb-4">
+              <div className="mb-4">
+                <label
+                  htmlFor="title"
+                  className="block text-sm font-medium text-gray-600"
+                >
+                  Title
+                </label>
+                <input
+                  type="text"
+                  id="title"
+                  name="title"
+                  value={title}
+                  onChange={handleTitleChange}
+                  className={`mt-1 p-2 border ${
+                    titleError ? "border-red-500" : "border-gray-300"
+                  } rounded-md w-full`}
+                />
+                {titleError && (
+                  <p className="text-red-500 text-xs mt-1">{titleError}</p>
+                )}
+                <p className="text-gray-500 text-xs mt-1">
+                  Character Limit: {title.length} / 255
+                </p>
+              </div>
 
-    <div className="mb-4">
-      <label
-        htmlFor="description"
-        className="block text-sm font-medium text-gray-600"
-      >
-        Description
-      </label>
-      <textarea
-        id="description"
-        name="description"
-        rows="4"
-        value={description}
-        onChange={handleDescriptionChange}
-        className={`mt-1 p-2 border ${
-          descriptionError ? 'border-red-500' : 'border-gray-300'
-        } rounded-md w-full`}
-      ></textarea>
-      {descriptionError && (
-        <p className="text-red-500 text-xs mt-1">{descriptionError}</p>
-      )}
-      <p className="text-gray-500 text-xs mt-1">
-        Character Limit: { description.length} / 255
-      </p>
-    </div>
+              <div className="mb-4">
+                <label
+                  htmlFor="description"
+                  className="block text-sm font-medium text-gray-600"
+                >
+                  Description
+                </label>
+                <textarea
+                  id="description"
+                  name="description"
+                  rows="4"
+                  value={description}
+                  onChange={handleDescriptionChange}
+                  className={`mt-1 p-2 border ${
+                    descriptionError ? "border-red-500" : "border-gray-300"
+                  } rounded-md w-full`}
+                ></textarea>
+                {descriptionError && (
+                  <p className="text-red-500 text-xs mt-1">
+                    {descriptionError}
+                  </p>
+                )}
+                <p className="text-gray-500 text-xs mt-1">
+                  Character Limit: {description.length} / 255
+                </p>
+              </div>
               <label
                 htmlFor="eventlist"
                 className="block text-sm font-medium text-gray-600"
@@ -287,19 +297,19 @@ const EditAnnouncement = () => {
                 ))}
               </select>
               <div style={{ width: "200px" }}>
-              <CloudinaryUploadWidget
-                uwConfig={uwConfig}
-                setPublicId={setPublicId}
-              />
+                <CloudinaryUploadWidget
+                  uwConfig={uwConfig}
+                  setPublicId={setPublicId}
+                />
 
-              <AdvancedImage
-                style={{ maxWidth: "100%" }}
-                cldImg={cld.image(publicId)}
-                plugins={[responsive(), placeholder()]}
-              />
-            </div>
+                <AdvancedImage
+                  style={{ maxWidth: "100%" }}
+                  cldImg={cld.image(publicId)}
+                  plugins={[responsive(), placeholder()]}
+                />
+              </div>
               <button
-              onClick={handleEdit}
+                onClick={handleEdit}
                 type="submit"
                 className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
                 style={{ width: "18%" }}
@@ -318,9 +328,10 @@ const EditAnnouncement = () => {
         ))
       )}
 
-      {}<NotificationContainer
-            style={{ bottom: "0", right: "0", left: "0", top: "auto" }}
-          />
+      {}
+      <NotificationContainer
+        style={{ bottom: "0", right: "0", left: "0", top: "auto" }}
+      />
     </div>
   );
 };

@@ -23,7 +23,7 @@ const AddImportantInformation = () => {
   const [descriptionError, setDescriptionError] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  
+
   useEffect(() => {
     const fetchData = async () => {
       let token = localStorage.getItem("token");
@@ -39,7 +39,7 @@ const AddImportantInformation = () => {
           console.log(response);
           if (response.data.message == "Unauthorized access") {
             localStorage.clear();
-            navigate('/login')
+            navigate("/login");
           }
         })
         .catch(function (response) {
@@ -106,17 +106,23 @@ const AddImportantInformation = () => {
       // Send a POST request to your API endpoint to add information
       const response = await axios.post(
         `${process.env.REACT_APP_BACKEND_URL}/importantInformation`,
+
         {
           title,
           subtitle,
           publicId,
           description,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
         }
       );
 
       // Handle the response as needed
       console.log("Added Information:", response.data);
-        navigate('/viewimportantinfo')
+      navigate("/viewimportantinfo");
       // Show success notification
       NotificationManager.success("Important information added successfully");
 
@@ -141,9 +147,9 @@ const AddImportantInformation = () => {
 
     if (inputValue.length <= 255) {
       setTitle(inputValue);
-      setTitleError('');
+      setTitleError("");
     } else {
-      setTitleError('Title must be 255 characters or less');
+      setTitleError("Title must be 255 characters or less");
     }
   };
 
@@ -152,9 +158,9 @@ const AddImportantInformation = () => {
 
     if (inputValue.length <= 100) {
       setSubtitle(inputValue);
-      setSubtitleError('');
+      setSubtitleError("");
     } else {
-      setSubtitleError('Subtitle must be 100 characters or less');
+      setSubtitleError("Subtitle must be 100 characters or less");
     }
   };
 
@@ -163,9 +169,9 @@ const AddImportantInformation = () => {
 
     if (inputValue.length <= 499) {
       setDescription(inputValue);
-      setDescriptionError('');
+      setDescriptionError("");
     } else {
-      setDescriptionError('Description must be 499 characters or less');
+      setDescriptionError("Description must be 499 characters or less");
     }
   };
 
@@ -175,117 +181,117 @@ const AddImportantInformation = () => {
         <div className="loader-container">
           <div className="spinner"></div>
         </div>
-      ) : (<div></div>)}
-        <div className="container mx-auto p-4">
-          <h1 className="text-2xl font-bold mb-4">Add Important Information</h1>
-
-          <div id="form" className="mb-4">
-      <label
-        htmlFor="title"
-        className="block text-sm font-medium text-gray-600"
-      >
-        Title
-      </label>
-      <input
-        type="text"
-        id="title"
-        name="title"
-        value={title}
-        onChange={handleTitleChange}
-        className={`mt-1 p-2 border rounded-md w-full ${
-          titleError ? 'border-red-500' : 'border-gray-300'
-        }`}
-      />
-      {titleError && (
-        <p className="text-red-500 text-xs mt-1">{titleError}</p>
+      ) : (
+        <div></div>
       )}
-      <p className="text-gray-500 text-xs mt-1">
-        Character Limit: {title.length} / 255
-      </p>
-    </div>
+      <div className="container mx-auto p-4">
+        <h1 className="text-2xl font-bold mb-4">Add Important Information</h1>
 
-    <div className="mb-4">
-      <label
-        htmlFor="subtitle"
-        className="block text-sm font-medium text-gray-600"
-      >
-        Subtitle
-      </label>
-      <input
-        type="text"
-        id="subtitle"
-        name="subtitle"
-        value={subtitle}
-        onChange={handleSubtitleChange}
-        className={`mt-1 p-2 border rounded-md w-full ${
-          subtitleError ? 'border-red-500' : 'border-gray-300'
-        }`}
-      />
-      {subtitleError && (
-        <p className="text-red-500 text-xs mt-1">{subtitleError}</p>
-      )}
-      <p className="text-gray-500 text-xs mt-1">
-        Character Limit: { subtitle.length} / 100
-      </p>
-    </div>
-
-    <div className="mb-4">
-      <label
-        htmlFor="description"
-        className="block text-sm font-medium text-gray-600"
-      >
-        Description
-      </label>
-      <textarea
-        id="description"
-        name="description"
-        rows="4"
-        value={description}
-        onChange={handleDescriptionChange}
-        className={`mt-1 p-2 border rounded-md w-full ${
-          descriptionError ? 'border-red-500' : 'border-gray-300'
-        }`}
-      ></textarea>
-      {descriptionError && (
-        <p className="text-red-500 text-xs mt-1">{descriptionError}</p>
-      )}
-      <p className="text-gray-500 text-xs mt-1">
-        Character Limit: { description.length} / 499
-      </p>
-    </div>
-
-
-          <div className="mb-4">
-            <label
-              htmlFor="cloudinary"
-              className="block text-sm font-medium text-gray-600"
-            >
-              Cloudinary Upload
-            </label>
-            <CloudinaryUploadWidget
-              uwConfig={uwConfig}
-              setPublicId={setPublicId}
-            />
-            <div style={{ width: "400px" }}>
-              <AdvancedImage
-                style={{ maxWidth: "100%" }}
-                cldImg={myImage}
-                plugins={[responsive(), placeholder()]}
-              />
-            </div>
-          </div>
-
-          <button
-            onClick={handleAdd}
-            className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600"
+        <div id="form" className="mb-4">
+          <label
+            htmlFor="title"
+            className="block text-sm font-medium text-gray-600"
           >
-            Add Information
-          </button>
-          <NotificationContainer
-            style={{ bottom: "0", right: "0", left: "0", top: "auto" }}
+            Title
+          </label>
+          <input
+            type="text"
+            id="title"
+            name="title"
+            value={title}
+            onChange={handleTitleChange}
+            className={`mt-1 p-2 border rounded-md w-full ${
+              titleError ? "border-red-500" : "border-gray-300"
+            }`}
           />
+          {titleError && (
+            <p className="text-red-500 text-xs mt-1">{titleError}</p>
+          )}
+          <p className="text-gray-500 text-xs mt-1">
+            Character Limit: {title.length} / 255
+          </p>
         </div>
-      
+
+        <div className="mb-4">
+          <label
+            htmlFor="subtitle"
+            className="block text-sm font-medium text-gray-600"
+          >
+            Subtitle
+          </label>
+          <input
+            type="text"
+            id="subtitle"
+            name="subtitle"
+            value={subtitle}
+            onChange={handleSubtitleChange}
+            className={`mt-1 p-2 border rounded-md w-full ${
+              subtitleError ? "border-red-500" : "border-gray-300"
+            }`}
+          />
+          {subtitleError && (
+            <p className="text-red-500 text-xs mt-1">{subtitleError}</p>
+          )}
+          <p className="text-gray-500 text-xs mt-1">
+            Character Limit: {subtitle.length} / 100
+          </p>
+        </div>
+
+        <div className="mb-4">
+          <label
+            htmlFor="description"
+            className="block text-sm font-medium text-gray-600"
+          >
+            Description
+          </label>
+          <textarea
+            id="description"
+            name="description"
+            rows="4"
+            value={description}
+            onChange={handleDescriptionChange}
+            className={`mt-1 p-2 border rounded-md w-full ${
+              descriptionError ? "border-red-500" : "border-gray-300"
+            }`}
+          ></textarea>
+          {descriptionError && (
+            <p className="text-red-500 text-xs mt-1">{descriptionError}</p>
+          )}
+          <p className="text-gray-500 text-xs mt-1">
+            Character Limit: {description.length} / 499
+          </p>
+        </div>
+
+        <div className="mb-4">
+          <label
+            htmlFor="cloudinary"
+            className="block text-sm font-medium text-gray-600"
+          >
+            Cloudinary Upload
+          </label>
+          <CloudinaryUploadWidget
+            uwConfig={uwConfig}
+            setPublicId={setPublicId}
+          />
+          <div style={{ width: "400px" }}>
+            <AdvancedImage
+              style={{ maxWidth: "100%" }}
+              cldImg={myImage}
+              plugins={[responsive(), placeholder()]}
+            />
+          </div>
+        </div>
+
+        <button
+          onClick={handleAdd}
+          className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600"
+        >
+          Add Information
+        </button>
+        <NotificationContainer
+          style={{ bottom: "0", right: "0", left: "0", top: "auto" }}
+        />
+      </div>
     </div>
   );
 };

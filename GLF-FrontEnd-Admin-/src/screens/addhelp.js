@@ -111,6 +111,11 @@ const AddHelpInformation = () => {
           subtitle,
           publicId,
           description,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
         }
       );
 

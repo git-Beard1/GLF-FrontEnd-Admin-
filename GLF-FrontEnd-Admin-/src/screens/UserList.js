@@ -73,7 +73,12 @@ const UserList = () => {
   const deleteadmin = async (roleId) => {
     try {
       const response = await axios.delete(
-        `${process.env.REACT_APP_BACKEND_URL}/deladmin/${roleId}`
+        `${process.env.REACT_APP_BACKEND_URL}/deladmin/${roleId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
       );
       console.log("API Response:", response.data);
       window.location.reload();

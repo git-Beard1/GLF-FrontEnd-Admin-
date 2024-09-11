@@ -84,7 +84,7 @@ const AdminMapedit = () => {
         }
 
         const { location_name, description, category, image } =
-          response.data[0]; // Assuming the data is an array
+          response.data; 
         setLocation(location_name);
         setDescription(description);
         setCategory(category);

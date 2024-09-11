@@ -17,4 +17,4 @@ jobs:
       - name: Artillery Backend Load Test
         uses: artilleryio/action-cli@v1
         with:
-          command: run --config tests/config/configBackend.yml scenarios/combinedScenarios.yml --target=${{ secrets.API_TARGET }} --name "Full Backend Load Testing" --record --key ${{ secrets.ARTILLERY_API_KEY }}
+          command: run --config tests/scenarios/combinedScenarios.yml --target=${{ secrets.API_TARGET }} --name "Full Backend Load Testing" --record --key ${{ secrets.ARTILLERY_API_KEY }}

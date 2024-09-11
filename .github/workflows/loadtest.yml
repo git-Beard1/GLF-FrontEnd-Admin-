@@ -14,13 +14,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Print Current Directory
-        run: pwd  
-
-      - name: List Files in Tests Directory
-        run: ls -l tests/
-
       - name: Artillery Backend Load Test
         uses: artilleryio/action-cli@v1
         with:
-          command: run --config tests/config/configBackend.yml tests/scenarios/combinedScenarios.yml --target=${{ secrets.API_TARGET }} --name "Full Backend Load Testing" --record --key ${{ secrets.ARTILLERY_API_KEY }}
+          command: run --config tests/config/configBackend.yml --target=${{ secrets.API_TARGET }} --name "Full Backend Load Testing" --record --key ${{ secrets.ARTILLERY_API_KEY }}

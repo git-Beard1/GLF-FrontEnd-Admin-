@@ -14,7 +14,13 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Display config and scenario files
+        run: |
+          cat tests/config/configBackend.yml
+          echo "------------------------"
+          cat tests/scenarios/combinedScenarios.yml
+
       - name: Artillery Backend Load Test
         uses: artilleryio/action-cli@v1
         with:
-          command: run --config tests/config/configBackend.yml --target=${{ secrets.API_TARGET }} --name "Full Backend Load Testing" --record --key ${{ secrets.ARTILLERY_API_KEY }}
+          command: run --config tests/config/configBackend.yml tests/scenarios/combinedScenarios.yml --target=${{ secrets.API_TARGET }} --name "Full Backend Load Testing" --record --key ${{ secrets.ARTILLERY_API_KEY }}

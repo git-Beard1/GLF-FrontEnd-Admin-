@@ -1,0 +1,22 @@
+config:
+  target: https://www.ilf2024.info
+  phases:
+    - duration: 300
+      arrivalRate: 5
+      name: Sustained Load Phase
+    - duration: 300
+      arrivalRate: 8
+      rampTo: 80
+      name: Peak Phase
+    - duration: 420
+      arrivalRate: 10
+      name: Sustained Peak Phase
+  # Load the Playwright engine:
+  engines:
+    playwright: {}
+  # Path to JavaScript file that defines Playwright test functions
+  processor: "./test-script.js"
+
+scenarios:
+  - engine: playwright
+    testFunction: "loadTestFrontEnd"

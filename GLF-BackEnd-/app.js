@@ -387,6 +387,17 @@ app.post("/addlinkedinuser", (req, res) => {
     }
   );
 });
+app.get("/helpinfos", (req, res) => {
+  help.gethelpinfo((err, result) => {
+    if (err) {
+      console.log(err);
+      res.status(500).send();
+    } else {
+      console.log(result);
+      res.status(200).send(result.rows);
+    }
+  });
+});
 app.get("/helpinfos/:id", (req, res) => {
   var helpid = parseInt(req.params.id);
   help.gethelpid(helpid, (err, result) => {

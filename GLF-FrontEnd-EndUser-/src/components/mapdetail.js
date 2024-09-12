@@ -17,7 +17,6 @@ import default1 from '../assets/marker/default.png'
 import { Cloudinary } from "@cloudinary/url-gen";
 import { AdvancedImage, responsive, placeholder } from "@cloudinary/react"; 
 import recenterIcon from "../images/Maprecenter.png";
-import { Console } from 'console';
 
 const MapComponent = (props) => {
   const [userLocation, setUserLocation] = useState(null);
@@ -83,7 +82,6 @@ const MapComponent = (props) => {
         }
         const startCoordinates = `${userLocation[0].toFixed(6)},${userLocation[1].toFixed(6)}`;
         const endCoordinates = `${coordinates[0].toFixed(6)},${coordinates[1].toFixed(6)}`;
-
 
 
 

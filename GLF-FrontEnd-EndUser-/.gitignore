@@ -24,7 +24,3 @@ yarn-debug.log*
 yarn-error.log*
 
 /components/config.js
-/test-results/
-/playwright-report/
-/blob-report/
-/playwright/.cache/

@@ -18,32 +18,21 @@ jobs:
         uses: artilleryio/action-cli@v1
         with:
           command: run --config tests/config/configBackend.yml tests/scenarios/combinedScenarios.yml --target=${{ secrets.API_TARGET }} --name "Full-Load-Test" --record --key ${{ secrets.ARTILLERY_API_KEY }}
-
+          
   FrontEndArtillery:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v2
+      - name: Run Fargate Test
+        uses: artilleryio/action-cli@v1
+        timeout-minutes: 15 # best practice: adding timeout in case something goes wrong with the test, so that GitHub Action won’t run for the default 6h
         with:
-          node-version: '20'
-
-      - name: Install dependencies
-        run: |
-          npm install -g artillery
-          npm install @playwright/test
-          npx playwright install --with-deps
-
-      - name: Artillery Frontend Load Test
-        run: |
-          artillery run tests/config/configFrontend.yml --output frontend-test-report.json
+          command: run-fargate tests/config/configFrontend.yml --count 5 --output ./report.json --record # we add `--record` here to report to Artillery Cloud
         env:
-          PLAYWRIGHT_HEADLESS: "true"
-
-      - name: Upload test results
-        uses: actions/upload-artifact@v2
-        with:
-          name: frontend-test-results
-          path: frontend-test-report.json
+          ARTILLERY_CLOUD_API_KEY: ${{ secrets.FRONT_END_API_KEY }} # cloud key set in gh action secrets
+      
+        
+   

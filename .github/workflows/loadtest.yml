@@ -18,3 +18,8 @@ jobs:
         uses: artilleryio/action-cli@v1
         with:
           command: run --config tests/config/configBackend.yml tests/scenarios/combinedScenarios.yml --target=${{ secrets.API_TARGET }} --name "Full-Load-Test" --record --key ${{ secrets.ARTILLERY_API_KEY }}
+
+      - name: Artillery Frontend Load Test
+        uses: artilleryio/action-cli@v1
+        with:
+          command: run --config tests/config/configFrontend.yml  --name "Frontend-Load-Test" --record --key ${{ secrets.FRONT_END_API_KEY }}

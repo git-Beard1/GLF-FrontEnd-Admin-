@@ -25,6 +25,11 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        
+      - name: Install Artillery and Playwright
+        run: |
+          npm install -g artillery
+          npm install -g @playwright/test
 
       - name: Artillery FrontEnd Load Test
         uses: artilleryio/action-cli@v1

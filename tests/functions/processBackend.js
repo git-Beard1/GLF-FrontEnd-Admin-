@@ -1,10 +1,9 @@
 function storeId(entity) {
-  return function (response, context, done) {
+  return function (response, context) {
     if (response.body && response.body[`${entity}id`]) {
       context.vars[`${entity}Ids`] = context.vars[`${entity}Ids`] || [];
       context.vars[`${entity}Ids`].push(response.body[`${entity}id`]);
     }
-    done();
   };
 }
 

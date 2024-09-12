@@ -12,7 +12,7 @@ const AddManagerScreen = () => {
   const [type, setType] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  
+
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
@@ -29,7 +29,7 @@ const AddManagerScreen = () => {
           console.log(response);
           if (response.data.message == "Unauthorized access") {
             localStorage.clear();
-            navigate('/login')
+            navigate("/login");
           } else if (response.data.role !== "Admin") {
             navigate("../");
           }
@@ -42,7 +42,7 @@ const AddManagerScreen = () => {
     };
 
     fetchData();
-}, []); 
+  }, []);
   const handleAddManager = async () => {
     // Reset previous error messages
     setUsernameError("");
@@ -69,11 +69,19 @@ const AddManagerScreen = () => {
       setLoading(true);
 
       // Send a POST request to the API to add a new manager
-      const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/register`, {
-        username,
-        password,
-        type,
-      });
+      const response = await axios.post(
+        `${process.env.REACT_APP_BACKEND_URL}/register`,
+        {
+          username,
+          password,
+          type,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
 
       console.log("Added Manager:", response.data);
 
@@ -117,8 +125,8 @@ const AddManagerScreen = () => {
                   usernameError ? "border-red-500" : "border-gray-300"
                 }`}
               />
-              {usernameError  && (
-                <p className="text-red-500 text-xs mt-1">{usernameError }</p>
+              {usernameError && (
+                <p className="text-red-500 text-xs mt-1">{usernameError}</p>
               )}
             </div>
 
@@ -137,40 +145,40 @@ const AddManagerScreen = () => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className={`mt-1 p-2 border rounded-md w-full ${
-                  passwordError  ? "border-red-500" : "border-gray-300"
+                  passwordError ? "border-red-500" : "border-gray-300"
                 }`}
               />
-              {passwordError  && (
-                <p className="text-red-500 text-xs mt-1">{passwordError }</p>
+              {passwordError && (
+                <p className="text-red-500 text-xs mt-1">{passwordError}</p>
               )}
             </div>
 
             <div className="mb-4">
-        <label
-          htmlFor="type"
-          className="block text-sm font-medium text-gray-600"
-        >
-          Type
-        </label>
-        <select
-          id="type"
-          name="type"
-          value={type}
-          onChange={(e) => setType(e.target.value)}
-          className={`mt-1 p-2 border rounded-md w-full ${
-            typeError ? "border-red-500" : "border-gray-300"
-          }`}
-        >
-          <option value="" disabled>
-            Select a role
-          </option>
-          <option value="Event Manager">Event Manager</option>
-          <option value="Admin">Admin</option>
-        </select>
-        {typeError && (
-          <p className="text-red-500 text-xs mt-1">{typeError}</p>
-        )}
-      </div>
+              <label
+                htmlFor="type"
+                className="block text-sm font-medium text-gray-600"
+              >
+                Type
+              </label>
+              <select
+                id="type"
+                name="type"
+                value={type}
+                onChange={(e) => setType(e.target.value)}
+                className={`mt-1 p-2 border rounded-md w-full ${
+                  typeError ? "border-red-500" : "border-gray-300"
+                }`}
+              >
+                <option value="" disabled>
+                  Select a role
+                </option>
+                <option value="Event Manager">Event Manager</option>
+                <option value="Admin">Admin</option>
+              </select>
+              {typeError && (
+                <p className="text-red-500 text-xs mt-1">{typeError}</p>
+              )}
+            </div>
 
             <button
               onClick={handleAddManager}

@@ -17,10 +17,10 @@ import { useNavigate } from "react-router-dom";
 import CloudinaryUploadWidget from "../components/CloudinaryUpload";
 import { Cloudinary } from "@cloudinary/url-gen";
 import { AdvancedImage, responsive, placeholder } from "@cloudinary/react";
-import starbucks1 from '../assets/marker/starbucks.png'
-import mcdonalds from '../assets/marker/mcodnald.png'
-import foodcourt from '../assets/marker/foodcourt.png'
-import default1 from '../assets/marker/default.png'
+import starbucks1 from "../assets/marker/starbucks.png";
+import mcdonalds from "../assets/marker/mcodnald.png";
+import foodcourt from "../assets/marker/foodcourt.png";
+import default1 from "../assets/marker/default.png";
 
 const AdminMapedit = () => {
   const position = [1.310411032362568, 103.77767848691333];
@@ -64,7 +64,7 @@ const AdminMapedit = () => {
             console.log(response);
             if (response.data.message == "Unauthorized access") {
               localStorage.clear();
-              navigate('/login')
+              navigate("/login");
             }
           })
           .catch(function (response) {
@@ -83,8 +83,7 @@ const AdminMapedit = () => {
           setMarkers([response.data]);
         }
 
-        const { location_name, description, category, image } =
-          response.data; 
+        const { location_name, description, category, image } = response.data;
         setLocation(location_name);
         setDescription(description);
         setCategory(category);
@@ -129,7 +128,6 @@ const AdminMapedit = () => {
         return;
       }
 
-     
       const response = await axios.put(
         `${process.env.REACT_APP_BACKEND_URL}/marker/${markerid}`,
         {
@@ -137,9 +135,13 @@ const AdminMapedit = () => {
           description,
           category,
           publicId,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
         }
       );
-
 
       console.log("Marker updated:", response.data);
 
@@ -152,7 +154,12 @@ const AdminMapedit = () => {
   const deleteMarker = async () => {
     try {
       const response = await axios.delete(
-        `${process.env.REACT_APP_BACKEND_URL}/delmarker/${markerid}`
+        `${process.env.REACT_APP_BACKEND_URL}/delmarker/${markerid}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
       );
       console.log("API Response:", response.data);
       navigate(`/mapadding`);
@@ -166,9 +173,9 @@ const AdminMapedit = () => {
 
     if (inputValue.length <= 255) {
       setLocation(inputValue);
-      setLocationNameError('');
+      setLocationNameError("");
     } else {
-      setLocationNameError('Location name must be 255 characters or less');
+      setLocationNameError("Location name must be 255 characters or less");
     }
   };
 
@@ -177,9 +184,9 @@ const AdminMapedit = () => {
 
     if (inputValue.length <= 255) {
       setDescription(inputValue);
-      setDescriptionError('');
+      setDescriptionError("");
     } else {
-      setDescriptionError('Description must be 255 characters or less');
+      setDescriptionError("Description must be 255 characters or less");
     }
   };
 
@@ -217,37 +224,37 @@ const AdminMapedit = () => {
             let iconSize;
 
             switch (markerlocation.category) {
-               case 'water':
-              iconUrl = waterMarker;
-              iconSize = [18, 29];
-              break;
-            case 'register':
-              iconUrl = registerMarker;
-              iconSize = [18, 29];
-              break;
-            case 'conference':
-              iconUrl = conferenceMarker;
-              iconSize = [18, 29];
-              break;
-            case 'toilet':
-              iconUrl = toiletMarker;
-              iconSize = [18, 29];
-              break;
-            case 'sbux':
-              iconUrl = starbucks1;
-              iconSize = [30, 29]; // Set different size for 'sbux'
-              break;
-            case 'mcd':
-              iconUrl = mcdonalds;
-              iconSize = [30, 29]; // Set different size for 'mcd'
-              break;
-            case 'fc':
+              case "water":
+                iconUrl = waterMarker;
+                iconSize = [18, 29];
+                break;
+              case "register":
+                iconUrl = registerMarker;
+                iconSize = [18, 29];
+                break;
+              case "conference":
+                iconUrl = conferenceMarker;
+                iconSize = [18, 29];
+                break;
+              case "toilet":
+                iconUrl = toiletMarker;
+                iconSize = [18, 29];
+                break;
+              case "sbux":
+                iconUrl = starbucks1;
+                iconSize = [30, 29]; // Set different size for 'sbux'
+                break;
+              case "mcd":
+                iconUrl = mcdonalds;
+                iconSize = [30, 29]; // Set different size for 'mcd'
+                break;
+              case "fc":
                 iconUrl = foodcourt;
                 iconSize = [40, 40]; // Set different size for 'mcd'
                 break;
-            default:
-              iconUrl = default1;
-              iconSize = [18, 29];
+              default:
+                iconUrl = default1;
+                iconSize = [18, 29];
             }
 
             const customIcon = L.icon({
@@ -268,8 +275,14 @@ const AdminMapedit = () => {
                 icon={customIcon}
               >
                 <Popup>
-                  <div id={`divRefill${markerlocation.mapid}`}  style={{ maxWidth: '300px', wordWrap: 'break-word' }}> 
-                    <h3 style={{ fontSize: "25px" }} id={`Refill${markerlocation.mapid}`}>
+                  <div
+                    id={`divRefill${markerlocation.mapid}`}
+                    style={{ maxWidth: "300px", wordWrap: "break-word" }}
+                  >
+                    <h3
+                      style={{ fontSize: "25px" }}
+                      id={`Refill${markerlocation.mapid}`}
+                    >
                       {markerlocation.location_name}
                     </h3>
                     <div style={{ width: "300px" }}>
@@ -282,8 +295,12 @@ const AdminMapedit = () => {
                     <p>{markerlocation.description}</p>
                     <button
                       id="RefillButton"
-                      style={{ maxWidth: '100%', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}
-                      
+                      style={{
+                        maxWidth: "100%",
+                        whiteSpace: "nowrap",
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                      }}
                     >{`Edit marker`}</button>
                   </div>
                 </Popup>
@@ -301,56 +318,54 @@ const AdminMapedit = () => {
             <h1 className="text-2xl font-bold mb-4">Edit Marker</h1>
 
             <div className="mb-4">
-      <label
-        htmlFor="Location_name"
-        className="block text-sm font-medium text-gray-600"
-      >
-        Location Name
-      </label>
-      <input
-        type="text"
-        id="Location_name"
-        name="Location_name"
-        value={location_name}
-        onChange={handleLocationChange}
-        className={`mt-1 p-2 border rounded-md w-full ${
-          locationNameError ? 'border-red-500' : 'border-gray-300'
-        }`}
-      />
-      {locationNameError && (
-        <p className="text-red-500 text-xs mt-1">{locationNameError}</p>
-      )}
-      <p className="text-gray-500 text-xs mt-1">
-        Character Limit: { location_name.length} / 255
-      </p>
-    </div>
+              <label
+                htmlFor="Location_name"
+                className="block text-sm font-medium text-gray-600"
+              >
+                Location Name
+              </label>
+              <input
+                type="text"
+                id="Location_name"
+                name="Location_name"
+                value={location_name}
+                onChange={handleLocationChange}
+                className={`mt-1 p-2 border rounded-md w-full ${
+                  locationNameError ? "border-red-500" : "border-gray-300"
+                }`}
+              />
+              {locationNameError && (
+                <p className="text-red-500 text-xs mt-1">{locationNameError}</p>
+              )}
+              <p className="text-gray-500 text-xs mt-1">
+                Character Limit: {location_name.length} / 255
+              </p>
+            </div>
 
-    <div className="mb-4">
-      <label
-        htmlFor="description"
-        className="block text-sm font-medium text-gray-600"
-      >
-        Description
-      </label>
-      <textarea
-        id="description"
-        name="description"
-        rows="4"
-        value={description}
-        onChange={handleDescriptionChange}
-        className={`mt-1 p-2 border rounded-md w-full ${
-          descriptionError ? 'border-red-500' : 'border-gray-300'
-        }`}
-      ></textarea>
-      {descriptionError && (
-        <p className="text-red-500 text-xs mt-1">{descriptionError}</p>
-      )}
-      <p className="text-gray-500 text-xs mt-1">
-        Character Limit: {description.length} / 255
-      </p>
-    </div>
-
-
+            <div className="mb-4">
+              <label
+                htmlFor="description"
+                className="block text-sm font-medium text-gray-600"
+              >
+                Description
+              </label>
+              <textarea
+                id="description"
+                name="description"
+                rows="4"
+                value={description}
+                onChange={handleDescriptionChange}
+                className={`mt-1 p-2 border rounded-md w-full ${
+                  descriptionError ? "border-red-500" : "border-gray-300"
+                }`}
+              ></textarea>
+              {descriptionError && (
+                <p className="text-red-500 text-xs mt-1">{descriptionError}</p>
+              )}
+              <p className="text-gray-500 text-xs mt-1">
+                Character Limit: {description.length} / 255
+              </p>
+            </div>
 
             <div className="mb-4">
               <label
@@ -405,8 +420,6 @@ const AdminMapedit = () => {
                 />
               </div>
             </div>
-
-            
 
             <button
               onClick={updatelocation}

@@ -61,7 +61,7 @@ const EditHelpInformation = () => {
             console.log(response);
             if (response.data.message == "Unauthorized access") {
               localStorage.clear();
-              navigate('/login')
+              navigate("/login");
             }
           })
           .catch(function (response) {
@@ -130,13 +130,18 @@ const EditHelpInformation = () => {
           subtitle,
           description,
           publicId,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
         }
       );
       console.log("API Response:", response.data);
-        
+
       // Show success notification
       NotificationManager.success("Information updated successfully");
-      navigate('/viewhelp')
+      navigate("/viewhelp");
     } catch (error) {
       console.error("Error updating information:", error);
       // Show error notification
@@ -151,13 +156,18 @@ const EditHelpInformation = () => {
   const handleDelete = async () => {
     try {
       const response = await axios.delete(
-        `${process.env.REACT_APP_BACKEND_URL}/delhelpinfo/${helpid}`
+        `${process.env.REACT_APP_BACKEND_URL}/delhelpinfo/${helpid}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
       );
       console.log("API Response:", response.data);
 
       // Show success notification
       NotificationManager.success("Information deleted successfully");
-      navigate('/viewhelp')
+      navigate("/viewhelp");
     } catch (error) {
       console.error("Error deleting information:", error);
       // Show error notification
@@ -173,9 +183,9 @@ const EditHelpInformation = () => {
 
     if (inputValue.length <= 255) {
       setTitle(inputValue);
-      setTitleError('');
+      setTitleError("");
     } else {
-      setTitleError('Title must be 255 characters or less');
+      setTitleError("Title must be 255 characters or less");
     }
   };
 
@@ -184,9 +194,9 @@ const EditHelpInformation = () => {
 
     if (inputValue.length <= 100) {
       setSubtitle(inputValue);
-      setSubtitleError('');
+      setSubtitleError("");
     } else {
-      setSubtitleError('Subtitle must be 100 characters or less');
+      setSubtitleError("Subtitle must be 100 characters or less");
     }
   };
 
@@ -195,9 +205,9 @@ const EditHelpInformation = () => {
 
     if (inputValue.length <= 999) {
       setDescription(inputValue);
-      setDescriptionError('');
+      setDescriptionError("");
     } else {
-      setDescriptionError('Description must be 499 characters or less');
+      setDescriptionError("Description must be 499 characters or less");
     }
   };
 
@@ -215,80 +225,82 @@ const EditHelpInformation = () => {
               Edit Important Information
             </h1>
             <div id="form">
-            <div id="form" className="mb-4">
-      <label
-        htmlFor="title"
-        className="block text-sm font-medium text-gray-600"
-      >
-        Title
-      </label>
-      <input
-        type="text"
-        id="title"
-        name="title"
-        value={title}
-        onChange={handleTitleChange}
-        className={`mt-1 p-2 border rounded-md w-full ${
-          titleError ? 'border-red-500' : 'border-gray-300'
-        }`}
-      />
-      {titleError && (
-        <p className="text-red-500 text-xs mt-1">{titleError}</p>
-      )}
-      <p className="text-gray-500 text-xs mt-1">
-        Character Limit: {title.length} / 255
-      </p>
-    </div>
+              <div id="form" className="mb-4">
+                <label
+                  htmlFor="title"
+                  className="block text-sm font-medium text-gray-600"
+                >
+                  Title
+                </label>
+                <input
+                  type="text"
+                  id="title"
+                  name="title"
+                  value={title}
+                  onChange={handleTitleChange}
+                  className={`mt-1 p-2 border rounded-md w-full ${
+                    titleError ? "border-red-500" : "border-gray-300"
+                  }`}
+                />
+                {titleError && (
+                  <p className="text-red-500 text-xs mt-1">{titleError}</p>
+                )}
+                <p className="text-gray-500 text-xs mt-1">
+                  Character Limit: {title.length} / 255
+                </p>
+              </div>
 
-    <div className="mb-4">
-      <label
-        htmlFor="subtitle"
-        className="block text-sm font-medium text-gray-600"
-      >
-        Subtitle
-      </label>
-      <input
-        type="text"
-        id="subtitle"
-        name="subtitle"
-        value={subtitle}
-        onChange={handleSubtitleChange}
-        className={`mt-1 p-2 border rounded-md w-full ${
-          subtitleError ? 'border-red-500' : 'border-gray-300'
-        }`}
-      />
-      {subtitleError && (
-        <p className="text-red-500 text-xs mt-1">{subtitleError}</p>
-      )}
-      <p className="text-gray-500 text-xs mt-1">
-        Character Limit: { subtitle.length} / 100
-      </p>
-    </div>
+              <div className="mb-4">
+                <label
+                  htmlFor="subtitle"
+                  className="block text-sm font-medium text-gray-600"
+                >
+                  Subtitle
+                </label>
+                <input
+                  type="text"
+                  id="subtitle"
+                  name="subtitle"
+                  value={subtitle}
+                  onChange={handleSubtitleChange}
+                  className={`mt-1 p-2 border rounded-md w-full ${
+                    subtitleError ? "border-red-500" : "border-gray-300"
+                  }`}
+                />
+                {subtitleError && (
+                  <p className="text-red-500 text-xs mt-1">{subtitleError}</p>
+                )}
+                <p className="text-gray-500 text-xs mt-1">
+                  Character Limit: {subtitle.length} / 100
+                </p>
+              </div>
 
-    <div className="mb-4">
-      <label
-        htmlFor="description"
-        className="block text-sm font-medium text-gray-600"
-      >
-        Description
-      </label>
-      <textarea
-        id="description"
-        name="description"
-        rows="4"
-        value={description}
-        onChange={handleDescriptionChange}
-        className={`mt-1 p-2 border rounded-md w-full ${
-          descriptionError ? 'border-red-500' : 'border-gray-300'
-        }`}
-      ></textarea>
-      {descriptionError && (
-        <p className="text-red-500 text-xs mt-1">{descriptionError}</p>
-      )}
-      <p className="text-gray-500 text-xs mt-1">
-        Character Limit: { description.length} / 499
-      </p>
-    </div>
+              <div className="mb-4">
+                <label
+                  htmlFor="description"
+                  className="block text-sm font-medium text-gray-600"
+                >
+                  Description
+                </label>
+                <textarea
+                  id="description"
+                  name="description"
+                  rows="4"
+                  value={description}
+                  onChange={handleDescriptionChange}
+                  className={`mt-1 p-2 border rounded-md w-full ${
+                    descriptionError ? "border-red-500" : "border-gray-300"
+                  }`}
+                ></textarea>
+                {descriptionError && (
+                  <p className="text-red-500 text-xs mt-1">
+                    {descriptionError}
+                  </p>
+                )}
+                <p className="text-gray-500 text-xs mt-1">
+                  Character Limit: {description.length} / 499
+                </p>
+              </div>
 
               <div>
                 <label

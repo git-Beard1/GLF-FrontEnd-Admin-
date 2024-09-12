@@ -183,6 +183,11 @@ const AdminMap = () => {
         category,
         coordinates: `${selectedPosition.lat},${selectedPosition.lng}`, // Convert to string
         publicId,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
       });
 
       console.log("Added marker:", response.data);

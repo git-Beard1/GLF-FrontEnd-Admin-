@@ -58,7 +58,7 @@ const AddProgramPage = () => {
           console.log(response);
           if (response.data.message == "Unauthorized access") {
             localStorage.clear();
-            navigate('/login')
+            navigate("/login");
           }
         })
         .catch(function (response) {
@@ -85,16 +85,24 @@ const AddProgramPage = () => {
     try {
       setLoading(true);
 
-      const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/events`, {
-        title,
-        publicId,
-        time_start,
-        time_end,
-        location,
-        keynote_speaker,
-        description,
-        survey_link,
-      });
+      const response = await axios.post(
+        `${process.env.REACT_APP_BACKEND_URL}/events`,
+        {
+          title,
+          publicId,
+          time_start,
+          time_end,
+          location,
+          keynote_speaker,
+          description,
+          survey_link,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
 
       console.log("API Response:", response.data);
 
@@ -164,9 +172,9 @@ const AddProgramPage = () => {
 
     if (inputValue.length <= 255) {
       setTitle(inputValue);
-      setTitleError('');
+      setTitleError("");
     } else {
-      setTitleError('Title must be 255 characters or less');
+      setTitleError("Title must be 255 characters or less");
     }
   };
 
@@ -175,9 +183,9 @@ const AddProgramPage = () => {
 
     if (inputValue.length <= 1000) {
       setDescription(inputValue);
-      setDescriptionError('');
+      setDescriptionError("");
     } else {
-      setDescriptionError('Description must be 1000 characters or less');
+      setDescriptionError("Description must be 1000 characters or less");
     }
   };
   return (
@@ -191,27 +199,27 @@ const AddProgramPage = () => {
           <h1 className="text-2xl font-bold mb-4">Add Program</h1>
 
           <div id="form" className="mb-4">
-          <label
-        htmlFor="title"
-        className="block text-sm font-medium text-gray-600"
-      >
-        Title
-      </label>
-      <input
-        type="text"
-        id="title"
-        value={title}
-        className={`mt-1 p-2 w-full border ${
-          titleError ? 'border-red-500' : 'border-gray-300'
-        } rounded-md`}
-        onChange={handleTitleChange}
-      />
-      {titleError && (
-        <p className="text-red-500 text-xs mt-1">{titleError}</p>
-      )}
-      <p className="text-gray-500 text-xs mt-1">
-        Character Limit: { title.length} / 255
-      </p>
+            <label
+              htmlFor="title"
+              className="block text-sm font-medium text-gray-600"
+            >
+              Title
+            </label>
+            <input
+              type="text"
+              id="title"
+              value={title}
+              className={`mt-1 p-2 w-full border ${
+                titleError ? "border-red-500" : "border-gray-300"
+              } rounded-md`}
+              onChange={handleTitleChange}
+            />
+            {titleError && (
+              <p className="text-red-500 text-xs mt-1">{titleError}</p>
+            )}
+            <p className="text-gray-500 text-xs mt-1">
+              Character Limit: {title.length} / 255
+            </p>
           </div>
           <div className="mb-4">
             <label
@@ -321,27 +329,27 @@ const AddProgramPage = () => {
           </div>
 
           <div className="mb-4">
-      <label
-        htmlFor="description"
-        className="block text-sm font-medium text-gray-600"
-      >
-        Description
-      </label>
-      <textarea
-        id="description"
-        value={description}
-        onChange={handleDescriptionChange}
-        className={`mt-1 p-2 w-full border ${
-          descriptionError ? 'border-red-500' : 'border-gray-300'
-        } rounded-md`}
-      ></textarea>
-      {descriptionError && (
-        <p className="text-red-500 text-xs mt-1">{descriptionError}</p>
-      )}
-      <p className="text-gray-500 text-xs mt-1">
-        Character Limit: {description.length} / 1000
-      </p>
-    </div>
+            <label
+              htmlFor="description"
+              className="block text-sm font-medium text-gray-600"
+            >
+              Description
+            </label>
+            <textarea
+              id="description"
+              value={description}
+              onChange={handleDescriptionChange}
+              className={`mt-1 p-2 w-full border ${
+                descriptionError ? "border-red-500" : "border-gray-300"
+              } rounded-md`}
+            ></textarea>
+            {descriptionError && (
+              <p className="text-red-500 text-xs mt-1">{descriptionError}</p>
+            )}
+            <p className="text-gray-500 text-xs mt-1">
+              Character Limit: {description.length} / 1000
+            </p>
+          </div>
 
           <div className="mb-4">
             <label

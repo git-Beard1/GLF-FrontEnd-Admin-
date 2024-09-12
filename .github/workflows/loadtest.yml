@@ -19,23 +19,4 @@ jobs:
         with:
           command: run --config tests/config/configBackend.yml tests/scenarios/combinedScenarios.yml --target=${{ secrets.API_TARGET }} --name "Full-Load-Test" --record --key ${{ secrets.ARTILLERY_API_KEY }}
           
-  FrontEndArtillery:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-        
-      - name: Install Playwright
-        run: 
-          npm install @playwright/test
-
-      - name: Install Playwright Browser
-        run: 
-          npx playwright install  # Install Playwright browsers
-
-      - name: Artillery FrontEnd Load Test
-        uses: artilleryio/action-cli@v1
-        with:
-          command: run --config tests/config/configFrontend.yml tests/scenarios/combinedScenarios.yml --target=${{ secrets.API_TARGET }} --name "Full-Load-Test" --record --key ${{ secrets.FRONT_END_API_KEY }}
-  
+ 

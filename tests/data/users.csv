@@ -1,4 +1,11 @@
-userid,uid
-478,Uu3lbwz52iZxFOkz8CIMaafxJ5X2,
-487,iMnLVqyJOk,
-489,HxYGX264UkZwYhDiiWclXKmOFm72,
+first_name,last_name,company,uid,type
+John,Doe,Acme Corp,1,User
+Jane,Smith,Global Industries,2,User
+Michael,Brown,Tech Solutions,3,User
+Emily,Davis,Innovatech,4,User
+David,Wilson,Creative Co,5,User
+Sarah,Johnson,NextGen LLC,6,User
+Chris,Lee,Future Enterprises,7,User
+Jessica,Garcia,Visionary Group,8,User
+Daniel,Martinez,Dynamic Systems,9,User
+Laura,Lopez,Strategic Partners,10,User

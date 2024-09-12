@@ -165,7 +165,7 @@ app.get("/eventannouncements/:eventid", (req, res) => {
       res.status(500).send();
     } else {
       console.log(result);
-      res.status(200).send(result.rows);
+      res.status(200).send(result);
     }
   });
 });
@@ -395,18 +395,6 @@ app.delete("/delete/:id", (req, res) => {
   });
 });
 
-app.delete("/delete/:id", (req, res) => {
-  var eventid = parseInt(req.params.id);
-
-  events.deleteEvent(eventid, (err, result) => {
-    if (err) {
-      console.log(err);
-      res.status(500).send();
-    } else {
-      res.status(201).send(result);
-    }
-  });
-});
 app.post("/marker", (req, res) => {
   var location_name = req.body.location_name;
   var category = req.body.category;
@@ -485,21 +473,6 @@ app.delete("/delmarker/:id", (req, res) => {
   var mapid = parseInt(req.params.id);
 
   map.deletemarker(mapid, (err, result) => {
-    if (err) {
-      console.log(err);
-      res.status(500).send();
-    } else {
-      res.status(201).send(result);
-    }
-  });
-});
-
-app.post("/addadmin", (req, res) => {
-  var username = req.body.username;
-  var password = req.body.password;
-  var type = req.body.type;
-
-  User.addadmin(username, password, type, (err, result) => {
     if (err) {
       console.log(err);
       res.status(500).send();
@@ -728,17 +701,7 @@ app.get("/user/:userid", (req, res) => {
     }
   });
 });
-app.get("/useruid/:uid", (req, res) => {
-  const uid = req.params.uid;
-  User.getUserByUid(uid, (err, result) => {
-    if (err) {
-      console.log(err);
-      res.status(500).send();
-    } else {
-      res.status(200).send(result);
-    }
-  });
-});
+
 app.put("/user/:uid", (req, res) => {
   var uid = req.params.uid;
   var company = req.body.company;

@@ -1,25 +1,49 @@
 config:
+  processor: "../functions/processBackend.js"
+  variables:
+    announcementIds: []
+    eventIds: []
+    helpIds: []
+    infoIds: []
+    mapIds: []
+    roleIds: []
+    savedIds: []
+    userIds: []
   payload:
+    - path: "../data/announcements.csv"
+      fields: [a_eventid, a_title, a_description, image]
+      skipHeader: true
+      name: announcements
+    - path: "../data/events.csv"
+      fields:
+        [
+          e_title,
+          image_banner,
+          time_start,
+          time_end,
+          location,
+          keynote_speaker,
+          e_description,
+          survey_link,
+        ]
+      skipHeader: true
+      name: events
+    - path: "../data/importantinfo.csv"
+      fields: [i_title, i_subtitle, i_description]
+      skipHeader: true
+      name: importantinformation
+    - path: "../data/marker.csv"
+      fields: [location_name, category, m_description, coordinates]
+      skipHeader: true
+      name: marker
+    - path: "../data/role.csv"
+      fields: [username, password, type]
+      skipHeader: true
+      name: role
     - path: "../data/users.csv"
       fields: [userid, uid]
       skipHeader: true
       name: users
-    - path: "../data/announcements.csv"
-      fields: [announcementid, eventid]
-      skipHeader: true
-      name: announcements
-    - path: "../data/events.csv"
-      fields: [eventid]
-      skipHeader: true
-      name: events
-    - path: "../data/importantinfo.csv"
-      fields: [infoid]
-      skipHeader: true
-      name: importantinformation
-    - path: "../data/marker.csv"
-      fields: [mapid]
-      skipHeader: true
-      name: marker
   plugins:
     expect: {}
   target: ${API_TARGET}
@@ -34,3 +58,38 @@ config:
     - duration: 420
       arrivalRate: 100
       name: Sustained Peak Phase
+before:
+      flow:
+      - post:
+          url: "/register"
+          json:
+            username: "{{ username }}"
+            password: "{{ password }}"
+            type: "{{ type }}"
+          expect:
+            - statusCode: 200
+            - hasHeader: "content-type"
+            - contentType: "application/json charset=utf-8"
+            - hasProperty: "roleid"
+            - hasProperty: "username"
+            - hasProperty: "password"
+            - hasProperty: "type"
+            - hasProperty: "created_at"
+            - hasProperty: "updated_at"
+          afterResponse: 
+            - "storeRoleId"
+      - post:
+          url: "/login"
+          json:
+            username: "{{ username }}"
+            password: "{{ password }}"
+          expect:
+            - statusCode: 200
+            - hasHeader: "content-type"
+            - contentType: "application/json; charset=utf-8"
+            - hasProperty: "userid"
+            - hasProperty: "role_name"
+            - hasProperty: "token"
+          capture: 
+            - json: "$.token"
+              as: "token"

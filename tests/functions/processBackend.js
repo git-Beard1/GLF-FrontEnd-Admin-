@@ -4,7 +4,7 @@ function storeId(entity) {
       context.vars[`${entity}Ids`] = context.vars[`${entity}Ids`] || [];
       context.vars[`${entity}Ids`].push(response.body[`${entity}id`]);
     }
-    return next();
+    done();
   };
 }
 

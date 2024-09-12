@@ -26,13 +26,8 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Run Fargate Test
+      - name: Artillery FrontEnd Load Test
         uses: artilleryio/action-cli@v1
-        timeout-minutes: 15 # best practice: adding timeout in case something goes wrong with the test, so that GitHub Action won’t run for the default 6h
         with:
-          command: run-fargate tests/config/configFrontend.yml --count 5 --output ./report.json --record # we add `--record` here to report to Artillery Cloud
-        env:
-          ARTILLERY_CLOUD_API_KEY: ${{ secrets.FRONT_END_API_KEY }} # cloud key set in gh action secrets
-      
-        
-   
+          command: run --config tests/config/configFrontend.yml tests/scenarios/combinedScenarios.yml --target=${{ secrets.API_TARGET }} --name "Full-Load-Test" --record --key ${{ secrets.FRONT_END_API_KEY }}
+  

@@ -86,7 +86,7 @@ const announcement = {
       `SELECT announcementid, eventid, title, description, TO_CHAR(created_at, 'YYYY-MM-DD HH24:MI:SS') AS "created_on", TO_CHAR(updated_at, 'YYYY-MM-DD HH24:MI:SS') AS "updated_on" FROM announcements WHERE eventid = $1 ORDER BY updated_at DESC;`,
       [eventid]
     ).then(result=> {
-      return callback(null, result);
+      return callback(null, result.rows.length > 0 ? result.rows[0] : null);  
     
   }).catch(error=>{
     return callback(error, null);

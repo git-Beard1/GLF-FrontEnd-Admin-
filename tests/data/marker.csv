@@ -1,4 +1,11 @@
-mapid
-482,
-483,
-485,
+location_name,category,m_description,coordinates
+Central Park,Park,"Iconic urban park in New York City, known for its green spaces, lakes, and attractions.",40.7828°N 73.9653°W
+Eiffel Tower,Monument,"Famous wrought-iron lattice tower in Paris, a symbol of France and one of the most recognizable structures in the world.",48.8584°N 2.2945°E
+Great Barrier Reef,Natural Wonder,"Largest coral reef system in the world, located off the coast of Australia, known for its diverse marine life and stunning underwater landscapes.",18.2800°S 147.7000°E
+Machu Picchu,Historic Site,"Incan citadel set high in the Andes Mountains in Peru, known for its well-preserved ruins and stunning mountain backdrop.",13.1631°S 72.5450°W
+Taj Mahal,Monument,"Iconic white marble mausoleum in Agra, India, known for its stunning architecture and as a symbol of love.",27.1750°N 78.0422°E
+Pyramids of Giza,Historic Site,"Ancient Egyptian royal necropolis located on the Giza plateau, known for the iconic pyramids and the Great Sphinx.",29.9792°N 31.1342°E
+Colosseum,Historic Site,"Iconic amphitheater in Rome, Italy, known for its well-preserved architecture and as a symbol of the Roman Empire.",41.8902°N 12.4922°E
+Chichen Itza,Historic Site,"Mayan city in Mexico, known for its well-preserved ruins, including the iconic El Castillo pyramid.",20.6829°N 88.5686°W
+Grand Canyon,Natural Wonder,"Vast, mile-deep canyon in Arizona, USA, known for its stunning geological features and as a popular tourist destination.",36.1069°N 112.1129°W
+Statue of Liberty,Monument,"Iconic statue in New York Harbor, USA, known as a symbol of freedom and democracy, and a gift from France to the United States.",40.6892°N 74.0444°W

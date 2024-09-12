@@ -1,16 +1,22 @@
 scenarios:
   - name: events
     flow:
-      - get:
+      - post:
           url: "/events"
+          headers:
+            authorization: "Bearer {{ token }}"
+          json:
+            - title: "{{e_title}}"
+            - image_banner: "{{image_banner}}"
+            - time_start: "{{time_start}}"
+            - time_end: "{{time_end}}"
+            - location: "{{location}}"
+            - keynote_speaker: "{{keynote_speaker}}"
+            - description: "{{e_description}}"
+            - survey_link: "{{survey_link}}"
           expect:
-            - statusCode: 200
-            - contentType: "application/json; charset=utf-8"
-            - json: "$.length > 0"
-      - get:
-          url: "/events/{{eventid}}"
-          expect:
-            - statusCode: 200
+            - statusCode: 201
+            - hasHeader: "content-type"
             - contentType: "application/json; charset=utf-8"
             - hasProperty: "eventid"
             - hasProperty: "title"
@@ -21,3 +27,116 @@ scenarios:
             - hasProperty: "keynote_speaker"
             - hasProperty: "description"
             - hasProperty: "survey_link"
+            - hasProperty: "created_at"
+            - hasProperty: "updated_at"
+          afterResponse:
+            - "storeEventId"
+      - get:
+          url: "/events"
+          expect:
+            - statusCode: 200
+            - hasHeader: "content-type"
+            - contentType: "application/json; charset=utf-8"
+            - json: "$.length > 0"
+      - get:
+          url: "/eventsannouncement"
+          expect:
+            - statusCode: 200
+            - hasHeader: "content-type"
+            - contentType: "application/json; charset=utf-8"
+            - json: "$.length > 0"
+      - put:
+          url: "/events/{{$randomItem(eventIds)}}"
+          headers:
+            authorization: "Bearer {{ token }}"
+          json:
+            - title: "{{e_title}}"
+            - image_banner: "{{image_banner}}"
+            - time_start: "{{time_start}}"
+            - time_end: "{{time_end}}"
+            - location: "{{location}}"
+            - keynote_speaker: "{{keynote_speaker}}"
+            - description: "{{e_description}}"
+            - survey_link: "{{survey_link}}"
+          expect:
+            - statusCode: 200
+            - hasHeader: "content-type"
+            - contentType: "application/json; charset=utf-8"
+            - hasProperty: "eventid"
+            - hasProperty: "title"
+            - hasProperty: "image_banner"
+            - hasProperty: "time_start"
+            - hasProperty: "time_end"
+            - hasProperty: "location"
+            - hasProperty: "keynote_speaker"
+            - hasProperty: "description"
+            - hasProperty: "survey_link"
+            - hasProperty: "created_at"
+            - hasProperty: "updated_at"
+      - get:
+          url: "/events/{{$randomItem(eventIds)}}"
+          expect:
+            - statusCode: 200
+            - hasHeader: "content-type"
+            - contentType: "application/json; charset=utf-8"
+            - hasProperty: "eventid"
+            - hasProperty: "title"
+            - hasProperty: "image_banner"
+            - hasProperty: "time_start"
+            - hasProperty: "time_end"
+            - hasProperty: "location"
+            - hasProperty: "keynote_speaker"
+            - hasProperty: "description"
+            - hasProperty: "survey_link"
+      - delete:
+          url: "/deleteevent/{{$randomItem(eventIds)}}"
+          headers:
+            authorization: "Bearer {{ token }}"
+          expect:
+            - statusCode: 201
+            - hasHeader: "content-type"
+            - contentType: "application/json; charset=utf-8"
+      - post:
+          url: "/saveevent"
+          json:
+            - eventid: "{{eventid}}"
+            - uid: "{{uid}}"
+          expect:
+            - statusCode: 201
+            - hasHeader: "content-type"
+            - contentType: "application/json; charset=utf-8"
+            - hasProperty: "savedid"
+            - hasProperty: "eventid"
+            - hasProperty: "uid"
+      - get:
+          url: "/savedevents/{{uid}}"
+          expect:
+            - statusCode: 200
+            - hasHeader: "content-type"
+            - contentType: "application/json; charset=utf-8"
+            - json: "$.length > 0"
+            - hasProperty: "savedid"
+            - hasProperty: "eventid"
+            - hasProperty: "uid"
+      - get:
+          url: "/mostsavedEvent"
+          expect:
+            - statusCode: 200
+            - hasHeader: "content-type"
+            - contentType: "application/json; charset=utf-8"
+            - json: "$.length > 0"
+            - hasProperty: "eventid"
+            - hasProperty: "title"
+            - hasProperty: "image_banner"
+            - hasProperty: "time_start"
+            - hasProperty: "time_end"
+            - hasProperty: "location"
+            - hasProperty: "keynote_speaker"
+            - hasProperty: "description"
+            - hasProperty: "survey_link"
+      - delete:
+          url: "/delevent/{{uid}}"
+          expect:
+            - statusCode: 201
+            - hasHeader: "content-type"
+            - contentType: "application/json; charset=utf-8"

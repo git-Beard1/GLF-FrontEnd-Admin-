@@ -4,7 +4,7 @@ import {
   AiOutlineMenu,
   AiOutlineInfoCircle,
 } from "react-icons/ai";
-import { Link , useNavigate} from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { UserAuth } from "../context/AuthContext";
 import "../styles/navbar.css";
 import isate2024Logo from "../images/isate2024-logo.png";
@@ -38,7 +38,7 @@ const Navbar = () => {
       console.log(error);
     }
   };
-  console.log('User2', user2)
+  console.log("User2", user2);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -76,7 +76,12 @@ const Navbar = () => {
       <div onClick={handleNav} className="block md:hidden">
         {nav ? <AiOutlineClose size={20} /> : <AiOutlineMenu size={20} />}
       </div>
-      <img src={isate2024Logo} alt="Logo" className="w-1/2 md:hidden pt-2 mx-auto" onClick={handleLogoClick}/>
+      <img
+        src={isate2024Logo}
+        alt="Logo"
+        className="w-1/2 md:hidden pt-2 mx-auto"
+        onClick={handleLogoClick}
+      />
       {/* <div className="md:hidden pt-2">
         <Link to="/importantinfo">
           <AiOutlineInfoCircle
@@ -94,20 +99,20 @@ const Navbar = () => {
         }
       >
         <div>
-        <h3 className="w-full font-bold text-[#000] mt-10 ml-14 mb-3">
-          {(user?.displayName && user?.displayName) ||
-            (user2?.first_name && user2?.last_name
-              ? `${user2.first_name} ${user2.last_name}`
-              : null)}
-        </h3>
-        {(user || user2) && (
-          <button
-            className="text-white bg-[#487572] font-medium rounded-md text-sm px-9 py-2.5 mx-14 mb-2 hover:bg-[#487585] hover:drop-shadow-xl"
-            onClick={handleEditProfileClick}
-          >
-            Edit Profile
-          </button>
-        )}
+          <h3 className="w-full font-bold text-[#000] mt-10 ml-14 mb-3">
+            {(user?.displayName && user?.displayName) ||
+              (user2?.first_name && user2?.last_name
+                ? `${user2.first_name} ${user2.last_name}`
+                : null)}
+          </h3>
+          {(user || user2) && (
+            <button
+              className="text-white bg-[#487572] font-medium rounded-md text-sm px-9 py-2.5 mx-14 mb-2 hover:bg-[#487585] hover:drop-shadow-xl"
+              onClick={handleEditProfileClick}
+            >
+              Edit Profile
+            </button>
+          )}
         </div>
         {(user || user2) && (
           <button
@@ -118,17 +123,17 @@ const Navbar = () => {
           </button>
         )}
         {!user && !user2 && (
-          <button
-            onClick={handleNav}
-            className="text-white bg-[#4B558A] font-medium rounded-md text-sm px-12 py-2.5 mx-14 hover:bg-[#3A426C] hover:drop-shadow-xl"
+          <Link
+            to="/signin"
+            style={{ textDecoration: "none", color: "inherit" }}
           >
-            <Link
-              to="/signin"
-              style={{ textDecoration: "none", color: "inherit" }}
+            <button
+              onClick={handleNav}
+              className="text-white bg-[#4B558A] font-medium rounded-md text-sm px-12 py-2.5 mx-14 hover:bg-[#3A426C] hover:drop-shadow-xl"
             >
               Login
-            </Link>
-          </button>
+            </button>
+          </Link>
         )}
         <li className="m-14">
           <Link to="/" className="no-underline text-black" onClick={handleNav}>
@@ -163,11 +168,11 @@ const Navbar = () => {
           </Link>
         </li>
         <li className="m-14">
-          <Link 
-            to="/importantinfo" 
+          <Link
+            to="/importantinfo"
             className="no-underline text-black"
             onClick={handleNav}
-            >
+          >
             Useful Information
           </Link>
         </li>
@@ -206,14 +211,14 @@ const Navbar = () => {
           </button>
         )}
         {!user && !user2 && (
-          <button className="text-white bg-[#4B558A] font-medium rounded-md text-sm px-12 py-2.5 mx-5 hover:bg-[#3A426C] hover:drop-shadow-xl">
-            <Link
-              to="/signin"
-              style={{ textDecoration: "none", color: "inherit" }}
-            >
+          <Link
+            to="/signin"
+            style={{ textDecoration: "none", color: "inherit" }}
+          >
+            <button className="text-white bg-[#4B558A] font-medium rounded-md text-sm px-12 py-2.5 mx-5 hover:bg-[#3A426C] hover:drop-shadow-xl">
               Login
-            </Link>
-          </button>
+            </button>
+          </Link>
         )}
       </div>
 
@@ -245,7 +250,10 @@ const Navbar = () => {
           </Link>
         </li>
         <li className="p-4">
-          <Link to="/importantinfo" className="no-underline text-black hover:underline">
+          <Link
+            to="/importantinfo"
+            className="no-underline text-black hover:underline"
+          >
             Useful Information
           </Link>
         </li>

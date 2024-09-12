@@ -1,14 +1,57 @@
 scenarios:
   - name: importantinformation
     flow:
+      - post:
+          url: "/importantInformation"
+          headers:
+            authorization: 'Bearer {{ token }}'
+          json:
+            - title: "{{i_title}}"
+            - subtitle: "{{i_subtitle}}"
+            - description: "{{i_description}}"
+            - image: "{{i_image}}"
+          expect:
+            - statusCode: 201
+            - hasHeader: "content-type"
+            - contentType: "application/json; charset=utf-8"
+            - hasProperty: "infoid"
+            - hasProperty: "title"
+            - hasProperty: "subtitle"
+            - hasProperty: "description"
+            - hasProperty: "image"
+            - hasProperty: "created_at"
+            - hasProperty: "updated_at"
+          afterResponse: 
+            - "storeInfoId"
       - get:
-          url: "/importantinformation"
+          url: "/importantInformation"
           expect:
             - statusCode: 200
+            - hasHeader: "content-type"
             - contentType: "application/json; charset=utf-8"
             - json: "$.length > 0"
+      - put:
+          url: "/importantinfo/{{$randomItem(infoIds)}}"
+          headers:
+            authorization: 'Bearer {{ token }}'
+          json:
+            - title: "{{i_title}}"
+            - subtitle: "{{i_subtitle}}"
+            - description: "{{i_description}}"
+            - image: "{{i_image}}"
+          expect:
+            - statusCode: 200
+            - hasHeader: "content-type"
+            - contentType: "application/json; charset=utf-8"
+            - hasProperty: "infoid"
+            - hasProperty: "title"
+            - hasProperty: "subtitle"
+            - hasProperty: "description"
+            - hasProperty: "image"
+            - hasProperty: "created_at"
+            - hasProperty: "updated_at"
       - get:
-          url: "/info/{{infoid}}"
+          url: "/info/{{$randomItem(infoIds)}}"
           expect:
             - statusCode: 200
             - contentType: "application/json; charset=utf-8"
@@ -17,3 +60,11 @@ scenarios:
             - hasProperty: "subtitle"
             - hasProperty: "description"
             - hasProperty: "image"
+      - delete:
+            url: "/delete/{{$randomItem(infoIds)}}"
+            headers:
+              authorization: 'Bearer {{ token }}'
+            expect:
+              - statusCode: 200
+              - hasHeader: "content-type"
+              - contentType: "application/json; charset=utf-8"

@@ -7,12 +7,12 @@ router.get('/getDirections', async (req, res) => {
     try {
       const { startCoordinates, endCoordinates } = req.query; // Use req.query instead of req.params
        const apiKey = process.env.GOOGLEMAPSAPI;
+
        console.log('startCoordinates:', startCoordinates);
        console.log('endCoordinates:', endCoordinates);
    
   
       const apiUrl = `https://maps.googleapis.com/maps/api/directions/json?origin=${startCoordinates}&destination=${endCoordinates}&mode=walking&key=${apiKey}`;
-  
       const response = await axios.get(apiUrl);
       console.log(`response`)
       console.log(response)

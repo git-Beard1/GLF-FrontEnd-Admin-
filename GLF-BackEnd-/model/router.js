@@ -13,7 +13,9 @@ router.get('/getDirections', async (req, res) => {
    
   
       const apiUrl = `https://maps.googleapis.com/maps/api/directions/json?origin=${startCoordinates}&destination=${endCoordinates}&mode=walking&key=${apiKey}`;
-  
+        console.log(`response`)
+      console.log(response)
+      console.log('response.data:', response.data);
       const response = await axios.get(apiUrl);
       res.json(response.data);
     } catch (error) {

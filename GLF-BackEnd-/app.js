@@ -140,7 +140,7 @@ app.get("/eventannouncements/:eventid", (req, res) => {
       res.status(500).send();
     } else {
       console.log(result);
-      res.status(200).send(result);
+      res.status(200).send(result.rows);
     }
   });
 });
@@ -283,28 +283,27 @@ app.get("/saveevents/:uid", (req, res) => {
   });
 });
 
-app.post("/marker", (req, res) => {
-  var location_name = req.body.location_name;
-  var category = req.body.category;
-  var description = req.body.description;
-  var coordinates = req.body.coordinates;
-  var image = req.body.publicId;
-
-  map.addmarker(
-    location_name,
-    category,
-    description,
-    coordinates,
-    image,
-    (err, result) => {
-      if (err) {
-        console.log(err);
-        res.status(500).send();
-      } else {
-        res.status(201).send(result);
-      }
+app.get("/user/:userid", (req, res) => {
+  const userid = req.params.userid;
+  User.getUserById(userid, (err, result) => {
+    if (err) {
+      console.log(err);
+      res.status(500).send();
+    } else {
+      res.status(200).send(result);
     }
-  );
+  });
+});
+app.get("/useruid/:uid", (req, res) => {
+  const uid = req.params.uid;
+  User.getUserByUid(uid, (err, result) => {
+    if (err) {
+      console.log(err);
+      res.status(500).send();
+    } else {
+      res.status(200).send(result);
+    }
+  });
 });
 app.put("/user/:uid", (req, res) => {
   var uid = req.params.uid;
@@ -387,8 +386,23 @@ app.post("/addlinkedinuser", (req, res) => {
     }
   );
 });
+
+app.use("/api", directionsRouter);
+
+app.get("/helpinfos", (req, res) => {
+  help.gethelpinfo((err, result) => {
+    if (err) {
+      console.log(err);
+      res.status(500).send();
+    } else {
+      console.log(result);
+      res.status(200).send(result.rows);
+    }
+  });
+});
 app.get("/helpinfos/:id", (req, res) => {
   var helpid = parseInt(req.params.id);
+
   help.gethelpid(helpid, (err, result) => {
     if (err) {
       console.log(err);
@@ -700,13 +714,36 @@ app.delete("/delete/:id", (req, res) => {
     }
   });
 });
+app.post("/marker", (req, res) => {
+  var location_name = req.body.location_name;
+  var category = req.body.category;
+  var description = req.body.description;
+  var coordinates = req.body.coordinates;
+  var image = req.body.publicId;
 
-app.put("/user/:uid", (req, res) => {
-  var uid = req.params.uid;
-  var company = req.body.company;
-  var jobtitle = req.body.jobtitle;
-  var linkedinurl = req.body.linkedinurl;
-  var profile_pic = req.body.publicId;
+  map.addmarker(
+    location_name,
+    category,
+    description,
+    coordinates,
+    image,
+    (err, result) => {
+      if (err) {
+        console.log(err);
+        res.status(500).send();
+      } else {
+        res.status(201).send(result);
+      }
+    }
+  );
+});
+
+app.put("/marker/:id", (req, res) => {
+  var mapid = parseInt(req.params.id);
+  var location_name = req.body.location_name;
+  var category = req.body.category;
+  var description = req.body.description;
+  var image = req.body.publicId;
 
   map.updatemarker(
     mapid,

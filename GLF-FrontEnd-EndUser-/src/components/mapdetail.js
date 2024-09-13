@@ -341,14 +341,13 @@ const MapComponent = (props) => {
         >
           <img className="w-4/6 h-auto" src={recenterIcon} alt="map" />
         </button>
-        <button
+         <button
           className="mt-3 flex items-center justify-center bg-white text-white rounded-full text-xs w-[2.75rem] h-[2.75rem] md:w-12 md:h-12 border border-gray-950 shadow-lg hover"
-          onClick={handleRecenterClick}
+          onClick={handleRefreshClick}
         >
           <img
             className="w-4/6 h-auto"
             src={refreshIcon}
-            onClick={handleRefreshClick}
             alt="map"
           />
         </button>

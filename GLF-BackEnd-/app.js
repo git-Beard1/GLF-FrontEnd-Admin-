@@ -492,6 +492,20 @@ app.post("/saveevent", (req, res) => {
   });
 });
 
+app.delete("/delevent/:uid", (req, res) => {
+  var uid = req.params.uid;
+  var eventid = req.body.eventid;
+
+  events.deletesaveEvent(eventid, uid, (err, result) => {
+    if (err) {
+      console.log(err);
+      res.status(500).send();
+    } else {
+      res.status(201).send(result);
+    }
+  });
+});
+
 // ----------------------------------------------------------------------------------
 // Routes related to actions that can be only performed by the admin or event manager
 // ----------------------------------------------------------------------------------
@@ -831,19 +845,6 @@ app.delete("/deladmin/:id", (req, res) => {
   });
 });
 
-app.delete("/delevent/:uid", (req, res) => {
-  var uid = req.params.uid;
-  var eventid = req.body.eventid;
-
-  events.deletesaveEvent(eventid, uid, (err, result) => {
-    if (err) {
-      console.log(err);
-      res.status(500).send();
-    } else {
-      res.status(201).send(result);
-    }
-  });
-});
 
 app.post("/helpinfo", (req, res) => {
   var title = req.body.title;

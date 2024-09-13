@@ -267,8 +267,7 @@ const EditProgram = () => {
                   type="text"
                   id="title"
                   name="title"
-                  placeholder={programData.title}
-                  value={title}
+                  value={programData.title}
                   onChange={handleTitleChange}
                   className={`mt-1 p-2 w-full border ${
                     titleError ? "border-red-500" : "border-gray-300"
@@ -357,8 +356,7 @@ const EditProgram = () => {
                 <input
                   type="text"
                   id="location"
-                  placeholder={programData.location}
-                  value={location}
+                  value={programData.location}
                   onChange={(e) => setLocation(e.target.value)}
                   className={`mt-1 p-2 w-full border ${
                     locationError ? "border-red-500" : "border-gray-300"
@@ -378,8 +376,7 @@ const EditProgram = () => {
                 <input
                   type="text"
                   id="keynoteSpeaker"
-                  placeholder={programData.keynote_speaker}
-                  value={keynote_speaker}
+                  value={programData.keynote_speaker}
                   onChange={(e) => setKeynoteSpeaker(e.target.value)}
                   className={`mt-1 p-2 w-full border ${
                     keynoteSpeakerError ? "border-red-500" : "border-gray-300"
@@ -401,8 +398,7 @@ const EditProgram = () => {
                 </label>
                 <textarea
                   id="description"
-                  placeholder={programData.description}
-                  value={description}
+                  value={programData.description}
                   onChange={handleDescriptionChange}
                   className={`mt-1 p-2 w-full border ${
                     descriptionError ? "border-red-500" : "border-gray-300"
@@ -429,8 +425,7 @@ const EditProgram = () => {
                   type="text"
                   id="surveyLink"
                   className="mt-1 p-2 w-full border rounded-md"
-                  placeholder={programData.survey_link}
-                  value={survey_link}
+                  value={programData.survey_link}
                   onChange={(e) => setSurveyLink(e.target.value)}
                 />
               </div>

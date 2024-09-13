@@ -267,7 +267,7 @@ const EditProgram = () => {
                   type="text"
                   id="title"
                   name="title"
-                  value={programData.title}
+                  value={title}
                   onChange={handleTitleChange}
                   className={`mt-1 p-2 w-full border ${
                     titleError ? "border-red-500" : "border-gray-300"
@@ -356,7 +356,7 @@ const EditProgram = () => {
                 <input
                   type="text"
                   id="location"
-                  value={programData.location}
+                  value={location}
                   onChange={(e) => setLocation(e.target.value)}
                   className={`mt-1 p-2 w-full border ${
                     locationError ? "border-red-500" : "border-gray-300"
@@ -376,7 +376,7 @@ const EditProgram = () => {
                 <input
                   type="text"
                   id="keynoteSpeaker"
-                  value={programData.keynote_speaker}
+                  value={keynote_speaker}
                   onChange={(e) => setKeynoteSpeaker(e.target.value)}
                   className={`mt-1 p-2 w-full border ${
                     keynoteSpeakerError ? "border-red-500" : "border-gray-300"
@@ -398,7 +398,7 @@ const EditProgram = () => {
                 </label>
                 <textarea
                   id="description"
-                  value={programData.description}
+                  value={description}
                   onChange={handleDescriptionChange}
                   className={`mt-1 p-2 w-full border ${
                     descriptionError ? "border-red-500" : "border-gray-300"
@@ -425,7 +425,7 @@ const EditProgram = () => {
                   type="text"
                   id="surveyLink"
                   className="mt-1 p-2 w-full border rounded-md"
-                  value={programData.survey_link}
+                  value={survey_link}
                   onChange={(e) => setSurveyLink(e.target.value)}
                 />
               </div>

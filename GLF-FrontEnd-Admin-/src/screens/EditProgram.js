@@ -84,7 +84,7 @@ const EditProgram = () => {
           setProgramData([response.data]);
         }
 
-        const data = response.data[0];
+        const data = response.data;
         console.log("Response Data:", data);
         setTitle(data.title);
         setPublicId(data.image_banner || "");

@@ -81,7 +81,7 @@ const EditImportantInformation = () => {
         }
         setLoading(false);
 
-        const { title, subtitle, description, image } = response.data[0]; // Assuming the data is an array
+        const { title, subtitle, description, image } = response.data; // Assuming the data is an array
         setTitle(title);
         setSubtitle(subtitle);
         setDescription(description);

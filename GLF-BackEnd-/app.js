@@ -140,7 +140,7 @@ app.get("/eventannouncements/:eventid", (req, res) => {
       res.status(500).send();
     } else {
       console.log(result);
-      res.status(200).send(result.rows);
+      res.status(200).send(result);
     }
   });
 });

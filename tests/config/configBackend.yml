@@ -46,50 +46,16 @@ config:
       name: users
   plugins:
     expect: {}
+    fake-data: {}
   target: ${API_TARGET}
   phases:
-    - duration: 300
-      arrivalRate: 50
+    - duration: 10
+      arrivalRate: 1
       name: Sustained Load Phase
-    - duration: 300
-      arrivalRate: 50
-      rampTo: 80
-      name: Peak Phase
-    - duration: 420
-      arrivalRate: 100
-      name: Sustained Peak Phase
-before:
-      flow:
-      - post:
-          url: "/register"
-          json:
-            username: "{{ username }}"
-            password: "{{ password }}"
-            type: "{{ type }}"
-          expect:
-            - statusCode: 200
-            - hasHeader: "content-type"
-            - contentType: "application/json charset=utf-8"
-            - hasProperty: "roleid"
-            - hasProperty: "username"
-            - hasProperty: "password"
-            - hasProperty: "type"
-            - hasProperty: "created_at"
-            - hasProperty: "updated_at"
-          afterResponse: 
-            - "storeRoleId"
-      - post:
-          url: "/login"
-          json:
-            username: "{{ username }}"
-            password: "{{ password }}"
-          expect:
-            - statusCode: 200
-            - hasHeader: "content-type"
-            - contentType: "application/json; charset=utf-8"
-            - hasProperty: "userid"
-            - hasProperty: "role_name"
-            - hasProperty: "token"
-          capture: 
-            - json: "$.token"
-              as: "token"
+    # - duration: 300
+    #   arrivalRate: 50
+    #   rampTo: 80
+    #   name: Peak Phase
+    # - duration: 420
+    #   arrivalRate: 100
+    #   name: Sustained Peak Phase

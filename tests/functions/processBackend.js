@@ -14,6 +14,5 @@ module.exports = {
   storeHelpId: storeId("help"),
   storeInfoId: storeId("info"),
   storeMapId: storeId("map"),
-  storeRoleId: storeId("role"),
   storeUserId: storeId("user"),
 };

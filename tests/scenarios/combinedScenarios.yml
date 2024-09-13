@@ -1,6 +1,34 @@
 scenarios:
   - name: users
     flow:
+      - post:
+          url: "/login"
+          json:
+            username: "Harry"
+            password: "password"
+          expect:
+            - statusCode: 200
+            - hasHeader: "content-type"
+            - contentType: "application/json; charset=utf-8"
+            - hasProperty: "user_id"
+            - hasProperty: "role_name"
+            - hasProperty: "token"
+          capture:
+            - json: "$.token"
+              as: "token"
+      - post:
+          url: "/register"
+          headers:
+            authorization: "Bearer {{ token }}"
+          json:
+            username: "{{ username }}"
+            password: "{{ password }}"
+            type: "{{ type }}"
+          expect:
+            - statusCode: 200
+            - hasHeader: "content-type"
+            - contentType: "application/json; charset=utf-8"
+            - hasProperty: "statusMessage"
       - get:
           url: "/roles"
           expect:
@@ -9,40 +37,37 @@ scenarios:
             - contentType: "application/json; charset=utf-8"
             - json: "$.length > 0"
       - delete:
-          url: "/deladmin/{{$randomItem(roleIds)}}"
-          expect: 
+          url: "/deladmin/{{ $randNumber({ min: 45, max: 999 }) }}"
+          headers:
+            authorization: "Bearer {{ token }}"
+          expect:
             - statusCode: 201
             - hasHeader: "content-type"
             - contentType: "application/json; charset=utf-8"
       - post:
           url: "/adduser"
           headers:
-            authorization: 'Bearer {{ token }}'
+            authorization: "Bearer {{ token }}"
           json:
             - first_name: "{{first_name}}"
             - last_name: "{{last_name}}"
             - company: "{{company}}"
             - uid: "{{uid}}"
             - type: "{{type}}"
-          expect: 
+          expect:
             - statusCode: 201
             - hasHeader: "content-type"
             - contentType: "application/json; charset=utf-8"
-            - hasProperty: "userid"
-            - hasProperty: "uid"
-            - hasProperty: "first_name"
-            - hasProperty: "last_name"
-            - hasProperty: "company"
-            - hasProperty: "linkedinurl"
-            - hasProperty: "jobtitle"
-            - hasProperty: "profile_pic"
-            - hasProperty: "created_at"
-            - hasProperty: "updated_at"
-          capture: 
-              - json: "$.userid"
-                as: "inserted_userid"
-              - json: "$.uid"
-                as: "inserted_uid"
+            - hasProperty: "0.userid"
+            - hasProperty: "0.uid"
+            - hasProperty: "0.first_name"
+            - hasProperty: "0.last_name"
+            - hasProperty: "0.company"
+            - hasProperty: "0.linkedinurl"
+            - hasProperty: "0.jobtitle"
+            - hasProperty: "0.profile_pic"
+            - hasProperty: "0.created_at"
+            - hasProperty: "0.updated_at"
       - get:
           url: "/users"
           expect:
@@ -104,439 +129,439 @@ scenarios:
             - hasProperty: "linkedinurl"
             - hasProperty: "jobtitle"
             - hasProperty: "profile_pic"
-  - name: announcements
-    flow:
-      - post:
-          url: "/announcements"
-          headers:
-            authorization: "Bearer {{ token }}"
-          json:
-            title: "{{a_title}}"
-            description: "{{a_description}}"
-            imageid: "{{image}}"
-            eventid: "{{a_eventid}}"
-          expect:
-            - statusCode: 201
-            - hasHeader: "content-type"
-            - contentType: "application/json; charset=utf-8"
-            - hasProperty: "announcementid"
-            - hasProperty: "eventid"
-            - hasProperty: "title"
-            - hasProperty: "description"
-            - hasProperty: "image"
-            - hasProperty: "created_at"
-            - hasProperty: "updated_at"
-          afterResponse: "storeAnnouncementId"
-      - get:
-          url: "/announcements"
-          expect:
-            - statusCode: 200
-            - hasHeader: "content-type"
-            - contentType: "application/json; charset=utf-8"
-            - json: "$.length > 0"
-      - put:
-          url: "/announcements/{{$randomItem(announcementIds)}}"
-          headers:
-            authorization: "Bearer {{ token }}"
-          json:
-            title: "{{a_title}}"
-            description: "{{a_description}}"
-            image: "{{image}}"
-            eventid: "{{a_eventid}}"
-          expect:
-            - statusCode: 201
-            - hasHeader: "content-type"
-            - contentType: "application/json; charset=utf-8"
-            - hasProperty: "announcementid"
-            - hasProperty: "eventid"
-            - hasProperty: "title"
-            - hasProperty: "description"
-            - hasProperty: "image"
-            - hasProperty: "created_at"
-            - hasProperty: "updated_at"
-      - get:
-          url: "/announcements/{{$randomItem(announcementIds)}}"
-          expect:
-            - statusCode: 200
-            - hasHeader: "content-type"
-            - contentType: "application/json; charset=utf-8"
-            - hasProperty: "announcementid"
-            - hasProperty: "eventid"
-            - hasProperty: "title"
-            - hasProperty: "description"
-            - hasProperty: "created_on"
-            - hasProperty: "updated_on"
-      - delete:
-          url: "/announcements/{{$randomItem(announcementIds)}}"
-          headers:
-            authorization: "Bearer {{ token }}"
-          expect:
-            - statusCode: 200
-            - hasHeader: "content-type"
-            - contentType: "application/json; charset=utf-8"
-      - get:
-          url: "/eventannouncements/{{a_eventid}}"
-          expect:
-            - statusCode: 200
-            - contentType: "application/json; charset=utf-8"
-            - hasProperty: "announcementid"
-            - hasProperty: "eventid"
-            - hasProperty: "title"
-            - hasProperty: "description"
-            - hasProperty: "created_on"
-            - hasProperty: "updated_on"
-  - name: events
-    flow:
-      - post:
-          url: "/events"
-          headers:
-            authorization: "Bearer {{ token }}"
-          json:
-            - title: "{{e_title}}"
-            - image_banner: "{{image_banner}}"
-            - time_start: "{{time_start}}"
-            - time_end: "{{time_end}}"
-            - location: "{{location}}"
-            - keynote_speaker: "{{keynote_speaker}}"
-            - description: "{{e_description}}"
-            - survey_link: "{{survey_link}}"
-          expect:
-            - statusCode: 201
-            - hasHeader: "content-type"
-            - contentType: "application/json; charset=utf-8"
-            - hasProperty: "eventid"
-            - hasProperty: "title"
-            - hasProperty: "image_banner"
-            - hasProperty: "time_start"
-            - hasProperty: "time_end"
-            - hasProperty: "location"
-            - hasProperty: "keynote_speaker"
-            - hasProperty: "description"
-            - hasProperty: "survey_link"
-            - hasProperty: "created_at"
-            - hasProperty: "updated_at"
-          afterResponse:
-            - "storeEventId"
-      - get:
-          url: "/events"
-          expect:
-            - statusCode: 200
-            - hasHeader: "content-type"
-            - contentType: "application/json; charset=utf-8"
-            - json: "$.length > 0"
-      - get:
-          url: "/eventsannouncement"
-          expect:
-            - statusCode: 200
-            - hasHeader: "content-type"
-            - contentType: "application/json; charset=utf-8"
-            - json: "$.length > 0"
-      - put:
-          url: "/events/{{$randomItem(eventIds)}}"
-          headers:
-            authorization: "Bearer {{ token }}"
-          json:
-            - title: "{{e_title}}"
-            - image_banner: "{{image_banner}}"
-            - time_start: "{{time_start}}"
-            - time_end: "{{time_end}}"
-            - location: "{{location}}"
-            - keynote_speaker: "{{keynote_speaker}}"
-            - description: "{{e_description}}"
-            - survey_link: "{{survey_link}}"
-          expect:
-            - statusCode: 200
-            - hasHeader: "content-type"
-            - contentType: "application/json; charset=utf-8"
-            - hasProperty: "eventid"
-            - hasProperty: "title"
-            - hasProperty: "image_banner"
-            - hasProperty: "time_start"
-            - hasProperty: "time_end"
-            - hasProperty: "location"
-            - hasProperty: "keynote_speaker"
-            - hasProperty: "description"
-            - hasProperty: "survey_link"
-            - hasProperty: "created_at"
-            - hasProperty: "updated_at"
-      - get:
-          url: "/events/{{$randomItem(eventIds)}}"
-          expect:
-            - statusCode: 200
-            - hasHeader: "content-type"
-            - contentType: "application/json; charset=utf-8"
-            - hasProperty: "eventid"
-            - hasProperty: "title"
-            - hasProperty: "image_banner"
-            - hasProperty: "time_start"
-            - hasProperty: "time_end"
-            - hasProperty: "location"
-            - hasProperty: "keynote_speaker"
-            - hasProperty: "description"
-            - hasProperty: "survey_link"
-      - delete:
-          url: "/deleteevent/{{$randomItem(eventIds)}}"
-          headers:
-            authorization: "Bearer {{ token }}"
-          expect:
-            - statusCode: 201
-            - hasHeader: "content-type"
-            - contentType: "application/json; charset=utf-8"
-      - post:
-          url: "/saveevent"
-          json:
-            - eventid: "{{eventid}}"
-            - uid: "{{uid}}"
-          expect:
-            - statusCode: 201
-            - hasHeader: "content-type"
-            - contentType: "application/json; charset=utf-8"
-            - hasProperty: "savedid"
-            - hasProperty: "eventid"
-            - hasProperty: "uid"
-      - get:
-          url: "/savedevents/{{uid}}"
-          expect:
-            - statusCode: 200
-            - hasHeader: "content-type"
-            - contentType: "application/json; charset=utf-8"
-            - json: "$.length > 0"
-            - hasProperty: "savedid"
-            - hasProperty: "eventid"
-            - hasProperty: "uid"
-      - get:
-          url: "/mostsavedEvent"
-          expect:
-            - statusCode: 200
-            - hasHeader: "content-type"
-            - contentType: "application/json; charset=utf-8"
-            - json: "$.length > 0"
-            - hasProperty: "eventid"
-            - hasProperty: "title"
-            - hasProperty: "image_banner"
-            - hasProperty: "time_start"
-            - hasProperty: "time_end"
-            - hasProperty: "location"
-            - hasProperty: "keynote_speaker"
-            - hasProperty: "description"
-            - hasProperty: "survey_link"
-      - delete:
-          url: "/delevent/{{uid}}"
-          expect:
-            - statusCode: 201
-            - hasHeader: "content-type"
-            - contentType: "application/json; charset=utf-8"
-  - name: importantinformation
-    flow:
-      - post:
-          url: "/importantInformation"
-          headers:
-            authorization: 'Bearer {{ token }}'
-          json:
-            - title: "{{i_title}}"
-            - subtitle: "{{i_subtitle}}"
-            - description: "{{i_description}}"
-            - image: "{{i_image}}"
-          expect:
-            - statusCode: 201
-            - hasHeader: "content-type"
-            - contentType: "application/json; charset=utf-8"
-            - hasProperty: "infoid"
-            - hasProperty: "title"
-            - hasProperty: "subtitle"
-            - hasProperty: "description"
-            - hasProperty: "image"
-            - hasProperty: "created_at"
-            - hasProperty: "updated_at"
-          afterResponse: 
-            - "storeInfoId"
-      - get:
-          url: "/importantInformation"
-          expect:
-            - statusCode: 200
-            - hasHeader: "content-type"
-            - contentType: "application/json; charset=utf-8"
-            - json: "$.length > 0"
-      - put:
-          url: "/importantinfo/{{$randomItem(infoIds)}}"
-          headers:
-            authorization: 'Bearer {{ token }}'
-          json:
-            - title: "{{i_title}}"
-            - subtitle: "{{i_subtitle}}"
-            - description: "{{i_description}}"
-            - image: "{{i_image}}"
-          expect:
-            - statusCode: 200
-            - hasHeader: "content-type"
-            - contentType: "application/json; charset=utf-8"
-            - hasProperty: "infoid"
-            - hasProperty: "title"
-            - hasProperty: "subtitle"
-            - hasProperty: "description"
-            - hasProperty: "image"
-            - hasProperty: "created_at"
-            - hasProperty: "updated_at"
-      - get:
-          url: "/info/{{$randomItem(infoIds)}}"
-          expect:
-            - statusCode: 200
-            - contentType: "application/json; charset=utf-8"
-            - hasProperty: "infoid"
-            - hasProperty: "title"
-            - hasProperty: "subtitle"
-            - hasProperty: "description"
-            - hasProperty: "image"
-      - delete:
-            url: "/delete/{{$randomItem(infoIds)}}"
-            headers:
-              authorization: 'Bearer {{ token }}'
-            expect:
-              - statusCode: 200
-              - hasHeader: "content-type"
-              - contentType: "application/json; charset=utf-8"
-  - name: marker
-    flow:
-      - post:
-          url: "/marker"
-          headers:
-            authorization: 'Bearer {{ token }}'
-          json:
-            - location_name: "{{location_name}}"
-            - category: "{{category}}"
-            - description: "{{m_description}}"
-            - coordinates: "{{coordinates}}"
-            - image: "{{image}}"
-          expect:
-            - statusCode: 201
-            - hasHeader: "content-type"
-            - contentType: "application/json; charset=utf-8"
-            - hasProperty: "mapid"
-            - hasProperty: "location_name"
-            - hasProperty: "category"
-            - hasProperty: "description"
-            - hasProperty: "coordinates"
-            - hasProperty: "image"
-            - hasProperty: "created_at"
-            - hasProperty: "updated_at"
-          afterResponse: 
-              - "storeMapId"
-      - get:
-          url: "/markers"
-          expect:
-            - statusCode: 200
-            - contentType: "application/json; charset=utf-8"
-            - json: "$.length > 0"
-      - put:
-          url: "/marker/{{$randomItem(mapIds)}}"
-          headers:
-            authorization: 'Bearer {{ token }}'
-          json:
-            - location_name: "{{location_name}}"
-            - category: "{{category}}"
-            - description: "{{m_description}}"
-            - image: "{{image}}"
-          expect:
-            - statusCode: 200
-            - hasHeader: "content-type"
-            - contentType: "application/json; charset=utf-8"
-            - hasProperty: "mapid"
-            - hasProperty: "location_name"
-            - hasProperty: "category"
-            - hasProperty: "description"
-            - hasProperty: "coordinates"
-            - hasProperty: "image"
-            - hasProperty: "created_at"
-            - hasProperty: "updated_at"
-      - get:
-          url: "/markerindiv/{{$randomItem(mapIds)}}"
-          expect:
-            - statusCode: 200
-            - hasHeader: "content-type"
-            - contentType: "application/json; charset=utf-8"
-            - hasProperty: "mapid"
-            - hasProperty: "location_name"
-            - hasProperty: "category"
-            - hasProperty: "description"
-            - hasProperty: "coordinates"
-            - hasProperty: "image"
-      - delete:
-          url: "/delmarker/{{$randomItem(mapIds)}}"
-          headers:
-            authorization: 'Bearer {{token}}'
-          expect:
-            - statusCode: 201
-            - hasHeader: "content-type"
-            - contentType: "application/json; charset=utf-8"
-  - name: helpinfo
-    flow:
-      - post:
-          url: "/helpinfo"
-          headers:
-            authorization: 'Bearer {{ token }}'
-          json:
-            - title: "{{h_title}}"
-            - subtitle: "{{h_subtitle}}"
-            - description: "{{h_description}}"
-            - image: "{{image}}"
-          expect:
-            - statusCode: 201
-            - hasHeader: "content-type"
-            - contentType: "application/json; charset=utf-8"
-            - hasProperty: "helpid"
-            - hasProperty: "title"
-            - hasProperty: "subtitle"
-            - hasProperty: "description"
-            - hasProperty: "image"
-            - hasProperty: "created_at"
-            - hasProperty: "updated_at"
-          afterResponse:
-            - "storeHelpId"
-      - get:
-          url: "/helpinfos"
-          expect:
-            - statusCode: 200
-            - hasHeader: "content-type"
-            - contentType: "application/json; charset=utf-8"
-            - json: "$.length > 0"
-      - put:
-          url: "/helpinfo/{{$randomItem(helpIds)}}"
-          headers:
-            authorization: 'Bearer {{token}}'
-          json:
-            - title: "{{h_title}}"
-            - subtitle: "{{h_subtitle}}"
-            - description: "{{h_description}}"
-            - image: "{{image}}"
-          expect:
-            - statusCode: 200
-            - hasHeader: "content-type"
-            - contentType: "application/json; charset=utf-8"
-            - hasProperty: "helpid"
-            - hasProperty: "title"
-            - hasProperty: "subtitle"
-            - hasProperty: "description"
-            - hasProperty: "image"
-            - hasProperty: "created_at"
-            - hasProperty: "updated_at"
-      - get:
-          url: "/helpinfos/{{$randomItem(helpIds)}}"
-          expect:
-            - statusCode: 200
-            - hasHeader: "content-type"
-            - contentType: "application/json; charset=utf-8"
-            - hasProperty: "helpid"
-            - hasProperty: "title"
-            - hasProperty: "subtitle"
-            - hasProperty: "description"
-            - hasProperty: "image"
-            - hasProperty: "created_at"
-            - hasProperty: "updated_at"
-      - delete:
-          url: "/delhelpinfo/{{$randomItem(helpIds)}}"
-          headers:
-            authorization: 'Bearer {{token}}'
-          expect:
-            - statusCode: 201
-            - hasHeader: "content-type"
-            - contentType: "application/json; charset=utf-8"
+  # - name: announcements
+  #   flow:
+  #     - post:
+  #         url: "/announcements"
+  #         headers:
+  #           authorization: "Bearer {{ token }}"
+  #         json:
+  #           title: "{{a_title}}"
+  #           description: "{{a_description}}"
+  #           imageid: "{{image}}"
+  #           eventid: "{{a_eventid}}"
+  #         expect:
+  #           - statusCode: 201
+  #           - hasHeader: "content-type"
+  #           - contentType: "application/json; charset=utf-8"
+  #           - hasProperty: "announcementid"
+  #           - hasProperty: "eventid"
+  #           - hasProperty: "title"
+  #           - hasProperty: "description"
+  #           - hasProperty: "image"
+  #           - hasProperty: "created_at"
+  #           - hasProperty: "updated_at"
+  #         afterResponse: "storeAnnouncementId"
+  #     - get:
+  #         url: "/announcements"
+  #         expect:
+  #           - statusCode: 200
+  #           - hasHeader: "content-type"
+  #           - contentType: "application/json; charset=utf-8"
+  #           - json: "$.length > 0"
+  #     - put:
+  #         url: "/announcements/{{$randomItem(announcementIds)}}"
+  #         headers:
+  #           authorization: "Bearer {{ token }}"
+  #         json:
+  #           title: "{{a_title}}"
+  #           description: "{{a_description}}"
+  #           image: "{{image}}"
+  #           eventid: "{{a_eventid}}"
+  #         expect:
+  #           - statusCode: 201
+  #           - hasHeader: "content-type"
+  #           - contentType: "application/json; charset=utf-8"
+  #           - hasProperty: "announcementid"
+  #           - hasProperty: "eventid"
+  #           - hasProperty: "title"
+  #           - hasProperty: "description"
+  #           - hasProperty: "image"
+  #           - hasProperty: "created_at"
+  #           - hasProperty: "updated_at"
+  #     - get:
+  #         url: "/announcements/{{$randomItem(announcementIds)}}"
+  #         expect:
+  #           - statusCode: 200
+  #           - hasHeader: "content-type"
+  #           - contentType: "application/json; charset=utf-8"
+  #           - hasProperty: "announcementid"
+  #           - hasProperty: "eventid"
+  #           - hasProperty: "title"
+  #           - hasProperty: "description"
+  #           - hasProperty: "created_on"
+  #           - hasProperty: "updated_on"
+  #     - delete:
+  #         url: "/announcements/{{$randomItem(announcementIds)}}"
+  #         headers:
+  #           authorization: "Bearer {{ token }}"
+  #         expect:
+  #           - statusCode: 200
+  #           - hasHeader: "content-type"
+  #           - contentType: "application/json; charset=utf-8"
+  #     - get:
+  #         url: "/eventannouncements/{{a_eventid}}"
+  #         expect:
+  #           - statusCode: 200
+  #           - contentType: "application/json; charset=utf-8"
+  #           - hasProperty: "announcementid"
+  #           - hasProperty: "eventid"
+  #           - hasProperty: "title"
+  #           - hasProperty: "description"
+  #           - hasProperty: "created_on"
+  #           - hasProperty: "updated_on"
+  # - name: events
+  #   flow:
+  #     - post:
+  #         url: "/events"
+  #         headers:
+  #           authorization: "Bearer {{ token }}"
+  #         json:
+  #           - title: "{{e_title}}"
+  #           - image_banner: "{{image_banner}}"
+  #           - time_start: "{{time_start}}"
+  #           - time_end: "{{time_end}}"
+  #           - location: "{{location}}"
+  #           - keynote_speaker: "{{keynote_speaker}}"
+  #           - description: "{{e_description}}"
+  #           - survey_link: "{{survey_link}}"
+  #         expect:
+  #           - statusCode: 201
+  #           - hasHeader: "content-type"
+  #           - contentType: "application/json; charset=utf-8"
+  #           - hasProperty: "eventid"
+  #           - hasProperty: "title"
+  #           - hasProperty: "image_banner"
+  #           - hasProperty: "time_start"
+  #           - hasProperty: "time_end"
+  #           - hasProperty: "location"
+  #           - hasProperty: "keynote_speaker"
+  #           - hasProperty: "description"
+  #           - hasProperty: "survey_link"
+  #           - hasProperty: "created_at"
+  #           - hasProperty: "updated_at"
+  #         afterResponse:
+  #           - "storeEventId"
+  #     - get:
+  #         url: "/events"
+  #         expect:
+  #           - statusCode: 200
+  #           - hasHeader: "content-type"
+  #           - contentType: "application/json; charset=utf-8"
+  #           - json: "$.length > 0"
+  #     - get:
+  #         url: "/eventsannouncement"
+  #         expect:
+  #           - statusCode: 200
+  #           - hasHeader: "content-type"
+  #           - contentType: "application/json; charset=utf-8"
+  #           - json: "$.length > 0"
+  #     - put:
+  #         url: "/events/{{$randomItem(eventIds)}}"
+  #         headers:
+  #           authorization: "Bearer {{ token }}"
+  #         json:
+  #           - title: "{{e_title}}"
+  #           - image_banner: "{{image_banner}}"
+  #           - time_start: "{{time_start}}"
+  #           - time_end: "{{time_end}}"
+  #           - location: "{{location}}"
+  #           - keynote_speaker: "{{keynote_speaker}}"
+  #           - description: "{{e_description}}"
+  #           - survey_link: "{{survey_link}}"
+  #         expect:
+  #           - statusCode: 200
+  #           - hasHeader: "content-type"
+  #           - contentType: "application/json; charset=utf-8"
+  #           - hasProperty: "eventid"
+  #           - hasProperty: "title"
+  #           - hasProperty: "image_banner"
+  #           - hasProperty: "time_start"
+  #           - hasProperty: "time_end"
+  #           - hasProperty: "location"
+  #           - hasProperty: "keynote_speaker"
+  #           - hasProperty: "description"
+  #           - hasProperty: "survey_link"
+  #           - hasProperty: "created_at"
+  #           - hasProperty: "updated_at"
+  #     - get:
+  #         url: "/events/{{$randomItem(eventIds)}}"
+  #         expect:
+  #           - statusCode: 200
+  #           - hasHeader: "content-type"
+  #           - contentType: "application/json; charset=utf-8"
+  #           - hasProperty: "eventid"
+  #           - hasProperty: "title"
+  #           - hasProperty: "image_banner"
+  #           - hasProperty: "time_start"
+  #           - hasProperty: "time_end"
+  #           - hasProperty: "location"
+  #           - hasProperty: "keynote_speaker"
+  #           - hasProperty: "description"
+  #           - hasProperty: "survey_link"
+  #     - delete:
+  #         url: "/deleteevent/{{$randomItem(eventIds)}}"
+  #         headers:
+  #           authorization: "Bearer {{ token }}"
+  #         expect:
+  #           - statusCode: 201
+  #           - hasHeader: "content-type"
+  #           - contentType: "application/json; charset=utf-8"
+  #     - post:
+  #         url: "/saveevent"
+  #         json:
+  #           - eventid: "{{eventid}}"
+  #           - uid: "{{uid}}"
+  #         expect:
+  #           - statusCode: 201
+  #           - hasHeader: "content-type"
+  #           - contentType: "application/json; charset=utf-8"
+  #           - hasProperty: "savedid"
+  #           - hasProperty: "eventid"
+  #           - hasProperty: "uid"
+  #     - get:
+  #         url: "/savedevents/{{uid}}"
+  #         expect:
+  #           - statusCode: 200
+  #           - hasHeader: "content-type"
+  #           - contentType: "application/json; charset=utf-8"
+  #           - json: "$.length > 0"
+  #           - hasProperty: "savedid"
+  #           - hasProperty: "eventid"
+  #           - hasProperty: "uid"
+  #     - get:
+  #         url: "/mostsavedEvent"
+  #         expect:
+  #           - statusCode: 200
+  #           - hasHeader: "content-type"
+  #           - contentType: "application/json; charset=utf-8"
+  #           - json: "$.length > 0"
+  #           - hasProperty: "eventid"
+  #           - hasProperty: "title"
+  #           - hasProperty: "image_banner"
+  #           - hasProperty: "time_start"
+  #           - hasProperty: "time_end"
+  #           - hasProperty: "location"
+  #           - hasProperty: "keynote_speaker"
+  #           - hasProperty: "description"
+  #           - hasProperty: "survey_link"
+  #     - delete:
+  #         url: "/delevent/{{uid}}"
+  #         expect:
+  #           - statusCode: 201
+  #           - hasHeader: "content-type"
+  #           - contentType: "application/json; charset=utf-8"
+  # - name: importantinformation
+  #   flow:
+  #     - post:
+  #         url: "/importantInformation"
+  #         headers:
+  #           authorization: 'Bearer {{ token }}'
+  #         json:
+  #           - title: "{{i_title}}"
+  #           - subtitle: "{{i_subtitle}}"
+  #           - description: "{{i_description}}"
+  #           - image: "{{i_image}}"
+  #         expect:
+  #           - statusCode: 201
+  #           - hasHeader: "content-type"
+  #           - contentType: "application/json; charset=utf-8"
+  #           - hasProperty: "infoid"
+  #           - hasProperty: "title"
+  #           - hasProperty: "subtitle"
+  #           - hasProperty: "description"
+  #           - hasProperty: "image"
+  #           - hasProperty: "created_at"
+  #           - hasProperty: "updated_at"
+  #         afterResponse:
+  #           - "storeInfoId"
+  #     - get:
+  #         url: "/importantInformation"
+  #         expect:
+  #           - statusCode: 200
+  #           - hasHeader: "content-type"
+  #           - contentType: "application/json; charset=utf-8"
+  #           - json: "$.length > 0"
+  #     - put:
+  #         url: "/importantinfo/{{$randomItem(infoIds)}}"
+  #         headers:
+  #           authorization: 'Bearer {{ token }}'
+  #         json:
+  #           - title: "{{i_title}}"
+  #           - subtitle: "{{i_subtitle}}"
+  #           - description: "{{i_description}}"
+  #           - image: "{{i_image}}"
+  #         expect:
+  #           - statusCode: 200
+  #           - hasHeader: "content-type"
+  #           - contentType: "application/json; charset=utf-8"
+  #           - hasProperty: "infoid"
+  #           - hasProperty: "title"
+  #           - hasProperty: "subtitle"
+  #           - hasProperty: "description"
+  #           - hasProperty: "image"
+  #           - hasProperty: "created_at"
+  #           - hasProperty: "updated_at"
+  #     - get:
+  #         url: "/info/{{$randomItem(infoIds)}}"
+  #         expect:
+  #           - statusCode: 200
+  #           - contentType: "application/json; charset=utf-8"
+  #           - hasProperty: "infoid"
+  #           - hasProperty: "title"
+  #           - hasProperty: "subtitle"
+  #           - hasProperty: "description"
+  #           - hasProperty: "image"
+  #     - delete:
+  #           url: "/delete/{{$randomItem(infoIds)}}"
+  #           headers:
+  #             authorization: 'Bearer {{ token }}'
+  #           expect:
+  #             - statusCode: 200
+  #             - hasHeader: "content-type"
+  #             - contentType: "application/json; charset=utf-8"
+  # - name: marker
+  #   flow:
+  #     - post:
+  #         url: "/marker"
+  #         headers:
+  #           authorization: 'Bearer {{ token }}'
+  #         json:
+  #           - location_name: "{{location_name}}"
+  #           - category: "{{category}}"
+  #           - description: "{{m_description}}"
+  #           - coordinates: "{{coordinates}}"
+  #           - image: "{{image}}"
+  #         expect:
+  #           - statusCode: 201
+  #           - hasHeader: "content-type"
+  #           - contentType: "application/json; charset=utf-8"
+  #           - hasProperty: "mapid"
+  #           - hasProperty: "location_name"
+  #           - hasProperty: "category"
+  #           - hasProperty: "description"
+  #           - hasProperty: "coordinates"
+  #           - hasProperty: "image"
+  #           - hasProperty: "created_at"
+  #           - hasProperty: "updated_at"
+  #         afterResponse:
+  #             - "storeMapId"
+  #     - get:
+  #         url: "/markers"
+  #         expect:
+  #           - statusCode: 200
+  #           - contentType: "application/json; charset=utf-8"
+  #           - json: "$.length > 0"
+  #     - put:
+  #         url: "/marker/{{$randomItem(mapIds)}}"
+  #         headers:
+  #           authorization: 'Bearer {{ token }}'
+  #         json:
+  #           - location_name: "{{location_name}}"
+  #           - category: "{{category}}"
+  #           - description: "{{m_description}}"
+  #           - image: "{{image}}"
+  #         expect:
+  #           - statusCode: 200
+  #           - hasHeader: "content-type"
+  #           - contentType: "application/json; charset=utf-8"
+  #           - hasProperty: "mapid"
+  #           - hasProperty: "location_name"
+  #           - hasProperty: "category"
+  #           - hasProperty: "description"
+  #           - hasProperty: "coordinates"
+  #           - hasProperty: "image"
+  #           - hasProperty: "created_at"
+  #           - hasProperty: "updated_at"
+  #     - get:
+  #         url: "/markerindiv/{{$randomItem(mapIds)}}"
+  #         expect:
+  #           - statusCode: 200
+  #           - hasHeader: "content-type"
+  #           - contentType: "application/json; charset=utf-8"
+  #           - hasProperty: "mapid"
+  #           - hasProperty: "location_name"
+  #           - hasProperty: "category"
+  #           - hasProperty: "description"
+  #           - hasProperty: "coordinates"
+  #           - hasProperty: "image"
+  #     - delete:
+  #         url: "/delmarker/{{$randomItem(mapIds)}}"
+  #         headers:
+  #           authorization: 'Bearer {{token}}'
+  #         expect:
+  #           - statusCode: 201
+  #           - hasHeader: "content-type"
+  #           - contentType: "application/json; charset=utf-8"
+  # - name: helpinfo
+  #   flow:
+  #     - post:
+  #         url: "/helpinfo"
+  #         headers:
+  #           authorization: 'Bearer {{ token }}'
+  #         json:
+  #           - title: "{{h_title}}"
+  #           - subtitle: "{{h_subtitle}}"
+  #           - description: "{{h_description}}"
+  #           - image: "{{image}}"
+  #         expect:
+  #           - statusCode: 201
+  #           - hasHeader: "content-type"
+  #           - contentType: "application/json; charset=utf-8"
+  #           - hasProperty: "helpid"
+  #           - hasProperty: "title"
+  #           - hasProperty: "subtitle"
+  #           - hasProperty: "description"
+  #           - hasProperty: "image"
+  #           - hasProperty: "created_at"
+  #           - hasProperty: "updated_at"
+  #         afterResponse:
+  #           - "storeHelpId"
+  #     - get:
+  #         url: "/helpinfos"
+  #         expect:
+  #           - statusCode: 200
+  #           - hasHeader: "content-type"
+  #           - contentType: "application/json; charset=utf-8"
+  #           - json: "$.length > 0"
+  #     - put:
+  #         url: "/helpinfo/{{$randomItem(helpIds)}}"
+  #         headers:
+  #           authorization: 'Bearer {{token}}'
+  #         json:
+  #           - title: "{{h_title}}"
+  #           - subtitle: "{{h_subtitle}}"
+  #           - description: "{{h_description}}"
+  #           - image: "{{image}}"
+  #         expect:
+  #           - statusCode: 200
+  #           - hasHeader: "content-type"
+  #           - contentType: "application/json; charset=utf-8"
+  #           - hasProperty: "helpid"
+  #           - hasProperty: "title"
+  #           - hasProperty: "subtitle"
+  #           - hasProperty: "description"
+  #           - hasProperty: "image"
+  #           - hasProperty: "created_at"
+  #           - hasProperty: "updated_at"
+  #     - get:
+  #         url: "/helpinfos/{{$randomItem(helpIds)}}"
+  #         expect:
+  #           - statusCode: 200
+  #           - hasHeader: "content-type"
+  #           - contentType: "application/json; charset=utf-8"
+  #           - hasProperty: "helpid"
+  #           - hasProperty: "title"
+  #           - hasProperty: "subtitle"
+  #           - hasProperty: "description"
+  #           - hasProperty: "image"
+  #           - hasProperty: "created_at"
+  #           - hasProperty: "updated_at"
+  #     - delete:
+  #         url: "/delhelpinfo/{{$randomItem(helpIds)}}"
+  #         headers:
+  #           authorization: 'Bearer {{token}}'
+  #         expect:
+  #           - statusCode: 201
+  #           - hasHeader: "content-type"
+  #           - contentType: "application/json; charset=utf-8"

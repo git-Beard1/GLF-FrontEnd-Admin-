@@ -39,7 +39,7 @@ app.use((req, res, next) => {
     // Add more domains as needed
   ];
 
-  const origin = req.headers.origin || process.env.LOCAL_BACKEND_URL;
+  const origin = req.headers.origin;
 
   if (allowedOrigins.includes(origin)) {
     res.setHeader("Access-Control-Allow-Origin", origin);
@@ -290,8 +290,6 @@ app.get("/user/:userid", (req, res) => {
     if (err) {
       console.log(err);
       res.status(500).send();
-    } else if (result == null) {
-      res.status(404).send();
     } else {
       res.status(200).send(result);
     }
@@ -519,7 +517,7 @@ app.use(
 );
 
 app.put("/announcements/:id/", (req, res) => {
-  var productid = parseInt(req.params.id);  
+  var productid = parseInt(req.params.id);
   var title = req.body.title;
   var description = req.body.description;
   var image = req.body.publicId;
@@ -847,6 +845,7 @@ app.delete("/deladmin/:id", (req, res) => {
     }
   });
 });
+
 
 app.post("/helpinfo", (req, res) => {
   var title = req.body.title;

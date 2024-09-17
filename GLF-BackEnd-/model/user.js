@@ -56,7 +56,6 @@ const User = {
   },
   //Adds new user into db
   addUser: function (first_name, last_name, company, uid, type, callback) {
-    console.log("addUser", first_name, last_name, company, uid, type);
     return query(
       `INSERT INTO users (first_name, last_name, company, uid, type) VALUES ($1, $2, $3, $4, $5) RETURNING*`,
       [first_name, last_name, company, uid, type]

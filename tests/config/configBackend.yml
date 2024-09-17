@@ -1,20 +1,10 @@
 config:
-  processor: "../functions/processBackend.js"
-  variables:
-    announcementIds: []
-    eventIds: []
-    helpIds: []
-    infoIds: []
-    mapIds: []
-    roleIds: []
-    savedIds: []
-    userIds: []
   payload:
-    - path: "../data/announcements.csv"
+    - path: "../../GLF-BackEnd-/prisma/seed/data/announcements.csv"
       fields: [a_eventid, a_title, a_description, image]
       skipHeader: true
       name: announcements
-    - path: "../data/events.csv"
+    - path: "../../GLF-BackEnd-/prisma/seed/data/events.csv"
       fields:
         [
           e_title,
@@ -28,20 +18,20 @@ config:
         ]
       skipHeader: true
       name: events
-    - path: "../data/importantinfo.csv"
+    - path: "../../GLF-BackEnd-/prisma/seed/data/importantinfo.csv"
       fields: [i_title, i_subtitle, i_description]
       skipHeader: true
       name: importantinformation
-    - path: "../data/marker.csv"
+    - path: "../../GLF-BackEnd-/prisma/seed/data/marker.csv"
       fields: [location_name, category, m_description, coordinates]
       skipHeader: true
       name: marker
-    - path: "../data/role.csv"
+    - path: "../../GLF-BackEnd-/prisma/seed/data/role.csv"
       fields: [username, password, type]
       skipHeader: true
       name: role
-    - path: "../data/users.csv"
-      fields: [userid, uid]
+    - path: "../../GLF-BackEnd-/prisma/seed/data/users.csv"
+      fields: [first_name, last_name, company, u_type, uid]
       skipHeader: true
       name: users
   plugins:
@@ -49,13 +39,13 @@ config:
     fake-data: {}
   target: ${API_TARGET}
   phases:
-    - duration: 10
-      arrivalRate: 1
+    - duration: 300
+      arrivalRate: 50
       name: Sustained Load Phase
-    # - duration: 300
-    #   arrivalRate: 50
-    #   rampTo: 80
-    #   name: Peak Phase
-    # - duration: 420
-    #   arrivalRate: 100
-    #   name: Sustained Peak Phase
+    - duration: 300
+      arrivalRate: 50
+      rampTo: 80
+      name: Peak Phase
+    - duration: 420
+      arrivalRate: 100
+      name: Sustained Peak Phase

@@ -1,49 +1,48 @@
 scenarios:
-  - name: helpinfo
+  - name: importantinformation
     flow:
       # - post:
-      #     url: "/helpinfo"
+      #     url: "/importantInformation"
       #     headers:
       #       authorization: 'Bearer {{ token }}'
       #     json:
-      #       - title: "{{h_title}}"
-      #       - subtitle: "{{h_subtitle}}"
-      #       - description: "{{h_description}}"
-      #       - image: "{{image}}"
+      #       - title: "{{i_title}}"
+      #       - subtitle: "{{i_subtitle}}"
+      #       - description: "{{i_description}}"
+      #       - image: "{{i_image}}"
       #     expect:
       #       - statusCode: 201
       #       - hasHeader: "content-type"
       #       - contentType: "application/json; charset=utf-8"
-      #       - hasProperty: "helpid"
+      #       - hasProperty: "infoid"
       #       - hasProperty: "title"
       #       - hasProperty: "subtitle"
       #       - hasProperty: "description"
       #       - hasProperty: "image"
       #       - hasProperty: "created_at"
       #       - hasProperty: "updated_at"
-      #     afterResponse:
-      #       - "storeHelpId"
+      #     afterResponse: 
+      #       - "storeInfoId"
       - get:
-          url: "/helpinfos"
+          url: "/importantInformation"
           expect:
             - statusCode: 200
             - hasHeader: "content-type"
             - contentType: "application/json; charset=utf-8"
-            
       # - put:
-      #     url: "/helpinfo/{{$randomItem(helpIds)}}"
+      #     url: "/importantinfo/{{$randomItem(infoIds)}}"
       #     headers:
-      #       authorization: 'Bearer {{token}}'
+      #       authorization: 'Bearer {{ token }}'
       #     json:
-      #       - title: "{{h_title}}"
-      #       - subtitle: "{{h_subtitle}}"
-      #       - description: "{{h_description}}"
-      #       - image: "{{image}}"
+      #       - title: "{{i_title}}"
+      #       - subtitle: "{{i_subtitle}}"
+      #       - description: "{{i_description}}"
+      #       - image: "{{i_image}}"
       #     expect:
       #       - statusCode: 200
       #       - hasHeader: "content-type"
       #       - contentType: "application/json; charset=utf-8"
-      #       - hasProperty: "helpid"
+      #       - hasProperty: "infoid"
       #       - hasProperty: "title"
       #       - hasProperty: "subtitle"
       #       - hasProperty: "description"
@@ -51,16 +50,20 @@ scenarios:
       #       - hasProperty: "created_at"
       #       - hasProperty: "updated_at"
       - get:
-          url: "/helpinfos/{{$randomNumber(1, 10)}}"
+          url: "/info/{{$randomNumber(1, 10)}}"
           expect:
             - statusCode: 200
-            - hasHeader: "content-type"
             - contentType: "application/json; charset=utf-8"
+            - hasProperty: "infoid"
+            - hasProperty: "title"
+            - hasProperty: "subtitle"
+            - hasProperty: "description"
+            - hasProperty: "image"
       # - delete:
-      #     url: "/delhelpinfo/{{$randomItem(helpIds)}}"
-      #     headers:
-      #       authorization: 'Bearer {{token}}'
-      #     expect:
-      #       - statusCode: 201
-      #       - hasHeader: "content-type"
-      #       - contentType: "application/json; charset=utf-8"
+      #       url: "/delete/{{$randomItem(infoIds)}}"
+      #       headers:
+      #         authorization: 'Bearer {{ token }}'
+      #       expect:
+      #         - statusCode: 200
+      #         - hasHeader: "content-type"
+      #         - contentType: "application/json; charset=utf-8"

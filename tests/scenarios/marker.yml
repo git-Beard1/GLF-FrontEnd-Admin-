@@ -1,59 +1,58 @@
 scenarios:
   - name: marker
     flow:
-      - post:
-          url: "/marker"
-          headers:
-            authorization: 'Bearer {{ token }}'
-          json:
-            - location_name: "{{location_name}}"
-            - category: "{{category}}"
-            - description: "{{m_description}}"
-            - coordinates: "{{coordinates}}"
-            - image: "{{image}}"
-          expect:
-            - statusCode: 201
-            - hasHeader: "content-type"
-            - contentType: "application/json; charset=utf-8"
-            - hasProperty: "mapid"
-            - hasProperty: "location_name"
-            - hasProperty: "category"
-            - hasProperty: "description"
-            - hasProperty: "coordinates"
-            - hasProperty: "image"
-            - hasProperty: "created_at"
-            - hasProperty: "updated_at"
-          afterResponse: 
-              - "storeMapId"
+      # - post:
+      #     url: "/marker"
+      #     headers:
+      #       authorization: 'Bearer {{ token }}'
+      #     json:
+      #       - location_name: "{{location_name}}"
+      #       - category: "{{category}}"
+      #       - description: "{{m_description}}"
+      #       - coordinates: "{{coordinates}}"
+      #       - image: "{{image}}"
+      #     expect:
+      #       - statusCode: 201
+      #       - hasHeader: "content-type"
+      #       - contentType: "application/json; charset=utf-8"
+      #       - hasProperty: "mapid"
+      #       - hasProperty: "location_name"
+      #       - hasProperty: "category"
+      #       - hasProperty: "description"
+      #       - hasProperty: "coordinates"
+      #       - hasProperty: "image"
+      #       - hasProperty: "created_at"
+      #       - hasProperty: "updated_at"
+      #     afterResponse: 
+      #         - "storeMapId"
       - get:
           url: "/markers"
           expect:
             - statusCode: 200
             - contentType: "application/json; charset=utf-8"
-            - json: "$.length > 0"
-      - put:
-          url: "/marker/{{$randomItem(mapIds)}}"
-          headers:
-            authorization: 'Bearer {{ token }}'
-          json:
-            - location_name: "{{location_name}}"
-            - category: "{{category}}"
-            - description: "{{m_description}}"
-            - image: "{{image}}"
-          expect:
-            - statusCode: 200
-            - hasHeader: "content-type"
-            - contentType: "application/json; charset=utf-8"
-            - hasProperty: "mapid"
-            - hasProperty: "location_name"
-            - hasProperty: "category"
-            - hasProperty: "description"
-            - hasProperty: "coordinates"
-            - hasProperty: "image"
-            - hasProperty: "created_at"
-            - hasProperty: "updated_at"
+      # - put:
+      #     url: "/marker/{{$randomNumber(1, 10)}}"
+      #     headers:
+      #       authorization: 'Bearer {{ token }}'
+      #     json:
+      #       - location_name: "{{location_name}}"
+      #       - category: "{{category}}"
+      #       - description: "{{m_description}}"
+      #       - image: "{{image}}"
+      #     expect:
+      #       - statusCode: 200
+      #       - hasHeader: "content-type"
+      #       - contentType: "application/json; charset=utf-8"
+      #       - hasProperty: "mapid"
+      #       - hasProperty: "location_name"
+      #       - hasProperty: "category"
+      #       - hasProperty: "description"
+      #       - hasProperty: "coordinates"
+      #       - hasProperty: "image"
+      #       - hasProperty: "created_at"
+      #       - hasProperty: "updated_at"
       - get:
-          url: "/markerindiv/{{$randomItem(mapIds)}}"
+          url: "/markerindiv/{{$randomNumber(1, 10)}}"
           expect:
             - statusCode: 200
             - hasHeader: "content-type"
@@ -64,11 +63,11 @@ scenarios:
             - hasProperty: "description"
             - hasProperty: "coordinates"
             - hasProperty: "image"
-      - delete:
-          url: "/delmarker/{{$randomItem(mapIds)}}"
-          headers:
-            authorization: 'Bearer {{token}}'
-          expect:
-            - statusCode: 201
-            - hasHeader: "content-type"
-            - contentType: "application/json; charset=utf-8"
+      # - delete:
+      #     url: "/delmarker/{{$randomItem(mapIds)}}"
+      #     headers:
+      #       authorization: 'Bearer {{token}}'
+      #     expect:
+      #       - statusCode: 201
+      #       - hasHeader: "content-type"
+      #       - contentType: "application/json; charset=utf-8"

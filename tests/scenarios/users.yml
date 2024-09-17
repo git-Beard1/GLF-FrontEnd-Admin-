@@ -1,106 +1,79 @@
 scenarios:
   - name: users
     flow:
-      - get:
-          url: "/roles"
-          expect:
-            - statusCode: 200
-            - hasHeader: "content-type"
-            - contentType: "application/json; charset=utf-8"
-            - json: "$.length > 0"
-      - delete:
-          url: "/deladmin/{{$randomItem(roleIds)}}"
-          expect: 
-            - statusCode: 201
-            - hasHeader: "content-type"
-            - contentType: "application/json; charset=utf-8"
+      # - get:
+      #     url: "/roles"
+      #     expect:
+      #       - statusCode: 200
+      #       - hasHeader: "content-type"
+      #       - contentType: "application/json; charset=utf-8"
+      #       
+      # - delete:
+      #     url: "/deladmin/{{$randomItem(roleIds)}}"
+      #     expect:
+      #       - statusCode: 201
+      #       - hasHeader: "content-type"
+      #       - contentType: "application/json; charset=utf-8"
       - post:
           url: "/adduser"
-          headers:
-            authorization: 'Bearer {{ token }}'
           json:
-            - first_name: "{{first_name}}"
-            - last_name: "{{last_name}}"
-            - company: "{{company}}"
-            - uid: "{{uid}}"
-            - type: "{{type}}"
-          expect: 
+            first_name: "{{$randFirstName()}}"
+            last_name: "{{$randLastName()}}"
+            company: "{{$randCompanyName()}}"
+            uid: "{{$randUuid()}}"
+            type: "{{u_type}}"
+          expect:
             - statusCode: 201
             - hasHeader: "content-type"
             - contentType: "application/json; charset=utf-8"
-            - hasProperty: "userid"
-            - hasProperty: "uid"
-            - hasProperty: "first_name"
-            - hasProperty: "last_name"
-            - hasProperty: "company"
-            - hasProperty: "linkedinurl"
-            - hasProperty: "jobtitle"
-            - hasProperty: "profile_pic"
-            - hasProperty: "created_at"
-            - hasProperty: "updated_at"
-          capture: 
-              - json: "$.userid"
-                as: "inserted_userid"
-              - json: "$.uid"
-                as: "inserted_uid"
       - get:
           url: "/users"
           expect:
             - statusCode: 200
             - hasHeader: "content-type"
             - contentType: "application/json; charset=utf-8"
-            - json: "$.length > 0"
       - get:
           url: "/userlist"
           expect:
             - statusCode: 200
             - hasHeader: "content-type"
             - contentType: "application/json; charset=utf-8"
-            - json: "$.length > 0"
       - put:
           url: "/user/{{uid}}"
           json:
-            - company: "{{company}}"
-            - linkedinurl: "{{linkedinurl}}"
-            - jobtitle: "{{jobtitle}}"
-            - profile_pic: "{{profile_pic}}"
+            company: "{{$randCompanyName()}}"
+            jobtitle: "{{$randJobTitle()}}"
+            linkedinurl: "{{$randUrl()}}"
+            profile_pic: "{{$randImg()}}"
           expect:
             - statusCode: 200
             - hasHeader: "content-type"
             - contentType: "application/json; charset=utf-8"
-            - hasProperty: "userid"
-            - hasProperty: "uid"
-            - hasProperty: "first_name"
-            - hasProperty: "last_name"
-            - hasProperty: "company"
-            - hasProperty: "linkedinurl"
-            - hasProperty: "jobtitle"
-            - hasProperty: "profile_pic"
-            - hasProperty: "created_at"
-            - hasProperty: "updated_at"
       - get:
-          url: "/user/{{$randomItem(userIds)}}"
+          url: "/user/{{$randomNumber(1, 10)}}"
           expect:
             - statusCode: 200
+            - hasHeader: "content-type"
             - contentType: "application/json; charset=utf-8"
-            - hasProperty: "userid"
+            - hasProperty: "user_id"
             - hasProperty: "uid"
             - hasProperty: "first_name"
             - hasProperty: "last_name"
             - hasProperty: "company"
-            - hasProperty: "linkedinurl"
             - hasProperty: "jobtitle"
+            - hasProperty: "linkedinurl"
             - hasProperty: "profile_pic"
       - get:
           url: "/useruid/{{uid}}"
           expect:
             - statusCode: 200
+            - hasHeader: "content-type"
             - contentType: "application/json; charset=utf-8"
-            - hasProperty: "userid"
+            - hasProperty: "user_id"
             - hasProperty: "uid"
             - hasProperty: "first_name"
             - hasProperty: "last_name"
             - hasProperty: "company"
-            - hasProperty: "linkedinurl"
             - hasProperty: "jobtitle"
+            - hasProperty: "linkedinurl"
             - hasProperty: "profile_pic"

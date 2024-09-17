@@ -136,27 +136,10 @@ const MapComponent = (props) => {
         routePolyline.addTo(mapRef.current);
         setRoutePolyline(routePolyline);
 
-        // Continue with the rest of your code for handling the route display
-        const mapboxapi1 = process.env.REACT_APP_MAPBOXAPI1;
-        const mapboxapi2 = process.env.REACT_APP_MAPBOXAPI2;
-        const mapboxapi3 = process.env.REACT_APP_MAPBOXAPI3;
-        const mapboxapi = `${mapboxapi1}.${mapboxapi2}.${mapboxapi3}`;
-        // Your existing code for setting up the Routing control
-        const newRoutingControl = L.Routing.control({
-          waypoints: [
-            L.latLng(userLocation[0], userLocation[1]),
-            L.latLng(coordinates[0], coordinates[1]),
-          ],
-          router: L.Routing.mapbox(mapboxapi),
-          createMarker: function () {},
-          routeLine: (route) => routePolyline,
-        });
-
-        newRoutingControl.addTo(mapRef.current);
-        setRoutingControl(newRoutingControl);
+       
         setIsRouting(true);
       } catch (error) {
-        console.error("Error:", error.message);
+        console.error("Error:", error);
       }
     }
   };

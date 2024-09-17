@@ -152,6 +152,7 @@ const MapComponent = (props) => {
     if (routePolyline) {
       mapRef.current.removeLayer(routePolyline);
       setRoutePolyline(null);
+      setIsRouting(false);
     }
   };
 

@@ -97,8 +97,8 @@ scenarios:
       - post:
           url: "/saveevent"
           json:
-            - eventid: "{{a_eventid}}"
-            - uid: "{{uid}}"
+            eventid: "{{a_eventid}}"
+            uid: "{{uid}}"
           expect:
             - statusCode: 201
             - hasHeader: "content-type"

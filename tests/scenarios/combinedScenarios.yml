@@ -45,6 +45,7 @@ scenarios:
       #       - statusCode: 201
       #       - hasHeader: "content-type"
       #       - contentType: "application/json; charset=utf-8"
+      - think: 3
       - post:
           url: "/adduser"
           json:
@@ -57,18 +58,21 @@ scenarios:
             - statusCode: 201
             - hasHeader: "content-type"
             - contentType: "application/json; charset=utf-8"
+      - think: 2
       - get:
           url: "/users"
           expect:
             - statusCode: 200
             - hasHeader: "content-type"
             - contentType: "application/json; charset=utf-8" 
+      - think: 2            
       - get:
           url: "/userlist"
           expect:
             - statusCode: 200
             - hasHeader: "content-type"
             - contentType: "application/json; charset=utf-8"
+      - think: 5
       - put:
           url: "/user/{{uid}}"
           json:
@@ -80,6 +84,7 @@ scenarios:
             - statusCode: 200
             - hasHeader: "content-type"
             - contentType: "application/json; charset=utf-8"
+      - think: 2            
       - get:
           url: "/user/{{$randomNumber(1, 10)}}"
           expect:
@@ -94,6 +99,7 @@ scenarios:
             - hasProperty: "jobtitle"
             - hasProperty: "linkedinurl"
             - hasProperty: "profile_pic"
+      - think: 2
       - get:
           url: "/useruid/{{uid}}"
           expect:
@@ -158,6 +164,7 @@ scenarios:
       #           - hasProperty: "image"
       #           - hasProperty: "created_at"
       #           - hasProperty: "updated_at"
+      - think: 2
       - get:
           url: "/announcements/{{$randomNumber(1, 10)}}"
           expect:
@@ -178,6 +185,7 @@ scenarios:
       #           - statusCode: 200
       #           - hasHeader: "content-type"
       #           - contentType: "application/json; charset=utf-8"
+      - think: 2
       - get:
           url: "/eventannouncements/{{a_eventid}}"
           expect:
@@ -221,12 +229,14 @@ scenarios:
       #           - hasProperty: "updated_at"
       #         afterResponse:
       #           - "storeEventId"
+      - think: 2
       - get:
           url: "/events"
           expect:
             - statusCode: 200
             - hasHeader: "content-type"
             - contentType: "application/json; charset=utf-8"
+      - think: 2
       - get:
           url: "/eventsannouncement"
           expect:
@@ -261,6 +271,7 @@ scenarios:
       #           - hasProperty: "survey_link"
       #           - hasProperty: "created_at"
       #           - hasProperty: "updated_at"
+      - think: 2
       - get:
           url: "/events/{{$randomNumber(1, 10)}}"
           expect:
@@ -284,21 +295,24 @@ scenarios:
   #           - statusCode: 201
   #           - hasHeader: "content-type"
   #           - contentType: "application/json; charset=utf-8"
+      - think: 5
       - post:
           url: "/saveevent"
           json:
-            - eventid: "{{a_eventid}}"
-            - uid: "{{uid}}"
+            eventid: "{{a_eventid}}"
+            uid: "{{uid}}"
           expect:
             - statusCode: 201
             - hasHeader: "content-type"
             - contentType: "application/json; charset=utf-8"
+      - think: 2
       - get:
           url: "/saveevents/{{uid}}"
           expect:
             - statusCode: 200
             - hasHeader: "content-type"
             - contentType: "application/json; charset=utf-8"
+      - think: 2
       - get:
           url: "/mostsavedEvent"
           expect:
@@ -335,6 +349,7 @@ scenarios:
       #           - hasProperty: "updated_at"
       #         afterResponse:
       #           - "storeInfoId"
+      - think: 2
       - get:
           url: "/importantInformation"
           expect:
@@ -361,6 +376,7 @@ scenarios:
       #           - hasProperty: "image"
       #           - hasProperty: "created_at"
       #           - hasProperty: "updated_at"
+      - think: 2
       - get:
           url: "/info/{{$randomNumber(1, 10)}}"
           expect:
@@ -405,6 +421,7 @@ scenarios:
       #           - hasProperty: "updated_at"
       #         afterResponse:
       #             - "storeMapId"
+      - think: 2
       - get:
           url: "/markers"
           expect:
@@ -431,6 +448,7 @@ scenarios:
       #           - hasProperty: "image"
       #           - hasProperty: "created_at"
       #           - hasProperty: "updated_at"
+      - think: 2
       - get:
           url: "/markerindiv/{{$randomNumber(1, 10)}}"
           expect:
@@ -475,6 +493,7 @@ scenarios:
       #           - hasProperty: "updated_at"
       #         afterResponse:
       #           - "storeHelpId"
+      - think: 2
       - get:
           url: "/helpinfos"
           expect:
@@ -501,6 +520,7 @@ scenarios:
       #           - hasProperty: "image"
       #           - hasProperty: "created_at"
       #           - hasProperty: "updated_at"
+      - think: 2
       - get:
           url: "/helpinfos/{{$randomNumber(1, 10)}}"
           expect:

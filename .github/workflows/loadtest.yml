@@ -22,8 +22,8 @@ jobs:
       - name: Install dependencies
         run: npm install -g pnpm && pnpm install
 
-      - name: Log Current Directory
-        run: pwd
+      - name: Log Files Under Current Directory
+        run: ls -d */
       
       - name: Install Prisma and Client
         run: pnpm i prisma @prisma/client

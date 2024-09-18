@@ -26,10 +26,6 @@ config:
       fields: [location_name, category, m_description, coordinates]
       skipHeader: true
       name: marker
-    - path: "../../GLF-BackEnd-/prisma/seed/data/role.csv"
-      fields: [username, password, type]
-      skipHeader: true
-      name: role
     - path: "../../GLF-BackEnd-/prisma/seed/data/users.csv"
       fields: [first_name, last_name, company, u_type, uid]
       skipHeader: true

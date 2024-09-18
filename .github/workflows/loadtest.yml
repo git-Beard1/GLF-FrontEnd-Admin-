@@ -22,8 +22,8 @@ jobs:
       - name: Install dependencies
         run: npm install -g pnpm && pnpm install
       
-      - name: Install Prisma and Client
-        run: pnpm i prisma @prisma/client
+      - name: Install Required Packages
+        run: pnpm i csv-parser prisma @prisma/client
         working-directory: GLF-BackEnd-
 
       - name: Reset and Seed Database

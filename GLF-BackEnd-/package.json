@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "prisma": {
+    "seed": "node prisma/seed/seed.js"
+  },
   "scripts": {
     "start": "nodemon ./server.js",
     "dev": "nodemon ./server.js"

@@ -1,0 +1,11 @@
+first_name,last_name,company,u_type,uid
+John,Doe,Acme Corp,User,random_string_1
+Jane,Smith,Global Industries,User,random_string_2
+Michael,Brown,Tech Solutions,User,random_string_3
+Emily,Davis,Innovatech,User,random_string_4
+David,Wilson,Creative Co,User,random_string_5
+Sarah,Johnson,NextGen LLC,User,random_string_6
+Chris,Lee,Future Enterprises,User,random_string_7
+Jessica,Garcia,Visionary Group,User,random_string_8
+Daniel,Martinez,Dynamic Systems,User,random_string_9
+Laura,Lopez,Strategic Partners,User,random_string_10

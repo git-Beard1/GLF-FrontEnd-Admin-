@@ -1,0 +1,101 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("LOAD_TEST_DATABASE_URL")
+}
+
+model announcements {
+  announcementid Int       @id @default(autoincrement())
+  eventid        Int?
+  title          String    @db.VarChar(255)
+  description    String    @db.VarChar(255)
+  image          String?   @db.VarChar(255)
+  created_at     DateTime? @default(dbgenerated("(CURRENT_TIMESTAMP AT TIME ZONE 'Asia/Singapore'::text)")) @db.Timestamp(6)
+  updated_at     DateTime? @default(dbgenerated("(CURRENT_TIMESTAMP AT TIME ZONE 'Asia/Singapore'::text)")) @db.Timestamp(6)
+  events         events?   @relation(fields: [eventid], references: [eventid], onDelete: Cascade, onUpdate: NoAction, map: "fk_announcements_eventid")
+
+  @@index([eventid], map: "idx_announcements_eventid")
+}
+
+model events {
+  eventid         Int             @id @default(autoincrement())
+  title           String?         @db.VarChar(255)
+  image_banner    String?         @db.VarChar(255)
+  time_start      DateTime?       @db.Timestamp(6)
+  time_end        DateTime?       @db.Timestamp(6)
+  location        String?         @db.VarChar(255)
+  keynote_speaker String?         @db.VarChar(255)
+  description     String?         @db.VarChar(1000)
+  survey_link     String?         @db.VarChar(255)
+  created_at      DateTime?       @default(dbgenerated("(CURRENT_TIMESTAMP AT TIME ZONE 'Asia/Singapore'::text)")) @db.Timestamp(6)
+  updated_at      DateTime?       @default(dbgenerated("(CURRENT_TIMESTAMP AT TIME ZONE 'Asia/Singapore'::text)")) @db.Timestamp(6)
+  announcements   announcements[]
+  savedevent      savedevent[]
+}
+
+model help {
+  helpid      Int       @id @default(autoincrement())
+  title       String?   @db.VarChar(255)
+  subtitle    String?   @db.VarChar(255)
+  description String?   @db.VarChar(999)
+  image       String?   @db.VarChar(255)
+  created_at  DateTime? @default(dbgenerated("(CURRENT_TIMESTAMP AT TIME ZONE 'Asia/Singapore'::text)")) @db.Timestamp(6)
+  updated_at  DateTime? @default(dbgenerated("(CURRENT_TIMESTAMP AT TIME ZONE 'Asia/Singapore'::text)")) @db.Timestamp(6)
+}
+
+model importantinfo {
+  infoid      Int       @id @default(autoincrement())
+  title       String?   @db.VarChar(255)
+  subtitle    String?   @db.VarChar(255)
+  description String?   @db.VarChar(999)
+  created_at  DateTime? @default(now()) @db.Timestamp(6)
+  updated_at  DateTime? @default(now()) @db.Timestamp(6)
+  image       String?   @db.VarChar(255)
+}
+
+model marker {
+  mapid         Int       @id @default(autoincrement())
+  location_name String?   @db.VarChar(255)
+  category      String?   @db.VarChar(255)
+  description   String?   @db.VarChar(255)
+  coordinates   String?   @db.VarChar(255)
+  created_at    DateTime? @default(dbgenerated("(CURRENT_TIMESTAMP AT TIME ZONE 'Asia/Singapore'::text)")) @db.Timestamp(6)
+  updated_at    DateTime? @default(dbgenerated("(CURRENT_TIMESTAMP AT TIME ZONE 'Asia/Singapore'::text)")) @db.Timestamp(6)
+  image         String?   @db.VarChar(255)
+}
+
+model role {
+  roleid     Int       @id @default(autoincrement())
+  username   String?   @db.VarChar(255)
+  password   String?   @db.VarChar(255)
+  type       String?   @db.VarChar(255)
+  created_at DateTime? @default(dbgenerated("(CURRENT_TIMESTAMP AT TIME ZONE 'Asia/Singapore'::text)")) @db.Timestamp(6)
+  updated_at DateTime? @default(dbgenerated("(CURRENT_TIMESTAMP AT TIME ZONE 'Asia/Singapore'::text)")) @db.Timestamp(6)
+}
+
+model savedevent {
+  savedid Int     @id @default(autoincrement())
+  uid     String? @db.VarChar(500)
+  eventid Int?
+  events  events? @relation(fields: [eventid], references: [eventid], onDelete: NoAction, onUpdate: NoAction, map: "fk_savedevent_eventid")
+  users   users?  @relation(fields: [uid], references: [uid], onDelete: Cascade, onUpdate: NoAction, map: "fk_savedevent_uid")
+
+  @@index([uid], map: "idx_savedevent_uid")
+}
+
+model users {
+  userid      Int          @id @default(autoincrement())
+  first_name  String?      @db.VarChar(255)
+  last_name   String?      @db.VarChar(255)
+  company     String?      @db.VarChar(255)
+  created_at  DateTime?    @default(dbgenerated("(CURRENT_TIMESTAMP AT TIME ZONE 'Asia/Singapore'::text)")) @db.Timestamp(6)
+  uid         String?      @unique(map: "uq_users_uid") @db.VarChar(500)
+  type        String?      @db.VarChar(255)
+  linkedinurl String?      @db.VarChar(255)
+  jobtitle    String?      @db.VarChar(255)
+  profile_pic String?      @db.VarChar(255)
+  savedevent  savedevent[]
+}

@@ -48,8 +48,8 @@ config:
       rampTo: 35
       maxVusers: 1000
       name: Peak Phase
-    # - pause: 60
-    # - duration: 420
-    #   arrivalRate: 35
-    #   maxVusers: 1000
-    #   name: Sustained Peak Phase
+    - pause: 60
+    - duration: 420
+      arrivalRate: 35
+      maxVusers: 1000
+      name: Sustained Peak Phase

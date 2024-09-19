@@ -35,6 +35,6 @@ jobs:
       - name: Artillery Backend Load Test
         uses: artilleryio/action-cli@v1
         with:
-          command: run --config tests/config/configBackend.yml tests/scenarios/combinedScenarios.yml --target=${{ secrets.API_TARGET }} --name "Two-Phase-Backend-Load-Test" --record --key ${{ secrets.ARTILLERY_API_KEY }}
+          command: run --config tests/config/configBackend.yml tests/scenarios/combinedScenarios.yml --target=${{ secrets.API_TARGET }} --name "Full-Backend-Load-Test" --record --key ${{ secrets.ARTILLERY_API_KEY }}
         env:
           DEBUG: plugin:expect

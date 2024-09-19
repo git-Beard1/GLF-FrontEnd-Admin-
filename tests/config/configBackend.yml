@@ -37,10 +37,10 @@ config:
     fake-data: {}
   target: ${API_TARGET}
   phases:
-    - duration: 300
-      arrivalRate: 50
-      name: Sustained Load Phase
-    - pause: 30
+    # - duration: 300
+    #   arrivalRate: 50
+    #   name: Sustained Load Phase
+    # - pause: 30
     # - duration: 300
     #   arrivalRate: 50
     #   rampTo: 70
@@ -50,6 +50,6 @@ config:
     #   arrivalRate: 70
     #   rampTo: 100
     #   name: Peak Phase
-    # - duration: 420
-    #   arrivalRate: 100
-    #   name: Sustained Peak Phase
+    - duration: 420
+      arrivalRate: 100
+      name: Sustained Peak Phase

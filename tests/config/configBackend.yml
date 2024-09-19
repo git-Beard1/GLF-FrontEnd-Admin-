@@ -37,7 +37,7 @@ config:
     fake-data: {}
   target: ${API_TARGET}
   phases:
-    - duration: 300
+    - duration: 600
       arrivalRate: 15
       rampTo: 25
       maxVusers: 500

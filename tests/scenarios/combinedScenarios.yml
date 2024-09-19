@@ -91,7 +91,7 @@ scenarios:
             - statusCode: 200
             - hasHeader: "content-type"
             - contentType: "application/json; charset=utf-8"
-            - hasProperty: "user_id"
+            - hasProperty: "userid"
             - hasProperty: "uid"
             - hasProperty: "first_name"
             - hasProperty: "last_name"

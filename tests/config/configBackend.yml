@@ -44,12 +44,12 @@ config:
       name: Sustained Load Phase
     - pause: 60
     - duration: 300
-      arrivalRate: 25
-      rampTo: 35
+      arrivalRate: 20
+      rampTo: 30
       maxVusers: 1000
       name: Peak Phase
     - pause: 60
     - duration: 420
-      arrivalRate: 35
+      arrivalRate: 25
       maxVusers: 1000
       name: Sustained Peak Phase
